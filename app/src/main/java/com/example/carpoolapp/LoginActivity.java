@@ -46,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
                                //     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
                     }
                 });
 
@@ -68,8 +66,6 @@ public class LoginActivity extends AppCompatActivity {
                               //      Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
                     }
                 });
 
