@@ -3,6 +3,7 @@ package com.example.carpoolapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,7 +103,11 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser currentUser) {
 
         if(currentUser != null){
-
+            Toast.makeText(this, "Sign In Successful!", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, MainActivity.class));
+        }
+        else {
+            Toast.makeText(this, "Sign In Failed!", Toast.LENGTH_LONG).show();
         }
     }
 
