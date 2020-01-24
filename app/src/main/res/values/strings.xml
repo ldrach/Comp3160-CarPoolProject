@@ -2,4 +2,11 @@
     <string name="app_name">CarPoolApp</string>
     <string name="facebook_app_id">491001088283707</string>
     <string name="FB_login_protocol_scheme">fb491001088283707</string>
+    <string name="emailLoginActivity">Email:</string>
+    <string name="passwordLoginActivity">Password:</string>
+    <string name="orLoginActivity">or</string>
+    <string name="passwordHintLoginActivity">Password</string>
+    <string name="emailHintLoginActivity">Email</string>
+    <string name="sign_inLoginActivity">Sign In</string>
+    <string name="create_an_account">Create an Account</string>
 </resources>

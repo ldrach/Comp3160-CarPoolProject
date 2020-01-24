@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:text="Email:"
+        android:text="@string/emailLoginActivity"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -26,7 +26,7 @@
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:text="Password:"
+        android:text="@string/passwordLoginActivity"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
@@ -38,15 +38,14 @@
         android:id="@+id/orView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_margin="5dp"
         android:gravity="center"
-        android:text="or"
+        android:text="@string/orLoginActivity"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <EditText
         android:id="@+id/passwordEditText"
@@ -54,7 +53,7 @@
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/passwordHintLoginActivity"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,8 +66,8 @@
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textPersonName"
+        android:hint="@string/emailHintLoginActivity"
+        android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -78,10 +77,12 @@
         android:id="@+id/SignInView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="@string/sign_inLoginActivity"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="160dp"
-        tools:layout_editor_absoluteY="77dp" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -116,14 +117,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.65" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
@@ -140,10 +141,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/fb_login_button"
@@ -153,9 +154,33 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.76" />
+
+    <TextView
+        android:id="@+id/createAccount"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="@string/create_an_account"
+        android:textAlignment="center"
+        android:textColorLink="@android:color/holo_blue_dark"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
