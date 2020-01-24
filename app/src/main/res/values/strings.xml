@@ -9,4 +9,5 @@
     <string name="emailHintLoginActivity">Email</string>
     <string name="sign_inLoginActivity">Sign In</string>
     <string name="create_an_account">Create an Account</string>
+    <string name="loginButtonLoginActivity">Login</string>
 </resources>
