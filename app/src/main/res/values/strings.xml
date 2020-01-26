@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CarPoolApp</string>
+    <string name="title_activity_carpool_select">CarpoolSelectActivity</string>
 </resources>
