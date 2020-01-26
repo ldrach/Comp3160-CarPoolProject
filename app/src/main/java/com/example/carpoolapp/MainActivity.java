@@ -1,21 +1,21 @@
 package com.example.carpoolapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     //for database
-
+TextView mytxt;
+    mainActivityListAdapter adapter;
 
 
     //this sets up the values for the list view
@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     String[] maintitle ={
             "Title 1","Title 2",
             "Title 3","Title 4",
-            "Title 5",
+            "Title 5"
+
     };
 
     String[] subtitle ={
@@ -41,11 +42,45 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mytxt = findViewById(R.id.textView2);
+        mytxt.setText("1");
+
         //----this code sets up an adapter for the list view
-        mainActivityListAdapter adapter=new mainActivityListAdapter(this, maintitle, subtitle,imgid);
+        final mainActivityListAdapter adapter=new mainActivityListAdapter(this, maintitle, subtitle,imgid);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
         //----
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document("987654321")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                       User test =  documentSnapshot.toObject(User.class);
+                        maintitle[4] = test.firstName;
+                        mytxt.setText("test");
+                        int stopint =1;
+                        //returndata(returnUser);
+                        String[] maintitle1 ={
+                                "test","Title",
+                                "Title 3","Title 4",
+                                "Title 5"
+
+                        };
+                         adapter.maintitle = maintitle1;
+                        list=(ListView)findViewById(R.id.list);
+                        list.setAdapter(adapter);
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
         //this tests database stuff
         User myuser = new User("987654321","James","j");
@@ -53,29 +88,16 @@ public class MainActivity extends AppCompatActivity {
 
         FireStoreDatbase dataBase = new FireStoreDatbase();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("", document.getId() + " => " + document.getData());
-                                int stopint =1;
-                            }
-                        } else {
-                            Log.w("", "Error getting documents.", task.getException());
-                            int stopint =1;
-                        }
-                    }
-                });
+
+
 
         //db.writeUser(myuser);
 
-       // newUser =
-        dataBase.getUserProfile("123456789");
+        //newUser =
+       // dataBase.getUserProfile("987654321");
+
+        //User newUser1 = dataBase.getUser();
         int stopint =1;
         //FirebaseFirestore db = FirebaseFirestore.getInstance();
 
