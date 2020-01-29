@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,11 +22,13 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    EditText emailTextBox = (EditText)findViewById(R.id.emailEditText);
-    EditText passwordTextBox = (EditText)findViewById(R.id.passwordEditText);
+    EditText emailTextBox = findViewById(R.id.emailEditText);
+    EditText passwordTextBox = findViewById(R.id.passwordEditText);
+    Button login = findViewById(R.id.loginButton);
+    TextView createAccount = findViewById(R.id.createAccount);
 
-    String email = emailTextBox.getText().toString();
-    String password = passwordTextBox.getText().toString();
+    String email = emailTextBox.getText().toString().trim();
+    String password = passwordTextBox.getText().toString().trim();
 
 
     @Override
@@ -33,26 +38,24 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = emailTextBox.getText().toString().trim();
+                String password = passwordTextBox.getText().toString().trim();
 
-        //Create a new User
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Create User", "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("Create user", "createUserWithEmail:failure", task.getException());
-                            //Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                               //     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
+
+                if(email.isEmpty()){
+
+                }
+
+
+            }
+        });
+
+
+
+
 
         //Sign in user
         mAuth.signInWithEmailAndPassword(email, password)

@@ -187,7 +187,7 @@
         app:layout_constraintGuide_percent="0.88" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/loginButton"
         android:text="@string/loginButtonLoginActivity"
         android:layout_width="0dp"
         android:layout_height="0dp"
