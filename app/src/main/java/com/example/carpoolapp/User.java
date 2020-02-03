@@ -27,7 +27,7 @@ public class User implements Serializable {
         this.lastName = lastName;
 
     }
-
+    // gets users carpools
     public void getCarpools(FirebaseFirestore db)
     {
 
@@ -42,12 +42,16 @@ public class User implements Serializable {
                     }
                 });
     }
+    //used to add a carpool to a users list of carpools
     public void updateCarpoolList(String carpoolString, FirebaseFirestore db)
     {
+        //get curent carpool list
+        this.getCarpoolList(db);
         this.carPools.add(carpoolString);
         db.collection("users").document(this.id)
                 .set(this);
     }
+    //gets users carpool list
     public void getCarpoolList(FirebaseFirestore db)
     {
         db.collection("users").document(id)
