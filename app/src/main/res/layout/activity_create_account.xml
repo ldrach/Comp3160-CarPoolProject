@@ -79,21 +79,22 @@
 
         <Button
             android:id="@+id/create_cancel_button"
-            style="?android:attr/button"
+            style="@android:style/Widget.Material.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cancel"
-            android:theme="@style/ThemeOverlay.MyDarkButton"/>
+            android:textSize="14sp"
+            android:theme="@style/ThemeOverlay.MyDarkButton" />
 
         <Button
             android:id="@+id/email_create_account_button"
-            style="?android:attr/button"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/create_account"
-            android:theme="@style/ThemeOverlay.MyDarkButton"/>
+            android:theme="@style/ThemeOverlay.MyDarkButton" />
 
     </LinearLayout>
 
