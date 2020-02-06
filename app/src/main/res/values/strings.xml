@@ -5,10 +5,18 @@
     <string name="web_client_id">780588250443-bdmib70cu4b94sfnsm83a6so578547e1.apps.googleusercontent.com</string>
     <string name="emailLoginActivity">Email:</string>
     <string name="passwordLoginActivity">Password:</string>
-    <string name="orLoginActivity">or</string>
     <string name="passwordHintLoginActivity">Password</string>
     <string name="emailHintLoginActivity">Email</string>
     <string name="sign_inLoginActivity">Sign In</string>
-    <string name="create_an_account">Create an Account</string>
     <string name="loginButtonLoginActivity">Login</string>
+    <string name="verify">Verify</string>
+    <string name="sign_out">Sign Out</string>
+
+    <string name="create_a_password_hint">Create A Password</string>
+    <string name="create_account">Create An Account</string>
+    <string name="create_email">Email</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>
