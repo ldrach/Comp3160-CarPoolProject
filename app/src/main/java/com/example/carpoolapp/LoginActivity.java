@@ -169,8 +169,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-
-
     //Login Function for Regular Email/Password Login
     private void loginUser(String email, String password){
 
@@ -182,7 +180,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please enter password...", Toast.LENGTH_LONG).show();
             return;
         }
-
         showProgressDialog();
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -201,7 +198,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-    
 
     //Fetches Google Sign In Intent
     private void googleSignIn() {
@@ -246,5 +242,4 @@ public class LoginActivity extends AppCompatActivity {
         createAccountBtn = findViewById(R.id.login_create_account_button);
         signInBtn = findViewById(R.id.email_sign_in_button);
     }
-
 }
