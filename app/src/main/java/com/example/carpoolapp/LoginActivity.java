@@ -201,20 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    private boolean validateForm() {
-        if (TextUtils.isEmpty(mEdtEmail.getText().toString())) {
-            mLoginEmail.setError("Required.");
-            return false;
-        } else if (TextUtils.isEmpty(mEdtPassword.getText().toString())) {
-            mLoginPassword.setError("Required.");
-            return false;
-        } else {
-            mLoginEmail.setError(null);
-            mLoginPassword.setError(null);
-            return true;
-        }
-    }
+    
 
     //Fetches Google Sign In Intent
     private void googleSignIn() {
