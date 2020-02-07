@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailTextInputEditText"
+            <EditText
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/emailHintLoginActivity"
@@ -44,8 +44,8 @@
             android:layout_margin="@dimen/_10dp"
             app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_password"
+            <EditText
+                android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/passwordHintLoginActivity"
