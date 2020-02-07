@@ -31,7 +31,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        initializeUI();
+//        initializeUI();
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -85,12 +85,12 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
-    private void initializeUI(){
-        emailTextBoxCreate = findViewById(R.id.emailEditTextCreate);
-        passwordTextBoxCreate = findViewById(R.id.passwordEditTextCreate);
-        cancel = findViewById(R.id.cancelButtonCreate);
-        submit = findViewById(R.id.submitButton);
-    }
+//    private void initializeUI(){
+//        mEdtEmail = findViewById(R.id.emailEditText);
+//        mEdtPassword = findViewById(R.id.passwordEditText);
+//        createAccountBtn = findViewById(R.id.login_create_account_button);
+//        signInBtn = findViewById(R.id.email_sign_in_button);
+//    }
 
     private void updateUI(FirebaseUser currentUser) {
 

@@ -1,10 +1,12 @@
 package com.example.carpoolapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,11 +33,13 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    Button signInBtn, createAccountBtn;
     GoogleSignInClient mGoogleSignInClient;
     private SignInButton googleSignInButton;
     private static final int RC_SIGN_IN = 1;
     private EditText mEdtEmail, mEdtPassword;
     private TextInputLayout mLoginEmail, mLoginPassword;
+    private ProgressDialog mProgressDialog;
 
 
     @Override
@@ -43,15 +47,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        m = findViewById(R.id.emailEditText);
-        mLoginPassword = findViewById(R.id.passwordEditText);
+        mEdtEmail = findViewById(R.id.emailEditText);
+        mEdtPassword = findViewById(R.id.passwordEditText);
+        signInBtn = findViewById(R.id.email_sign_in_button);
+        findViewById(R.id.login_create_account_button);
 
-        findViewById(R.id.email_sign_in_button).setOnClickListener(this);
-        findViewById(R.id.email_create_account_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.verify_button).setOnClickListener(this);
+        initializeUI();
 
-        mAuth = FirebaseAuth.getInstance();
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -65,10 +68,6 @@ public class LoginActivity extends AppCompatActivity {
                 updateUI(user);
             }
         };
-
-
-
-
 
         googleSignInButton = findViewById(R.id.google_sign_in_button);
 
@@ -86,26 +85,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //Initializes UI
-        initializeUI();
 
         //Regular Login Button onClick
-        login.setOnClickListener(new View.OnClickListener() {
+        signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginUser();
+                loginUser(mEdtEmail.getText().toString(), mEdtPassword.getText().toString());
             }
         });
 
         //Launch Create Account Activity
-        createAccount.setOnClickListener(new View.OnClickListener() {
+        createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -120,39 +116,9 @@ public class LoginActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+        hideProgressDialog();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.email_create_account_button:
-                createAccount(mLoginEmail.getText().toString(), mEdtPassword.getText().toString());
-                break;
-            case R.id.email_sign_in_button:
-                signIn(mEdtEmail.getText().toString(), mEdtPassword.getText().toString());
-                break;
-            case R.id.sign_out_button:
-                signOut();
-                break;
-            case R.id.verify_button:
-                findViewById(R.id.verify_button).setEnabled(false);
-                final FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                firebaseUser.sendEmailVerification().addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(
-                                    EmailPasswordActivity.this, "Verification email sent to " + firebaseUser.getEmail(), Toast.LENGTH_LONG
-                            ).show();
-                        } else {
-                            Toast.makeText(EmailPasswordActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                        findViewById(R.id.verify_button).setEnabled(true);
-                    }
-                });
-                break;
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -206,11 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     //Login Function for Regular Email/Password Login
-    private void loginUser(){
-
-        String email, password;
-        email = emailTextBox.getText().toString().trim();
-        password = passwordTextBox.getText().toString().trim();
+    private void loginUser(String email, String password){
 
         if(TextUtils.isEmpty(email)){
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
@@ -221,22 +183,37 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        showProgressDialog();
+
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
-
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
                         else{
                             Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG).show();
                         }
-
+                        hideProgressDialog();
                     }
                 });
+    }
+
+    private boolean validateForm() {
+        if (TextUtils.isEmpty(mEdtEmail.getText().toString())) {
+            mLoginEmail.setError("Required.");
+            return false;
+        } else if (TextUtils.isEmpty(mEdtPassword.getText().toString())) {
+            mLoginPassword.setError("Required.");
+            return false;
+        } else {
+            mLoginEmail.setError(null);
+            mLoginPassword.setError(null);
+            return true;
+        }
     }
 
     //Fetches Google Sign In Intent
@@ -249,9 +226,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Checks if there is a current user
-    private void updateUI(FirebaseUser currentUser) {
+    private void updateUI(FirebaseUser user) {
 
-        if(currentUser != null){
+        if(user != null){
+            hideProgressDialog();
             startActivity(new Intent(this, MainActivity.class));
             //Starts main activity if there is a current user
         }
@@ -260,12 +238,26 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    //Initializes UI elements
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
     private void initializeUI(){
-        emailTextBox = findViewById(R.id.emailEditText);
-        passwordTextBox = findViewById(R.id.passwordEditText);
-        login = findViewById(R.id.loginButton);
-        createAccount = findViewById(R.id.createAccount);
+        mEdtEmail = findViewById(R.id.emailEditText);
+        mEdtPassword = findViewById(R.id.passwordEditText);
+        createAccountBtn = findViewById(R.id.login_create_account_button);
+        signInBtn = findViewById(R.id.email_sign_in_button);
     }
 
 }

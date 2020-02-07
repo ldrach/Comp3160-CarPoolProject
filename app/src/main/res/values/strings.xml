@@ -11,6 +11,7 @@
     <string name="loginButtonLoginActivity">Login</string>
     <string name="verify">Verify</string>
     <string name="sign_out">Sign Out</string>
+    <string name="loading">Loading…</string>
 
     <string name="create_a_password_hint">Create A Password</string>
     <string name="create_account">Create An Account</string>
