@@ -27,7 +27,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -45,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     private SignInButton googleSignInButton;
     private static final int RC_SIGN_IN = 1;
     private EditText mEdtEmail, mEdtPassword;
-    private TextInputLayout mLoginEmail, mLoginPassword;
     private ProgressDialog mProgressDialog;
     private CallbackManager mCallbackManager;
 
@@ -54,14 +52,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         mEdtEmail = findViewById(R.id.emailEditText);
         mEdtPassword = findViewById(R.id.passwordEditText);
         signInBtn = findViewById(R.id.email_sign_in_button);
         findViewById(R.id.login_create_account_button);
 
         initializeUI();
-
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -77,15 +73,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+        // Initializes Google Sign In
         googleSignInButton = findViewById(R.id.google_sign_in_button);
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        //Google Signin OnClick
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Initialize Facebook Login button
+        // Initialize Facebook Sign In
         mCallbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = findViewById(R.id.fb_login_button);
         loginButton.setReadPermissions("email", "public_profile");
@@ -116,7 +110,6 @@ public class LoginActivity extends AppCompatActivity {
                 updateUI(null);
             }
         });
-
 
         //Regular Login Button onClick
         signInBtn.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //For FB signin
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
         //if the requestCode is the Google Sign In code that we defined at starting
@@ -175,6 +169,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //Login with Facebook Function
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
         showProgressDialog();
@@ -200,8 +195,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //Login with Google Function
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        showProgressDialog();
 
         //getting the auth credential
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -223,6 +220,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
+                        hideProgressDialog();
                     }
                 });
     }
@@ -279,6 +277,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //Creates Progress Dialog
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);

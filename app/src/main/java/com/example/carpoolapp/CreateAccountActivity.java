@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -41,7 +40,6 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         initializeUI();
 
-
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,13 +54,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void createUser(String email, String password, String password2){
 
-
+        //Email and Password Validity checks
         if(TextUtils.isEmpty(email)){
             mEdtEmail.setError("Please Enter a Valid Email");
             return;
@@ -101,20 +97,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                         hideProgressDialog();
                     }
                 });
-
     }
 
-
-    private void updateUI(FirebaseUser currentUser) {
-
-        if(currentUser != null){
-            hideProgressDialog();
-            startActivity(new Intent(this, MainActivity.class));
-        }
-        else {
-            Toast.makeText(this, "Failed!", Toast.LENGTH_LONG).show();
-        }
-    }
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
