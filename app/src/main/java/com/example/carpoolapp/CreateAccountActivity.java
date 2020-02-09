@@ -31,7 +31,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-//        initializeUI();
+       // initializeUI();
 
 
         submit.setOnClickListener(new View.OnClickListener() {
