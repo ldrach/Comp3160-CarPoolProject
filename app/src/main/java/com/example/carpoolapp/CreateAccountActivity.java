@@ -1,5 +1,6 @@
 package com.example.carpoolapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,8 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 public class CreateAccountActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    EditText emailTextBoxCreate, passwordTextBoxCreate;
-    Button submit, cancel;
+    Button createAccountBtn, cancelBtn;
+    private ProgressDialog mProgressDialog;
+    private EditText mEdtEmail, mEdtPassword, mEdtPassword2;
 
 
     @Override
@@ -29,19 +31,25 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        mEdtEmail = findViewById(R.id.create_edt_email);
+        mEdtPassword = findViewById(R.id.crt_password);
+        mEdtPassword2 = findViewById(R.id.crt_password2);
+        createAccountBtn = findViewById(R.id.crt_create_account_button);
+        cancelBtn = findViewById(R.id.create_cancel_button);
+
         mAuth = FirebaseAuth.getInstance();
 
-       // initializeUI();
+        initializeUI();
 
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUser();
+                createUser(mEdtEmail.getText().toString(), mEdtPassword.getText().toString(), mEdtPassword2.getText().toString());
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
@@ -52,21 +60,31 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
-    private void createUser(){
-        String email, password;
+    private void createUser(String email, String password, String password2){
 
-        email = emailTextBoxCreate.getText().toString().trim();
-        password = passwordTextBoxCreate.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
+            mEdtEmail.setError("Please Enter a Valid Email");
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_LONG).show();
+            mEdtPassword.setError("Please Enter a Valid Password");
+            return;
+        }
+        if (TextUtils.isEmpty(password2)) {
+            mEdtPassword2.setError("Please Enter a Valid Password");
+            return;
+        }
+        if (password.length()<8){
+            mEdtPassword.setError("Password Must Be Longer Than 8 Characters");
+            return;
+        }
+        if (!password.equals(password2)){
+            mEdtPassword.setError("Passwords Do Not Match!");
             return;
         }
 
+        showProgressDialog();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -80,26 +98,43 @@ public class CreateAccountActivity extends AppCompatActivity {
                         else {
                             Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
                         }
+                        hideProgressDialog();
                     }
                 });
 
     }
 
-//    private void initializeUI(){
-//        mEdtEmail = findViewById(R.id.emailEditText);
-//        mEdtPassword = findViewById(R.id.passwordEditText);
-//        createAccountBtn = findViewById(R.id.login_create_account_button);
-//        signInBtn = findViewById(R.id.email_sign_in_button);
-//    }
 
     private void updateUI(FirebaseUser currentUser) {
 
         if(currentUser != null){
-            Toast.makeText(this, "Success!", Toast.LENGTH_LONG).show();
+            hideProgressDialog();
             startActivity(new Intent(this, MainActivity.class));
         }
         else {
             Toast.makeText(this, "Failed!", Toast.LENGTH_LONG).show();
         }
+    }
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    private void initializeUI(){
+        mEdtEmail = findViewById(R.id.create_edt_email);
+        mEdtPassword = findViewById(R.id.crt_password);
+        mEdtPassword2 = findViewById(R.id.crt_password2);
+        createAccountBtn = findViewById(R.id.crt_create_account_button);
+        cancelBtn = findViewById(R.id.create_cancel_button);
     }
 }

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/edt_email"
+                android:id="@+id/create_edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_email"
@@ -88,7 +88,7 @@
             android:theme="@style/ThemeOverlay.MyDarkButton" />
 
         <Button
-            android:id="@+id/login_create_account_button"
+            android:id="@+id/crt_create_account_button"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
