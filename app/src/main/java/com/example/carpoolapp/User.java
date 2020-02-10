@@ -17,6 +17,7 @@ public class User implements Serializable {
     public List<String> carPools = new ArrayList<>();
 
 
+
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
@@ -65,8 +66,6 @@ public class User implements Serializable {
                     }
                 });
     }
-
-
 
 
 
