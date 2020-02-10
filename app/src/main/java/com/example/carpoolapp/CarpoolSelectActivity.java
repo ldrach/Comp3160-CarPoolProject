@@ -16,6 +16,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     Button carPoolButton3;
 
     User appUser;
+    ArrayList<User> UserList = new ArrayList<User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +30,15 @@ public class CarpoolSelectActivity extends AppCompatActivity {
 
         //get carpool userIDs for the query
         final FireStoreDatbase dataBase = new FireStoreDatbase();
+        for(String carpoolID : appUser.carPools)// will need to change later for reminder times
+        {
+            dataBase.getCarpoolUserList(carpoolID);
+        }
+        //---
+
 
         //TODO loop through Users carppol lists extracting carpoolUserIDs inorder to query user objects and pass them to Main activity
-        dataBase.getCarpoolUserList("fff0aca5-3987-4157-a1c9-b0cb27ac4ad4");
+
 
         //populate buttons (test)
         carPoolButton1=findViewById(R.id.button1);
@@ -48,8 +55,6 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         }
 
 
-        int stopint = 1;
-
         //test "user opens first carpool"
 carPoolButton1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -61,8 +66,10 @@ carPoolButton1.setOnClickListener(new View.OnClickListener() {
                 //send carpool id
                 intent.putExtra("carPoolID",appUser.carPools.get(0));
                 //send carpool userIDs List
-                ArrayList<String> userIDsList = dataBase.userIDs;
-                intent.putStringArrayListExtra("UserIDList",userIDsList);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("UserIDList", dataBase.totalUserList.get(0));
+                intent.putExtras(bundle);
+                //intent.putParcelableArrayListExtra("UserIDList",dataBase.totalUserList.get(0));
                 //----
 
                 CarpoolSelectActivity.this.startActivity(intent);
@@ -72,6 +79,10 @@ carPoolButton1.setOnClickListener(new View.OnClickListener() {
 
             }
         });
+    }
+    public void getCarpoolUsers()
+    {
+
     }
 
 }
