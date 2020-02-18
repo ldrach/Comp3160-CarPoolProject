@@ -1,4 +1,24 @@
 <resources>
     <string name="app_name">CarPoolApp</string>
     <string name="title_activity_carpool_select">CarpoolSelectActivity</string>
+    <string name="facebook_app_id">491001088283707</string>
+    <string name="FB_login_protocol_scheme">fb491001088283707</string>
+    <string name="web_client_id">780588250443-bdmib70cu4b94sfnsm83a6so578547e1.apps.googleusercontent.com</string>
+    <string name="emailLoginActivity">Email:</string>
+    <string name="passwordLoginActivity">Password:</string>
+    <string name="passwordHintLoginActivity">Password</string>
+    <string name="emailHintLoginActivity">Email</string>
+    <string name="sign_inLoginActivity">Sign In</string>
+    <string name="loginButtonLoginActivity">Login</string>
+    <string name="verify">Verify</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="loading">Loading…</string>
+
+    <string name="create_a_password_hint">Create A Password</string>
+    <string name="create_account">Create An Account</string>
+    <string name="create_email">Email</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>
