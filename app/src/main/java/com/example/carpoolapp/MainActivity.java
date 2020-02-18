@@ -74,11 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
         //this tests the carpool select activity
         myButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -97,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private void runTestCode()
     {
 
-        appUser = new User("987654321","Samantha","s");
+        appUser = new User("0sz0p9YCrTh4gV6hv0vvukzNwYf1","Shane","s");
         User Sara = new User("393938282","Sara","s");
         User newUser;
 

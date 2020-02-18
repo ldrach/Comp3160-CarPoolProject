@@ -31,8 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_email"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:inputType="textEmailAddress"/>
+                android:text="1@gmail.com" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,8 +48,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_a_password_hint"
+                android:inputType="textPassword"
                 android:maxLines="1"
-                android:inputType="textPassword"/>
+                android:text="12345678" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,8 +65,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/re_enter_password"
+                android:inputType="textPassword"
                 android:maxLines="1"
-                android:inputType="textPassword"/>
+                android:text="12345678" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

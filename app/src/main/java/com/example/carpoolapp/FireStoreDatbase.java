@@ -1,5 +1,8 @@
 package com.example.carpoolapp;
 
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -9,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
 
 public class FireStoreDatbase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -23,10 +28,20 @@ public class FireStoreDatbase {
 
     public void writeUser(User user) {
 
-
-
         db.collection("users").document(user.id)
-                .set(user);
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("s", "DocumentSnapshot successfully written!");
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("s", "Error writing document", e);
+                    }
+                });
 
     }
 
@@ -63,22 +78,10 @@ public class FireStoreDatbase {
 
     }
 
-//    public void getUserProfile(String id)
-//    {
-//
-//        int stopint2 =1;
-//
-//        db.collection("users").document("987654321")
-//                .get()
-//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                        User myuser = documentSnapshot.toObject(User.class);
-//
-//                        int stopint =1;
-//                    }
-//                });
-//    }
+    public  void createUser(User user)
+    {
+
+    }
 //gets a map of users in one of CarPools documents
     public void getCarpoolUserList(String carpoolID)
     {

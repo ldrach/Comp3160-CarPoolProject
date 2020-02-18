@@ -8,7 +8,6 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 public class CarpoolSelectActivity extends AppCompatActivity {
     Button carPoolButton1;
@@ -22,8 +21,8 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carpool_select);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         //get user object from previous activity
         appUser = (User) getIntent().getSerializableExtra("User");
@@ -35,9 +34,6 @@ public class CarpoolSelectActivity extends AppCompatActivity {
             dataBase.getCarpoolUserList(carpoolID);
         }
         //---
-
-
-        //TODO loop through Users carppol lists extracting carpoolUserIDs inorder to query user objects and pass them to Main activity
 
 
         //populate buttons (test)
