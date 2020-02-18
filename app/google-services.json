@@ -62,3 +62,43 @@
   ],
   "configuration_version": "1"
 }
+{
+  "project_info": {
+    "project_number": "567295854523",
+    "firebase_url": "https://firestorecarpool.firebaseio.com",
+    "project_id": "firestorecarpool",
+    "storage_bucket": "firestorecarpool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567295854523:android:181b8aa715b09c28c4669e",
+        "android_client_info": {
+          "package_name": "com.example.carpoolapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567295854523-9og1ua9sti89opi28a0opev7349dv46d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC31Yd4y4-YYIb1HhShU_1o_Ak6JPr6M0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567295854523-9og1ua9sti89opi28a0opev7349dv46d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

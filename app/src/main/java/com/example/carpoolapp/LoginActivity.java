@@ -3,15 +3,13 @@ package com.example.carpoolapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -33,6 +31,12 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.Serializable;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -132,6 +136,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        // for testing sign out logged in user
+        FirebaseAuth.getInstance().signOut();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -267,9 +273,15 @@ public class LoginActivity extends AppCompatActivity {
     //Checks if there is a current user
     private void updateUI(FirebaseUser user) {
 
+
+
         if(user != null){
             hideProgressDialog();
-            startActivity(new Intent(this, MainActivity.class));
+
+            //launches carpool select if there is a user
+            launchCarpoolSelect(user);
+
+          //  startActivity(new Intent(this, MainActivity.class));
             //Starts main activity if there is a current user
         }
         else {
@@ -298,5 +310,32 @@ public class LoginActivity extends AppCompatActivity {
         mEdtPassword = findViewById(R.id.passwordEditText);
         createAccountBtn = findViewById(R.id.login_create_account_button);
         signInBtn = findViewById(R.id.email_sign_in_button);
+    }
+    private void launchCarpoolSelect(FirebaseUser user)
+    {
+        //get database instance
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //create a User object from the FirebaseUser
+        User appUser = new User(user.getUid(),"firstName","LastName");
+
+//        FireStoreDatbase fsdb = new FireStoreDatbase();
+//        fsdb.
+
+        appUser.getCarpoolList(db);
+
+        final User testUser = appUser;
+        // used to delay launching the intent. we need to find a better workaround to the async listener
+        Handler handaler = new Handler();
+        handaler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(LoginActivity.this,CarpoolSelectActivity.class);
+                intent.putExtra("User", (Serializable) testUser);
+                LoginActivity.this.startActivity(intent);
+            }
+        },2000);
+        //launch activity with user
+
     }
 }
