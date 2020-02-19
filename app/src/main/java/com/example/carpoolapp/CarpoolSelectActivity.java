@@ -3,7 +3,10 @@ package com.example.carpoolapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,10 +20,16 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     User appUser;
     ArrayList<User> UserList = new ArrayList<User>();
 
+    //this sets up the values for the list view
+    ListView carPoolList;
+    String[] buttonTextArray ;
+
+    //----
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_carpool_select);
+        setContentView(R.layout.content_carpool_select);
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -35,11 +44,19 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         }
         //---
 
+        //----this code sets up an adapter for the list view
+        buttonTextArray =PopulateCarPoolSelectListAdapterItems.populateCarpools(appUser.carPools);
+
+        CarPoolSelectListAdapter adapter=new CarPoolSelectListAdapter(this, buttonTextArray);
+        carPoolList=(ListView)findViewById(R.id.carPoolSelectListView);
+        carPoolList.setAdapter(adapter);
+        //----
+
 
         //populate buttons (test)
         carPoolButton1=findViewById(R.id.button1);
         carPoolButton2=findViewById(R.id.button2);
-        carPoolButton3=findViewById(R.id.button3);
+
 
         try {
             carPoolButton1.setText(appUser.carPools.get(0));
@@ -75,10 +92,25 @@ carPoolButton1.setOnClickListener(new View.OnClickListener() {
 
             }
         });
-    }
-    public void getCarpoolUsers()
-    {
 
+//        carPoolList.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//
+//            }
+//        });
+
+        carPoolList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Toast.makeText(getApplicationContext(),
+                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
     }
+
 
 }

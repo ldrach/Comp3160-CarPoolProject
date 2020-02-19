@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // for testing sign out logged in user
-        FirebaseAuth.getInstance().signOut();
+       // FirebaseAuth.getInstance().signOut();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
