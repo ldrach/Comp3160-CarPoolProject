@@ -27,10 +27,52 @@
             android:text="@string/signed_out" />
 
         <LinearLayout
+            android:id="@+id/status_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update Status"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@android:color/darker_gray"/>
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/first"
+                android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Active"/>
+                <RadioButton
+                    android:id="@+id/second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Away"/>
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/update_carpool_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile"
+            android:layout_below="@+id/status_field"
             android:orientation="vertical">
 
             <View
@@ -211,7 +253,6 @@
                 android:background="@color/design_default_color_primary_variant"
                 android:text="Sign Out"
                 android:textColor="@android:color/background_light" />
-
         </LinearLayout>
 
     </RelativeLayout>
