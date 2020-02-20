@@ -3,6 +3,7 @@ package com.example.carpoolapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.Serializable;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -55,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         mEdtEmail = findViewById(R.id.emailEditText);
         mEdtPassword = findViewById(R.id.passwordEditText);
         signInBtn = findViewById(R.id.email_sign_in_button);
-        findViewById(R.id.login_create_account_button);
+        createAccountBtn = findViewById(R.id.login_create_account_button);
 
         initializeUI();
 
@@ -132,6 +136,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        // for testing sign out logged in user
+       // FirebaseAuth.getInstance().signOut();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -184,6 +190,7 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                     Toast.makeText(LoginActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -212,7 +219,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-
+                            finish();
                             Toast.makeText(LoginActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -246,6 +253,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                         else{
                             Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG).show();
@@ -267,9 +275,15 @@ public class LoginActivity extends AppCompatActivity {
     //Checks if there is a current user
     private void updateUI(FirebaseUser user) {
 
+
+
         if(user != null){
             hideProgressDialog();
-            startActivity(new Intent(this, MainActivity.class));
+
+            //launches carpool select if there is a user
+            launchCarpoolSelect(user);
+
+          //  startActivity(new Intent(this, MainActivity.class));
             //Starts main activity if there is a current user
         }
         else {
@@ -298,5 +312,32 @@ public class LoginActivity extends AppCompatActivity {
         mEdtPassword = findViewById(R.id.passwordEditText);
         createAccountBtn = findViewById(R.id.login_create_account_button);
         signInBtn = findViewById(R.id.email_sign_in_button);
+    }
+    private void launchCarpoolSelect(FirebaseUser user)
+    {
+        //get database instance
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //create a User object from the FirebaseUser
+        User appUser = new User(user.getUid(),"firstName","LastName");
+
+//        FireStoreDatbase fsdb = new FireStoreDatbase();
+//        fsdb.
+
+        appUser.getCarpoolList(db);
+
+        final User testUser = appUser;
+        // used to delay launching the intent. we need to find a better workaround to the async listener
+        Handler handaler = new Handler();
+        handaler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(LoginActivity.this,CarpoolSelectActivity.class);
+                intent.putExtra("User", (Serializable) testUser);
+                LoginActivity.this.startActivity(intent);
+            }
+        },2000);
+        //launch activity with user
+
     }
 }
