@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,9 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     //this sets up the values for the list view
     ListView carPoolList;
     String[] buttonTextArray ;
+
+    FloatingActionButton addCarpoolFAButton;
+    FireStoreDatbase fsd = new FireStoreDatbase();
 
     //----
 
@@ -55,8 +60,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
 
         //populate buttons (test)
         carPoolButton1=findViewById(R.id.button1);
-        carPoolButton2=findViewById(R.id.button2);
-
+        addCarpoolFAButton = findViewById(R.id.floatingActionButton);
 
         try {
             carPoolButton1.setText(appUser.carPools.get(0));
@@ -93,14 +97,7 @@ carPoolButton1.setOnClickListener(new View.OnClickListener() {
             }
         });
 
-//        carPoolList.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//
-//            }
-//        });
-
+        // list adapter on click
         carPoolList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -108,8 +105,37 @@ carPoolButton1.setOnClickListener(new View.OnClickListener() {
                 Toast.makeText(getApplicationContext(),
                         "Click ListItem Number " + position, Toast.LENGTH_LONG)
                         .show();
+
+                //send extras
+                Intent intent = new Intent(CarpoolSelectActivity.this,MainActivity.class);
+                intent.putExtra("User",appUser);
+                //send carpool id
+                intent.putExtra("carPoolID",appUser.carPools.get(position));
+                //send carpool userIDs List
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("UserIDList", dataBase.totalUserList.get(position));
+                intent.putExtras(bundle);
+                //intent.putParcelableArrayListExtra("UserIDList",dataBase.totalUserList.get(0));
+                //----
+
+                CarpoolSelectActivity.this.startActivity(intent);
             }
         });
+
+        addCarpoolFAButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"New Carpool Created " , Toast.LENGTH_LONG).show();
+                fsd.createCarpool(appUser);
+
+                //restart activity
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+
+            }
+        });
+
     }
 
 

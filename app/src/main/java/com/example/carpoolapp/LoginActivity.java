@@ -319,19 +319,16 @@ public class LoginActivity extends AppCompatActivity {
         //create a User object from the FirebaseUser
         User appUser = new User(user.getUid(),"firstName","LastName");
 
-//        FireStoreDatbase fsdb = new FireStoreDatbase();
-//        fsdb.
-
         appUser.getCarpoolList(db);
 
-        final User testUser = appUser;
+        final User tempUser = appUser;
         // used to delay launching the intent. we need to find a better workaround to the async listener
         Handler handaler = new Handler();
         handaler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(LoginActivity.this,CarpoolSelectActivity.class);
-                intent.putExtra("User", (Serializable) testUser);
+                intent.putExtra("User", (Serializable) tempUser);
                 LoginActivity.this.startActivity(intent);
             }
         },2000);
