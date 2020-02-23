@@ -3,7 +3,6 @@ package com.example.carpoolapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -34,9 +33,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.io.Serializable;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -136,8 +132,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // for testing sign out logged in user
-       // FirebaseAuth.getInstance().signOut();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -275,16 +269,13 @@ public class LoginActivity extends AppCompatActivity {
     //Checks if there is a current user
     private void updateUI(FirebaseUser user) {
 
-
-
         if(user != null){
             hideProgressDialog();
-
-            //launches carpool select if there is a user
-            launchCarpoolSelect(user);
-
-          //  startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
             //Starts main activity if there is a current user
+            //launches carpool select if there is a user
+            //launchCarpoolSelect(user);
+
         }
         else {
             //Does nothing if there is no current user
@@ -313,7 +304,7 @@ public class LoginActivity extends AppCompatActivity {
         createAccountBtn = findViewById(R.id.login_create_account_button);
         signInBtn = findViewById(R.id.email_sign_in_button);
     }
-    private void launchCarpoolSelect(FirebaseUser user)
+   /* private void launchCarpoolSelect(FirebaseUser user)
     {
         //get database instance
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -339,5 +330,5 @@ public class LoginActivity extends AppCompatActivity {
         },2000);
         //launch activity with user
 
-    }
+    }*/
 }
