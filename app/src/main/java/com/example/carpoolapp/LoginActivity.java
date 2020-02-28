@@ -317,7 +317,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //create a User object from the FirebaseUser
         final User appUser = new User(user.getUid(), "firstName", "LastName");
-        final ArrayList<ArrayList<User>> totalUserList = new ArrayList<>();
+        final ArrayList<ArrayList<Object>> totalUserList = new ArrayList<>();
 
         getUsersCarpoolList(appUser.id, new FirestoreCallback() {
             @Override
@@ -334,7 +334,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<User>> totalCarpoolList) {
+                        public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<Object>> totalCarpoolList) {
 
                             totalUserList.add(totalCarpoolList.get(0));
                             //all the carpools are in and we can send it back to the listener
@@ -352,7 +352,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<User>> totalCarpoolList) {
+            public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<Object>> totalCarpoolList) {
 
             }
         });
@@ -364,7 +364,7 @@ public class LoginActivity extends AppCompatActivity {
         //get database instance
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         //list containing a carpool with users in them
-        final ArrayList<ArrayList<User>> totalUserList = new ArrayList<>();
+        final ArrayList<ArrayList<Object>> totalUserList = new ArrayList<>();
         //i dont think i need this
         final ArrayList<ArrayList<String>> totalIDList = new ArrayList<>();
 
@@ -381,10 +381,15 @@ public class LoginActivity extends AppCompatActivity {
                         totalIDList.add(userIDs);
                         //get the actual user objects
                         //---
-                        final ArrayList<User> userList = new ArrayList<User>();
+                        final ArrayList<Object> userList = new ArrayList<Object>();
+
+                        userList.add(userIDs.get(0));
                         final int userIdListLength = userIDs.size();
-                        //skip the first item because its the carpoolID not a userID
+                        // the first item is the carpoolID not a userID but we still ned it
                         for (int index = 1; index < userIdListLength; index++) {
+
+
+                            //get the users in the carpool
                             db.collection("CarPools").document(userIDs.get(0)).collection(userIDs.get(index)).document(userIDs.get(index))
                                     .get()
                                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -398,7 +403,7 @@ public class LoginActivity extends AppCompatActivity {
                                             int stopint = 1;
                                             //used in carpool select to get all users from all of the appUsers carpools eg. Sam belongs to 3 carpools with 4 people in each.
                                             // Get a list with 3 elements containing 4 User objects each
-                                            if (userList.size() == userIdListLength - 1) {
+                                            if (userList.size() == userIdListLength ) {
                                                 totalUserList.add(userList);
                                                 fireCallBack.OnCallbackTotalCarpoolList(totalUserList);
                                             }
@@ -443,7 +448,7 @@ public class LoginActivity extends AppCompatActivity {
     private interface FirestoreCallback {
         void OnCallback(ArrayList<User> userList);
 
-        void OnCallbackTotalCarpoolList(ArrayList<ArrayList<User>> totalCarpoolList);
+        void OnCallbackTotalCarpoolList(ArrayList<ArrayList<Object>> totalCarpoolList);
 
 
     }

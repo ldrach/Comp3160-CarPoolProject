@@ -20,7 +20,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     Button carPoolButton3;
 
     User appUser;
-    ArrayList<ArrayList<User>> carpoolsList = new ArrayList<>();
+    ArrayList<ArrayList<Object>> carpoolsList = new ArrayList<>();
 
     //this sets up the values for the list view
     ListView carPoolList;
@@ -38,7 +38,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
 
 
         //get user object from previous activity
-        carpoolsList = (ArrayList<ArrayList<User>>) getIntent().getSerializableExtra("Carpools");
+        carpoolsList = (ArrayList<ArrayList<Object>>) getIntent().getSerializableExtra("Carpools");
 
         //get carpool userIDs for the query
         final FireStoreDatbase dataBase = new FireStoreDatbase();
@@ -49,7 +49,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         //---
 
         //----this code sets up an adapter for the list view
-        buttonTextArray =PopulateCarPoolSelectListAdapterItems.populateCarpools(appUser.carPools);
+        buttonTextArray =PopulateCarPoolSelectListAdapterItems.populateCarpools(carpoolsList);
 
         CarPoolSelectListAdapter adapter=new CarPoolSelectListAdapter(this, buttonTextArray);
         carPoolList=(ListView)findViewById(R.id.carPoolSelectListView);
