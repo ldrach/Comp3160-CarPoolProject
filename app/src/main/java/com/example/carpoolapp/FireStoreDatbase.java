@@ -113,7 +113,6 @@ public class FireStoreDatbase {
                        userIDs = new ArrayList<String>(userIDMap.values());
 
                        totalIDList.add(userIDs);
-                       int stopint =1;
 
                         //get the actual user objects
                         //---

@@ -20,7 +20,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     Button carPoolButton3;
 
     User appUser;
-    ArrayList<User> UserList = new ArrayList<User>();
+    ArrayList<ArrayList<User>> carpoolsList = new ArrayList<>();
 
     //this sets up the values for the list view
     ListView carPoolList;
@@ -35,18 +35,17 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_carpool_select);
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+
 
         //get user object from previous activity
-        appUser = (User) getIntent().getSerializableExtra("User");
+        carpoolsList = (ArrayList<ArrayList<User>>) getIntent().getSerializableExtra("Carpools");
 
         //get carpool userIDs for the query
         final FireStoreDatbase dataBase = new FireStoreDatbase();
-        for(String carpoolID : appUser.carPools)// will need to change later for reminder times
-        {
-            dataBase.getCarpoolUserList(carpoolID);
-        }
+//        for(String carpoolID : appUser.carPools)// will need to change later for reminder times
+//        {
+//            dataBase.getCarpoolUserList(carpoolID);
+//        }
         //---
 
         //----this code sets up an adapter for the list view

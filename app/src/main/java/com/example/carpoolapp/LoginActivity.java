@@ -3,7 +3,6 @@ package com.example.carpoolapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -31,9 +31,12 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -137,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // for testing sign out logged in user
-       // FirebaseAuth.getInstance().signOut();
+        // FirebaseAuth.getInstance().signOut();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -232,13 +235,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Login Function for Regular Email/Password Login
-    private void loginUser(String email, String password){
+    private void loginUser(String email, String password) {
 
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
             return;
         }
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(getApplicationContext(), "Please enter password...", Toast.LENGTH_LONG).show();
             return;
         }
@@ -248,12 +251,11 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-                        }
-                        else{
+                        } else {
                             Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG).show();
                         }
                         hideProgressDialog();
@@ -274,17 +276,15 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
 
 
-
-        if(user != null){
+        if (user != null) {
             hideProgressDialog();
 
             //launches carpool select if there is a user
             launchCarpoolSelect(user);
 
-          //  startActivity(new Intent(this, MainActivity.class));
+            //  startActivity(new Intent(this, MainActivity.class));
             //Starts main activity if there is a current user
-        }
-        else {
+        } else {
             //Does nothing if there is no current user
         }
     }
@@ -305,34 +305,147 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeUI(){
+    private void initializeUI() {
         mEdtEmail = findViewById(R.id.emailEditText);
         mEdtPassword = findViewById(R.id.passwordEditText);
         createAccountBtn = findViewById(R.id.login_create_account_button);
         signInBtn = findViewById(R.id.email_sign_in_button);
     }
-    private void launchCarpoolSelect(FirebaseUser user)
-    {
-        //get database instance
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private void launchCarpoolSelect(FirebaseUser user) {
+
 
         //create a User object from the FirebaseUser
-        User appUser = new User(user.getUid(),"firstName","LastName");
+        final User appUser = new User(user.getUid(), "firstName", "LastName");
+        final ArrayList<ArrayList<User>> totalUserList = new ArrayList<>();
 
-        appUser.getCarpoolList(db);
-
-        final User tempUser = appUser;
-        // used to delay launching the intent. we need to find a better workaround to the async listener
-        Handler handaler = new Handler();
-        handaler.postDelayed(new Runnable() {
+        getUsersCarpoolList(appUser.id, new FirestoreCallback() {
             @Override
-            public void run() {
-                Intent intent = new Intent(LoginActivity.this,CarpoolSelectActivity.class);
-                intent.putExtra("User", (Serializable) tempUser);
-                LoginActivity.this.startActivity(intent);
+            public void OnCallback(ArrayList<User> userList) { //userList is a list of the logged in user (list always has length of one)
+                Log.d(TAG, "complete");
+
+
+                final int carpoolListLength = userList.get(0).carPools.size() - 1;
+                for (int i = 0; i <= carpoolListLength; i++) {
+                    getUsersInCarpool(carpoolListLength, userList.get(0).carPools.get(i), new FirestoreCallback() {
+                        @Override
+                        public void OnCallback(ArrayList<User> userList) {
+
+                        }
+
+                        @Override
+                        public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<User>> totalCarpoolList) {
+
+                            totalUserList.add(totalCarpoolList.get(0));
+                            //all the carpools are in and we can send it back to the listener
+                            if (totalUserList.size() == carpoolListLength + 1) {
+                                Intent intent = new Intent(LoginActivity.this, CarpoolSelectActivity.class);
+                                intent.putExtra("Carpools", (Serializable) totalUserList);
+                                LoginActivity.this.startActivity(intent);
+                            }
+
+                        }
+                    });
+                }
+
+
             }
-        },2000);
-        //launch activity with user
+
+            @Override
+            public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<User>> totalCarpoolList) {
+
+            }
+        });
+
 
     }
+
+    private void getUsersInCarpool(final int carpoolListLength, String carpoolID, final FirestoreCallback fireCallBack) {
+        //get database instance
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //list containing a carpool with users in them
+        final ArrayList<ArrayList<User>> totalUserList = new ArrayList<>();
+        //i dont think i need this
+        final ArrayList<ArrayList<String>> totalIDList = new ArrayList<>();
+
+
+        db.collection("CarPools").document(carpoolID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Map userIDMap = documentSnapshot.getData();
+                        //this is a list of users in the carpool with the carpoolID as index 0
+                        ArrayList<String> userIDs = new ArrayList<String>(userIDMap.values());
+
+                        totalIDList.add(userIDs);
+                        //get the actual user objects
+                        //---
+                        final ArrayList<User> userList = new ArrayList<User>();
+                        final int userIdListLength = userIDs.size();
+                        //skip the first item because its the carpoolID not a userID
+                        for (int index = 1; index < userIdListLength; index++) {
+                            db.collection("CarPools").document(userIDs.get(0)).collection(userIDs.get(index)).document(userIDs.get(index))
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            User myuser = documentSnapshot.toObject(User.class);
+
+                                            userList.add(myuser);
+
+
+                                            int stopint = 1;
+                                            //used in carpool select to get all users from all of the appUsers carpools eg. Sam belongs to 3 carpools with 4 people in each.
+                                            // Get a list with 3 elements containing 4 User objects each
+                                            if (userList.size() == userIdListLength - 1) {
+                                                totalUserList.add(userList);
+                                                fireCallBack.OnCallbackTotalCarpoolList(totalUserList);
+                                            }
+
+
+                                        }
+                                    });
+                        }
+                        //---
+                    }
+                });
+    }
+
+    private void getUsersCarpoolList(final String userId, final FirestoreCallback fireCallback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        final ArrayList<User> itemList = new ArrayList<>();
+
+        final User sendUser;
+        showProgressDialog();
+        db.collection("users").document(userId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                          @Override
+                                          public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                              User myuser = documentSnapshot.toObject(User.class);
+                                              itemList.add(myuser);
+                                              // carPools = myuser.carPools;
+                                              // continueBool = true;
+                                              fireCallback.OnCallback(itemList);
+
+
+                                              // LoginActivity.startCarpoolSelect()
+                                              int stopint = 1;
+                                          }
+
+
+                                      }
+                );
+    }
+
+    private interface FirestoreCallback {
+        void OnCallback(ArrayList<User> userList);
+
+        void OnCallbackTotalCarpoolList(ArrayList<ArrayList<User>> totalCarpoolList);
+
+
+    }
+
 }
