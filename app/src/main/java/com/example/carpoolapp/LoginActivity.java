@@ -347,8 +347,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 }
-
-
             }
 
             @Override
@@ -365,9 +363,6 @@ public class LoginActivity extends AppCompatActivity {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         //list containing a carpool with users in them
         final ArrayList<ArrayList<Object>> totalUserList = new ArrayList<>();
-        //i dont think i need this
-        final ArrayList<ArrayList<String>> totalIDList = new ArrayList<>();
-
 
         db.collection("CarPools").document(carpoolID)
                 .get()
@@ -378,7 +373,6 @@ public class LoginActivity extends AppCompatActivity {
                         //this is a list of users in the carpool with the carpoolID as index 0
                         ArrayList<String> userIDs = new ArrayList<String>(userIDMap.values());
 
-                        totalIDList.add(userIDs);
                         //get the actual user objects
                         //---
                         final ArrayList<Object> userList = new ArrayList<Object>();
@@ -403,7 +397,7 @@ public class LoginActivity extends AppCompatActivity {
                                             int stopint = 1;
                                             //used in carpool select to get all users from all of the appUsers carpools eg. Sam belongs to 3 carpools with 4 people in each.
                                             // Get a list with 3 elements containing 4 User objects each
-                                            if (userList.size() == userIdListLength ) {
+                                            if (userList.size() == userIdListLength) {
                                                 totalUserList.add(userList);
                                                 fireCallBack.OnCallbackTotalCarpoolList(totalUserList);
                                             }

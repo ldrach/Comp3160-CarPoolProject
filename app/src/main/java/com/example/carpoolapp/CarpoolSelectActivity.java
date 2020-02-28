@@ -109,10 +109,10 @@ carPoolButton1.setOnClickListener(new View.OnClickListener() {
                 Intent intent = new Intent(CarpoolSelectActivity.this,MainActivity.class);
                 intent.putExtra("User",appUser);
                 //send carpool id
-                intent.putExtra("carPoolID",appUser.carPools.get(position));
+              //  intent.putExtra("carPoolID",appUser.carPools.get(position));
                 //send carpool userIDs List
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("UserIDList", dataBase.totalUserList.get(position));
+                bundle.putSerializable("UserIDList", carpoolsList.get(position));
                 intent.putExtras(bundle);
                 //intent.putParcelableArrayListExtra("UserIDList",dataBase.totalUserList.get(0));
                 //----

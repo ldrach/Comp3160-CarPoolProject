@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             carpoolUsersIDList= (ArrayList<User>)bundle.getSerializable("UserIDList");
 
             //populate listAdapter with user info
-            imgid= populateListAdapterItems.populateIcon(carpoolUsersIDList.size());
+            imgid= populateListAdapterItems.populateIcon(carpoolUsersIDList.size()-1);
             maintitle = populateListAdapterItems.populateMainTitle(carpoolUsersIDList);
             subtitle = populateListAdapterItems.populateSubTitle(carpoolUsersIDList);
 
