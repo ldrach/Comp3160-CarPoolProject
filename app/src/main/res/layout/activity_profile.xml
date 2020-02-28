@@ -65,63 +65,13 @@
                     android:layout_height="wrap_content"
                     android:text="Away"/>
             </RadioGroup>
-
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/update_carpool_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/status_field"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="@android:color/darker_gray"/>
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Update Carpool Number"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/current_carpool_number"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/carpool_number"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"/>
-
-            <EditText
-                android:id="@+id/field_carpool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="New Carpool"
-                android:inputType="textPersonName"/>
-
-            <Button
-                android:id="@+id/update_carpool_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Update Carpool"
-                android:theme="@style/ThemeOverlay.MyDarkButton" />
-
-        </LinearLayout>
-
-
 
         <LinearLayout
             android:id="@+id/update_email_fields"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/update_carpool_field"
+            android:layout_below="@id/status_field"
             android:orientation="vertical">
 
             <View
@@ -144,13 +94,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:inputType="textEmailAddress"/>
-
-            <EditText
-                android:id="@+id/field_email2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Confirm Email"
                 android:inputType="textEmailAddress"/>
 
             <Button

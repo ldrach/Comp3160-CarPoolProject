@@ -22,7 +22,6 @@
     <string name="cancel">Cancel</string>
 
 <!--Profile-->
-    <string name="carpool_number"></string>
     <string name="logout">Logout Successful!</string>
     <string name="updated">%s updated.</string>
     <string name="signed_out">Signed Out</string>

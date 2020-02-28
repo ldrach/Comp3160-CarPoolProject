@@ -24,11 +24,11 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "ProfileActivity";
-    private EditText mEditTextEmail, mEditTextEmail2, mEditTextPassword, mEditTextPassword2, mEditTextEmailReset;
+    private EditText mEditTextEmail, mEditTextPassword, mEditTextPassword2;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private TextView mTextViewProfile;
-    private Button updateCarpoolBtn, updateEmailBtn, updatePasswordBtn, deleteBtn, signOutBtn;
+    private Button updateEmailBtn, updatePasswordBtn, deleteBtn, signOutBtn;
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -37,12 +37,11 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         mEditTextEmail = findViewById(R.id.field_email);
-        mEditTextEmail2 = findViewById(R.id.field_email2);
         mEditTextPassword = findViewById(R.id.field_password);
         mEditTextPassword2 = findViewById(R.id.field_password2);
         mTextViewProfile = findViewById(R.id.profile);
 
-        updateCarpoolBtn = findViewById(R.id.update_carpool_button);
+
         updateEmailBtn = findViewById(R.id.update_email_button);
         updatePasswordBtn = findViewById(R.id.update_password_button);
         deleteBtn = findViewById(R.id.delete_button);
@@ -64,13 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-        updateCarpoolBtn.setOnClickListener(new View.OnClickListener() { //Issue #46
-            @Override
-            public void onClick(View v) {
-                final FirebaseUser user = mAuth.getCurrentUser();
 
-            }
-        });
 
         updateEmailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
                 final FirebaseUser user = mAuth.getCurrentUser();
                 if (validateEmail(mEditTextEmail)) {
                     updateEmail(user);
+                    updateUI(user);
                 }
             }
         });
@@ -88,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
                 final FirebaseUser user = mAuth.getCurrentUser();
                 if (validatePassword()) {
                     updatePassword(user);
+                    updateUI(user);
                 }
             }
         });
@@ -103,6 +98,9 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteUser(user);
+                        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -154,14 +152,14 @@ public class ProfileActivity extends AppCompatActivity {
             findViewById(R.id.update_password_fields).setVisibility(View.VISIBLE);
             findViewById(R.id.delete_fields).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_field).setVisibility(View.VISIBLE);
-            findViewById(R.id.update_carpool_field).setVisibility(View.VISIBLE);
+
         } else {
             mTextViewProfile.setText(R.string.signed_out);
             findViewById(R.id.update_email_fields).setVisibility(View.GONE);
             findViewById(R.id.update_password_fields).setVisibility(View.GONE);
             findViewById(R.id.delete_fields).setVisibility(View.GONE);
             findViewById(R.id.sign_out_field).setVisibility(View.GONE);
-            findViewById(R.id.update_carpool_field).setVisibility(View.GONE);
+
         }
         hideProgressDialog();
     }
@@ -192,6 +190,7 @@ public class ProfileActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         mTextViewProfile.setTextColor(Color.DKGRAY);
                         mTextViewProfile.setText(getString(R.string.updated, "User password"));
+
                     } else {
                         mTextViewProfile.setTextColor(Color.RED);
                         mTextViewProfile.setText(task.getException().getMessage());
@@ -251,10 +250,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edt.setError("Invalid.");
             return false;
-        } else if(!mEditTextEmail.equals(mEditTextEmail2)){
-            edt.setError("Emails must match.");
-            return false;
-        } else {
+        }  else {
             edt.setError(null);
             return true;
         }
@@ -262,36 +258,36 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean validatePassword() {
 
-        if (TextUtils.isEmpty(mEditTextPassword.toString())) {
+        String password = mEditTextPassword.getText().toString();
+        String password2 = mEditTextPassword2.getText().toString();
+
+        if (TextUtils.isEmpty(password)) {
             mEditTextPassword.setError("Please Enter a Valid Password");
             return false;
         }
-        if (TextUtils.isEmpty(mEditTextPassword2.toString())) {
+        else if (TextUtils.isEmpty(password2)) {
             mEditTextPassword2.setError("Please Enter a Valid Password");
             return false;
         }
-        if (mEditTextPassword.length()<8){
+        else if (password.length()<8){
             mEditTextPassword.setError("Password Must Be Longer Than 8 Characters");
             return false;
         }
-        if (!mEditTextPassword.equals(mEditTextPassword2)){
+        else if (!(password).equals(password2)){
             mEditTextPassword.setError("Passwords Do Not Match!");
             return false;
         }
         else {
-            mEditTextPassword.setError(null);
             return true;
         }
     }
 
     private void initializeUI(){
         mEditTextEmail = findViewById(R.id.field_email);
-        mEditTextEmail2 = findViewById(R.id.field_email2);
         mEditTextPassword = findViewById(R.id.field_password);
         mEditTextPassword2 = findViewById(R.id.field_password2);
         mTextViewProfile = findViewById(R.id.profile);
 
-        updateCarpoolBtn = findViewById(R.id.update_carpool_button);
         updateEmailBtn = findViewById(R.id.update_email_button);
         updatePasswordBtn = findViewById(R.id.update_password_button);
         deleteBtn = findViewById(R.id.delete_button);
