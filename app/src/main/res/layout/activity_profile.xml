@@ -68,10 +68,41 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/update_email_fields"
+            android:id="@+id/share_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/status_field"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share CarPool"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/share_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share"
+                android:theme="@style/ThemeOverlay.MyDarkButton"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/update_email_fields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/share_field"
             android:orientation="vertical">
 
             <View
