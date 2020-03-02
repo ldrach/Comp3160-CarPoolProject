@@ -32,8 +32,19 @@ public class populateListAdapterItems  {
         String[] subtitle= new String[numOfUsers-1];
         for (int index = 1;index<numOfUsers;index++)
         {
-            subtitle[index-1] = userList.get(index).id;
+            subtitle[index-1] = String.valueOf(userList.get(index).driveCount);
         }
         return subtitle;
     }
+
+//    public static String[] populateSubTitle(ArrayList<User> userList) {
+//        int numOfUsers = userList.size();
+//
+//        String[] subtitle= new String[numOfUsers-1];
+//        for (int index = 1;index<numOfUsers;index++)
+//        {
+//            subtitle[index-1] = userList.get(index).id;
+//        }
+//        return subtitle;
+//    }
 }

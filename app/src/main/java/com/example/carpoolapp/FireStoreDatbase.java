@@ -89,6 +89,7 @@ public class FireStoreDatbase {
                     }
                     });
 
+        //TODO add the carpool to the new users list of carpools
 //        //this is used to put a users id in the document within the CarPools document
 //        userIditem.put("userID",user.id);
 //        //this has to be changed

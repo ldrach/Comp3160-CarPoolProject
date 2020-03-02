@@ -313,7 +313,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void launchCarpoolSelect(FirebaseUser user) {
-
+//        //Clear users carpools and add one (for testing)
+//        FireStoreDatbase fsd =new FireStoreDatbase();
+//        User use = new User(user.getUid(),"Shane","s");
+//        fsd.createCarpool(use);
 
         //create a User object from the FirebaseUser
         final User appUser = new User(user.getUid(), "firstName", "LastName");

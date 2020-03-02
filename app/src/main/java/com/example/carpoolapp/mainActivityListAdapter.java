@@ -1,7 +1,6 @@
 package com.example.carpoolapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import java.util.ArrayList;
 
 public class mainActivityListAdapter extends ArrayAdapter<String> {
 
@@ -20,12 +18,16 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
     private final String[] subtitle;
     private final Integer[] imgid;
 
-    public mainActivityListAdapter(Activity context, String[] maintitle,String[] subtitle, Integer[] imgid) {
+    public mainActivityListAdapter(Activity context, String[] maintitle,String[] driveCount, Integer[] imgid) {
         super(context, R.layout.list_item, maintitle);
+
+        ArrayList<String[]> array = new ArrayList<>();
+       //TODO sort items
+        // array.add(driveCount);
 
         this.context=context;
         this.maintitle=maintitle;
-        this.subtitle=subtitle;
+        this.subtitle=driveCount;
         this.imgid=imgid;
     }
 
@@ -44,4 +46,23 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
         return rowView;
 
     };
+//    public static void sortbyColumn(int[][] arr, int col)
+//    {
+//        // Using built-in sort function Arrays.sort
+//        Arrays.sort(arr, new Comparator<int[]>() {
+//
+//            @Override
+//            // Compare values according to columns
+//            public int compare(final int[] entry1,
+//                               final int[] entry2) {
+//
+//                // To sort in descending order revert
+//                // the '>' Operator
+//                if (entry1[col] > entry2[col])
+//                    return 1;
+//                else
+//                    return -1;
+//            }
+//        });  // End of function call sort().
+//    }
 }

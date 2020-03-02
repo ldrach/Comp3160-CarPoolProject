@@ -23,13 +23,16 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     ArrayList<ArrayList<Object>> carpoolsList = new ArrayList<>();
 
     //this sets up the values for the list view
+    //---
     ListView carPoolList;
     String[] buttonTextArray ;
-
+    //array for displaying names in carpoolselects carpools
+    ArrayList<ArrayList<String>> usersArray;
+    //----
     FloatingActionButton addCarpoolFAButton;
     FireStoreDatbase fsd = new FireStoreDatbase();
 
-    //----
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +53,16 @@ public class CarpoolSelectActivity extends AppCompatActivity {
 
         //----this code sets up an adapter for the list view
         buttonTextArray =PopulateCarPoolSelectListAdapterItems.populateCarpools(carpoolsList);
+        usersArray = PopulateCarPoolSelectListAdapterItems.populateUsers(carpoolsList);
 
-        CarPoolSelectListAdapter adapter=new CarPoolSelectListAdapter(this, buttonTextArray);
+        CarPoolSelectListAdapter adapter=new CarPoolSelectListAdapter(this, buttonTextArray,usersArray);
         carPoolList=(ListView)findViewById(R.id.carPoolSelectListView);
         carPoolList.setAdapter(adapter);
         //----
 
 
         //populate buttons (test)
-        carPoolButton1=findViewById(R.id.button1);
+        //carPoolButton1=findViewById(R.id.button1);
         addCarpoolFAButton = findViewById(R.id.floatingActionButton);
 
         try {
@@ -72,29 +76,29 @@ public class CarpoolSelectActivity extends AppCompatActivity {
 
 
         //test "user opens first carpool"
-carPoolButton1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-
-                //send extras
-                Intent intent = new Intent(CarpoolSelectActivity.this,MainActivity.class);
-                intent.putExtra("User",appUser);
-                //send carpool id
-                intent.putExtra("carPoolID",appUser.carPools.get(0));
-                //send carpool userIDs List
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("UserIDList", dataBase.totalUserList.get(0));
-                intent.putExtras(bundle);
-                //intent.putParcelableArrayListExtra("UserIDList",dataBase.totalUserList.get(0));
-                //----
-
-                CarpoolSelectActivity.this.startActivity(intent);
-
-                // currentContext.startActivity(activityChangeIntent);
-
-
-            }
-        });
+//carPoolButton1.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                // Perform action on click
+//
+//                //send extras
+//                Intent intent = new Intent(CarpoolSelectActivity.this,MainActivity.class);
+//                intent.putExtra("User",appUser);
+//                //send carpool id
+//                intent.putExtra("carPoolID",appUser.carPools.get(0));
+//                //send carpool userIDs List
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("UserIDList", dataBase.totalUserList.get(0));
+//                intent.putExtras(bundle);
+//                //intent.putParcelableArrayListExtra("UserIDList",dataBase.totalUserList.get(0));
+//                //----
+//
+//                CarpoolSelectActivity.this.startActivity(intent);
+//
+//                // currentContext.startActivity(activityChangeIntent);
+//
+//
+//            }
+//        });
 
         // list adapter on click
         carPoolList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
