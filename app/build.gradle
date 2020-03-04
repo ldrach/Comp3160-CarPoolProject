@@ -45,4 +45,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation "com.google.firebase:firebase-auth:19.2.0"
 
+    //for Room(from Jetpack)
+    def room_version = "2.2.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+    implementation 'androidx.navigation:navigation-fragment:2.2.1'
+    implementation 'androidx.navigation:navigation-ui:2.2.1'
 }

@@ -26,4 +26,14 @@
     <string name="updated">%s updated.</string>
     <string name="signed_out">Signed Out</string>
 
+<!--Log-->
+    <string name="account_detail">Setting</string>
+    <string name="account_history">Log</string>
+    <string name="account_logout">Log Out</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="profile_name">User Name</string>
+    <string name="profile_account">Account</string>
+    <string name="profile_password_change">Change Password</string>
+    <string name="log_cell">Log Docs</string>
+
 </resources>

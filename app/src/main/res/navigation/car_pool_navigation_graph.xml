@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/car_pool_navigation_graph"
+    app:startDestination="@id/carPoolProfileFragment">
+
+    <fragment
+        android:id="@+id/carPoolProfileFragment"
+        android:name="com.example.carpoolapp.CarPoolProfileFragment"
+        android:label="fragment_car_pool_profile"
+        tools:layout="@layout/fragment_car_pool_profile" >
+        <action
+            android:id="@+id/action_carPoolProfileFragment_to_carPoolProfileAccountDetailFragment"
+            app:destination="@id/carPoolProfileAccountDetailFragment" />
+        <action
+            android:id="@+id/action_carPoolProfileFragment_to_carPoolLogFragment"
+            app:destination="@id/carPoolLogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carPoolLogFragment"
+        android:name="com.example.carpoolapp.CarPoolLogFragment"
+        android:label="fragment_car_pool_log"
+        tools:layout="@layout/fragment_car_pool_log" >
+        <action
+            android:id="@+id/action_carPoolLogFragment_to_carPoolProfileFragment"
+            app:destination="@id/carPoolProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carPoolProfileAccountDetailFragment"
+        android:name="com.example.carpoolapp.CarPoolProfileAccountDetailFragment"
+        android:label="fragment_car_pool_profile_account_detail"
+        tools:layout="@layout/fragment_car_pool_profile_account_detail" >
+        <action
+            android:id="@+id/action_carPoolProfileAccountDetailFragment_to_carPoolProfileFragment"
+            app:destination="@id/carPoolProfileFragment" />
+    </fragment>
+</navigation>
