@@ -26,4 +26,9 @@
     <string name="updated">%s updated.</string>
     <string name="signed_out">Signed Out</string>
 
+    <!--AppBar-->
+    <string name="action_settings">Settings</string>
+    <string name="action_logs">Logs</string>
+    <string name="action_home">Home</string>
+
 </resources>
