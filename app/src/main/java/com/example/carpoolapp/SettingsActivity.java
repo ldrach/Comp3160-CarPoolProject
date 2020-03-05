@@ -21,9 +21,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ProfileActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
-    private static final String TAG = "ProfileActivity";
+    private static final String TAG = "SettingsActivity";
     private EditText mEditTextEmail, mEditTextPassword, mEditTextPassword2;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_settings);
 
         mEditTextEmail = findViewById(R.id.field_email);
         mEditTextPassword = findViewById(R.id.field_password);
@@ -91,14 +91,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final FirebaseUser user = mAuth.getCurrentUser();
-                AlertDialog.Builder alert = new AlertDialog.Builder(ProfileActivity.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(SettingsActivity.this);
                 alert.setMessage("Delete " + user.getEmail() + "?");
                 alert.setCancelable(false);
                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteUser(user);
-                        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -227,7 +227,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 mAuth.signOut();
                 updateUI(null);
-                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
