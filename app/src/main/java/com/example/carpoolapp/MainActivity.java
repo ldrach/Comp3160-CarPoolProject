@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<User> carpoolUsersList = new ArrayList<User>();
 
 
-    //this sets up the values for the list view
+    //this sets up the values for the list view (for testing)
     ListView list;
     String[] maintitle = {
             "Title 1", "Title 2",
@@ -57,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
             imgid = populateListAdapterItems.populateIcon(carpoolUsersList.size() - 1);
             maintitle = populateListAdapterItems.populateMainTitle(carpoolUsersList);
             driveCount = populateListAdapterItems.populateSubTitle(carpoolUsersList);
-
-            //create a displayable user list
-
 
             int stopint = 1;
         } else {
