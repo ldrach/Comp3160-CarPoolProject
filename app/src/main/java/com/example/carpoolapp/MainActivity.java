@@ -4,12 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button myButton;
     //curent user, curent carpool to display
-    public User appUser;
+    /*public User appUser;
     String carPoolID;
     ArrayList<User> carpoolUsersList = new ArrayList<User>();
 
@@ -46,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         //get user object from previous activity, gets carpoolID, gets users in carpool
         //---
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         if (intent.hasExtra("User")) {
             appUser = (User) getIntent().getSerializableExtra("User");
             carPoolID = getIntent().getStringExtra("carPoolID");
@@ -61,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             int stopint = 1;
         } else {
             runTestCode();
-        }
+        }*/
         //---
 
 
@@ -83,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 // currentContext.startActivity(activityChangeIntent);
 
 
+                Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -122,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         //intent.putExtra("User",appUser);
         //MainActivity.this.startActivity(intent);
     }
+*/
 
 
 }

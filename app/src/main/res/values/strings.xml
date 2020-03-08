@@ -14,11 +14,16 @@
     <string name="sign_out">Sign Out</string>
     <string name="loading">Loading…</string>
 
+<!-- Create Account-->
     <string name="create_a_password_hint">Create A Password</string>
     <string name="create_account">Create An Account</string>
     <string name="create_email">Email</string>
     <string name="re_enter_password">Re-enter Password</string>
     <string name="cancel">Cancel</string>
 
+<!--Profile-->
+    <string name="logout">Logout Successful!</string>
+    <string name="updated">%s updated.</string>
+    <string name="signed_out">Signed Out</string>
 
 </resources>

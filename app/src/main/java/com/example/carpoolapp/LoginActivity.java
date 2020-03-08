@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -62,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         mEdtEmail = findViewById(R.id.emailEditText);
         mEdtPassword = findViewById(R.id.passwordEditText);
         signInBtn = findViewById(R.id.email_sign_in_button);
-        findViewById(R.id.login_create_account_button);
+        createAccountBtn = findViewById(R.id.login_create_account_button);
 
         initializeUI();
 
@@ -193,6 +196,7 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                     Toast.makeText(LoginActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -221,7 +225,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-
+                            finish();
                             Toast.makeText(LoginActivity.this, "User Signed In", Toast.LENGTH_SHORT).show();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -255,7 +259,9 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-                        } else {
+                            finish();
+                        }
+                        else{
                             Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG).show();
                         }
                         hideProgressDialog();
@@ -275,16 +281,15 @@ public class LoginActivity extends AppCompatActivity {
     //Checks if there is a current user
     private void updateUI(FirebaseUser user) {
 
-
-        if (user != null) {
+        if(user != null){
             hideProgressDialog();
-
-            //launches carpool select if there is a user
-            launchCarpoolSelect(user);
-
-            //  startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
             //Starts main activity if there is a current user
-        } else {
+            //launches carpool select if there is a user
+            //launchCarpoolSelect(user);
+
+        }
+        else {
             //Does nothing if there is no current user
         }
     }
