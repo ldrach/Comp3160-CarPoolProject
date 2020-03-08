@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -75,10 +76,12 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final FirebaseUser user = mAuth.getCurrentUser();
+                showProgressDialog();
                 if (validateEmail(mEditTextEmail)) {
                     updateEmail(user);
                     updateUI(user);
                 }
+                hideProgressDialog();
             }
         });
 
@@ -104,9 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteUser(user);
-                        Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -122,7 +123,6 @@ public class SettingsActivity extends AppCompatActivity {
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final FirebaseUser user = mAuth.getCurrentUser();
                 signOut();
             }
         });
@@ -176,11 +176,12 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    mTextViewProfile.setTextColor(Color.DKGRAY);
-                    mTextViewProfile.setText(getString(R.string.updated, "User email"));
+                    Toast.makeText(SettingsActivity.this, "Email Updated",
+                            Toast.LENGTH_SHORT).show();
+
                 } else {
-                    mTextViewProfile.setTextColor(Color.RED);
-                    mTextViewProfile.setText(task.getException().getMessage());
+                    Toast.makeText(SettingsActivity.this, "Something Went Wrong!",
+                            Toast.LENGTH_SHORT).show();
                 }
                 hideProgressDialog();
             }
@@ -194,12 +195,12 @@ public class SettingsActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     if (task.isSuccessful()) {
-                        mTextViewProfile.setTextColor(Color.DKGRAY);
-                        mTextViewProfile.setText(getString(R.string.updated, "User password"));
+                        Toast.makeText(SettingsActivity.this, "Password Updated",
+                                Toast.LENGTH_SHORT).show();
 
                     } else {
-                        mTextViewProfile.setTextColor(Color.RED);
-                        mTextViewProfile.setText(task.getException().getMessage());
+                        Toast.makeText(SettingsActivity.this, "Something Went Wrong!",
+                                Toast.LENGTH_SHORT).show();
                     }
                     hideProgressDialog();
                 }
@@ -213,8 +214,12 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    mTextViewProfile.setTextColor(Color.DKGRAY);
-                    mTextViewProfile.setText("User account deleted.");
+                    updateUI(null);
+                    Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Toast.makeText(SettingsActivity.this, "Account Deleted",
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     mTextViewProfile.setTextColor(Color.RED);
                     mTextViewProfile.setText(task.getException().getMessage());
@@ -236,7 +241,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-
+                finish();
             }
         });
         alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
