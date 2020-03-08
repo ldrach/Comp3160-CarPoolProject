@@ -88,32 +88,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/FBButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/email_password_buttons"
-        android:orientation="horizontal">
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/fb_login_button"
-            style="@style/CustomLogoImageView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textAlignment="center" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/GoogleButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/FBButton"
+        android:layout_below="@+id/email_password_buttons"
         android:orientation="horizontal">
 
         <com.google.android.gms.common.SignInButton

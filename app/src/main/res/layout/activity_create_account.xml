@@ -22,9 +22,42 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fname_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <EditText
+                android:id="@+id/create_edt_fname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="First Name"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lname_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <EditText
+                android:id="@+id/create_edt_lname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/create_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
 
             <EditText
                 android:id="@+id/create_edt_email"
@@ -32,8 +65,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/create_email"
                 android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:text="1@gmail.com" />
+                android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,6 +73,7 @@
             android:id="@+id/create_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -49,8 +82,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/create_a_password_hint"
                 android:inputType="textPassword"
-                android:maxLines="1"
-                android:text="12345678" />
+                android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,6 +90,10 @@
             android:id="@+id/create_password2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -66,8 +102,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/re_enter_password"
                 android:inputType="textPassword"
-                android:maxLines="1"
-                android:text="12345678" />
+                android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,7 +119,8 @@
             android:id="@+id/create_cancel_button"
             style="@android:style/Widget.Material.Button.Colored"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:text="@string/cancel"
             android:textSize="14sp"
@@ -92,11 +128,13 @@
 
         <Button
             android:id="@+id/crt_create_account_button"
-            style="@style/Widget.AppCompat.Button.Colored"
+            style="@android:style/Widget.Material.Button.Colored"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:text="@string/create_account"
+            android:textSize="14sp"
             android:theme="@style/ThemeOverlay.MyDarkButton" />
 
     </LinearLayout>
