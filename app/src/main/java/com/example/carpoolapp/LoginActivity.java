@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -283,10 +280,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if(user != null){
             hideProgressDialog();
-            startActivity(new Intent(this, MainActivity.class));
+           // startActivity(new Intent(this, MainActivity.class));
+
             //Starts main activity if there is a current user
             //launches carpool select if there is a user
-            //launchCarpoolSelect(user);
+            launchCarpoolSelect(user);
 
         }
         else {
