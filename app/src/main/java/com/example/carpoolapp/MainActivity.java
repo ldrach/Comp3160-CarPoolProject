@@ -2,6 +2,8 @@ package com.example.carpoolapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -117,7 +119,30 @@ public class MainActivity extends AppCompatActivity {
         //MainActivity.this.startActivity(intent);
     }
 */
+    /*Sets up Toolbar*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuItem = item.getItemId();
+        switch(menuItem) {
+            case R.id.action_settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.action_logs:
+                // Uncomment once Log Activity is complete
+                // Intent intent = new Intent(SettingsActivity.this, LogActivity.class);
+                // startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

@@ -331,4 +331,5 @@ public class LoginActivity extends AppCompatActivity {
         //launch activity with user
 
     }*/
+
 }

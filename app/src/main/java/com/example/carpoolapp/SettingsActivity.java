@@ -1,4 +1,5 @@
 package com.example.carpoolapp;
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,14 +13,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toolbar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -30,15 +33,14 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView mTextViewProfile;
     private Button updateEmailBtn, updatePasswordBtn, deleteBtn, signOutBtn;
     private ProgressDialog mProgressDialog;
-    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        toolbar = findViewById(R.id.tbSettings);
-        setActionBar(toolbar);
+
 
         mEditTextEmail = findViewById(R.id.field_email);
         mEditTextPassword = findViewById(R.id.field_password);
@@ -315,7 +317,7 @@ public class SettingsActivity extends AppCompatActivity {
 /*Sets up Toolbar*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.settings, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

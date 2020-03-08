@@ -4,24 +4,19 @@
 <ScrollView
     style="@style/CustomRelativeLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scrollbarStyle="outsideOverlay">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tbSettings"
-            layout="@layout/appbar"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
 
         <TextView
             android:id="@+id/title_profile"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tbSettings"
             android:text="Title"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"/>
@@ -102,7 +97,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:checked="true"
-                android:showText="true"
+                android:showText="false"
                 android:text="Push Notifications" />
 
         </LinearLayout>
