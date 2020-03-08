@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     //for database
 
-    Button myButton;
+
     //curent user, curent carpool to display
-    /*public User appUser;
+    public User appUser;
     String carPoolID;
     ArrayList<User> carpoolUsersIDList = new ArrayList<User>();
 
@@ -30,19 +33,20 @@ public class MainActivity extends AppCompatActivity {
     };
     Integer[] imgid={
             R.drawable.icon_1,R.drawable.icon_1,R.drawable.icon_1,R.drawable.icon_1,R.drawable.icon_1,
-    };*/
-    //----
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myButton = findViewById(R.id.button4);
+
+
 
         //get user object from previous activity, gets carpoolID, gets users in carpool
         //---
-        /*Intent intent = getIntent();
+        Intent intent = getIntent();
         if (intent.hasExtra("User")) {
             appUser = (User) getIntent().getSerializableExtra("User");
             carPoolID = getIntent().getStringExtra("carPoolID");
@@ -57,37 +61,22 @@ public class MainActivity extends AppCompatActivity {
             int stopint = 1;
         } else {
             runTestCode();
-        }*/
+        }
         //---
 
 
         //----this code sets up an adapter for the list view
-      /*  mainActivityListAdapter adapter=new mainActivityListAdapter(this, maintitle, subtitle,imgid);
+        mainActivityListAdapter adapter=new mainActivityListAdapter(this, maintitle, subtitle,imgid);
         list=(ListView)findViewById(R.id.list);
-        list.setAdapter(adapter);*/
+        list.setAdapter(adapter);
         //----
 
 
 
 
-        //this tests the carpool select activity
-        myButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-//                Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
-//                intent.putExtra("User", (Serializable) appUser);
-//                MainActivity.this.startActivity(intent);
-
-                // currentContext.startActivity(activityChangeIntent);
-
-
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
     }
     //this class is used for testing
-    /*private void runTestCode()
+    private void runTestCode()
     {
 
         appUser = new User("0sz0p9YCrTh4gV6hv0vvukzNwYf1","Shane","s");
@@ -98,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // dataBase.createCarpool(appUser);
-        // dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
+         dataBase.createCarpool(appUser);
+         //dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
 
         appUser.getCarpoolList(db);
 
@@ -112,13 +101,12 @@ public class MainActivity extends AppCompatActivity {
         // newUser =
         //dataBase.getUserProfile("123456789");
         int stopint =1;
-        //FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        //Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
-        //intent.putExtra("User",appUser);
-        //MainActivity.this.startActivity(intent);
+        Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
+        intent.putExtra("User",appUser);
+        MainActivity.this.startActivity(intent);
     }
-*/
     /*Sets up Toolbar*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
