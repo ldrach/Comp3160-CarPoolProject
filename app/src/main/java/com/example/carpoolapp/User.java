@@ -46,7 +46,7 @@ public class User implements Serializable {
         this.driveCount = generate.nextInt(20);
     }
 
-    public User(String id, String firstName, String lastName) {
+    public User(String id, String firstName , String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -73,6 +73,7 @@ public class User implements Serializable {
     {
         //get curent carpool list
         this.getCarpoolList(db);
+        //TODO need to fix asynk issue here
         this.carPools.add(carpoolString);
         db.collection("users").document(this.id)
                 .set(this);

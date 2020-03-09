@@ -11,10 +11,9 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
 
 public class CarpoolSelectActivity extends AppCompatActivity {
     Button carPoolButton1;
@@ -131,6 +130,8 @@ public class CarpoolSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"New Carpool Created " , Toast.LENGTH_LONG).show();
+                String userID  =(String)((HashMap) (carpoolsList.get(0).get(0))).get("userID");
+                appUser = new User(userID, "noname","noname");
                 fsd.createCarpool(appUser);
 
                 //restart activity

@@ -1,6 +1,7 @@
 package com.example.carpoolapp;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class PopulateCarPoolSelectListAdapterItems {
     public static String[] populateCarpools(ArrayList<ArrayList<Object>> carPools)
@@ -10,7 +11,7 @@ public class PopulateCarPoolSelectListAdapterItems {
         String[] carpoolIDs= new String[carPoolSize];
         for (int index = 0;index<carPoolSize;index++)
         {
-            carpoolIDs[index] = (String) carPools.get(index).get(0);
+            carpoolIDs[index] =(String) ((Map<String, Object>) (carPools.get(index)).get(0)).get("carpoolID");;
         }
         return carpoolIDs;
     }

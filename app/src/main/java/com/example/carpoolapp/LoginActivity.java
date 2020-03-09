@@ -36,6 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEdtEmail, mEdtPassword;
     private ProgressDialog mProgressDialog;
     private CallbackManager mCallbackManager;
+
+    //needed for launching carpool select
+    private static User appUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -322,7 +326,7 @@ public class LoginActivity extends AppCompatActivity {
 //        fsd.createCarpool(use);
 
         //create a User object from the FirebaseUser
-        final User appUser = new User(user.getUid(), "firstName", "LastName");
+           appUser = new User(user.getUid(), "firstName", "LastName");
         final ArrayList<ArrayList<Object>> totalUserList = new ArrayList<>();
 
         getUsersCarpoolList(appUser.id, new FirestoreCallback() {
@@ -383,7 +387,12 @@ public class LoginActivity extends AppCompatActivity {
                         //---
                         final ArrayList<Object> userList = new ArrayList<Object>();
 
-                        userList.add(userIDs.get(0));
+                        //adds carpool info (users id and carpools id)
+                        Map<String, Object> info = new HashMap<>();
+                        info.put("userID",appUser.id);
+                        info.put("carpoolID",userIDs.get(0));
+                        userList.add(info);
+
                         final int userIdListLength = userIDs.size();
                         // the first item is the carpoolID not a userID but we still ned it
                         for (int index = 1; index < userIdListLength; index++) {
