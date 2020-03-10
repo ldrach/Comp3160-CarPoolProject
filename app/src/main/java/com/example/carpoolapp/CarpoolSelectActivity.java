@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,8 +40,9 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         setContentView(R.layout.content_carpool_select);
 
 
-        //get user object from previous activity
+        //get carpools object from previous activity
         carpoolsList = (ArrayList<ArrayList<Object>>) getIntent().getSerializableExtra("Carpools");
+        appUser = (User) getIntent().getSerializableExtra("user");
 
         //get carpool userIDs for the query
         final FireStoreDatbase dataBase = new FireStoreDatbase();
@@ -130,8 +130,8 @@ public class CarpoolSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"New Carpool Created " , Toast.LENGTH_LONG).show();
-                String userID  =(String)((HashMap) (carpoolsList.get(0).get(0))).get("userID");
-                appUser = new User(userID, "noname","noname");
+                //String userID  =(String)((HashMap) (carpoolsList.get(0).get(0))).get("userID");
+                //appUser = new User(userID, "noname","noname");
                 fsd.createCarpool(appUser);
 
                 //restart activity

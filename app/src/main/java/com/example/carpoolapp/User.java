@@ -1,5 +1,6 @@
 package com.example.carpoolapp;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
 
 //this class is used to hold user information
 public class User implements Serializable {
@@ -71,15 +74,32 @@ public class User implements Serializable {
     //used to add a carpool to a users list of carpools
     public void updateCarpoolList(String carpoolString, FirebaseFirestore db)
     {
+        final User instance = this;
+        final FirebaseFirestore accesableDB = db;
+
+        final String AcceableCarpoolString = carpoolString;
+        final String accesableID = this.id;
         //get curent carpool list
-        this.getCarpoolList(db);
-        //TODO need to fix asynk issue here
-        this.carPools.add(carpoolString);
-        db.collection("users").document(this.id)
-                .set(this);
+        this.getCarpoolList(db, new UsersCarpoolListCallback() {
+                    @Override
+                    public void oncallback(List<String> carpoolList) {
+                        //add and write new carpool
+                        instance.carPools.add(AcceableCarpoolString);
+                        accesableDB.collection("users").document(accesableID)
+                                .set(instance).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                int stopint = 0;
+                            }
+                        });
+                    }
+                }
+        );
+
     }
+
     //gets users carpool list
-    public void getCarpoolList(FirebaseFirestore db)
+    public void getCarpoolList(FirebaseFirestore db , final UsersCarpoolListCallback callback)
     {
         db.collection("users").document(id)
                 .get()
@@ -88,6 +108,7 @@ public class User implements Serializable {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         User myuser = documentSnapshot.toObject(User.class);
                         carPools = myuser.carPools;
+                        callback.oncallback(carPools);
                         int stopint =1;
                     }
 
@@ -95,6 +116,10 @@ public class User implements Serializable {
                 }
                 );
 
+    }
+    private interface UsersCarpoolListCallback
+    {
+        void oncallback(List<String> carpoolList);
     }
 
 

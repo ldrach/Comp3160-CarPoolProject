@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -336,6 +337,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 final int carpoolListLength = userList.get(0).carPools.size() - 1;
+               //if no carpools
+                if(carpoolListLength ==-1)
+                {
+                    Intent intent = new Intent(LoginActivity.this, CarpoolSelectActivity.class);
+                    intent.putExtra("Carpools", (Serializable) totalUserList);
+                    intent.putExtra("user", (Serializable) appUser);
+                    LoginActivity.this.startActivity(intent);
+                }
                 for (int i = 0; i <= carpoolListLength; i++) {
                     getUsersInCarpool(carpoolListLength, userList.get(0).carPools.get(i), new FirestoreCallback() {
                         @Override
@@ -351,6 +360,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (totalUserList.size() == carpoolListLength + 1) {
                                 Intent intent = new Intent(LoginActivity.this, CarpoolSelectActivity.class);
                                 intent.putExtra("Carpools", (Serializable) totalUserList);
+                                intent.putExtra("user", (Serializable) appUser);
                                 LoginActivity.this.startActivity(intent);
                             }
 
@@ -419,7 +429,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                         }
-                                    });
+
+                                    }
+                                    ).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    int stopint =1;
+                                }
+                            });
                         }
                         //---
                     }

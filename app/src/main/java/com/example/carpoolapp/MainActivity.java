@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         // dataBase.createCarpool(appUser);
         // dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
 
-        appUser.getCarpoolList(db);
+        //appUser.getCarpoolList(db);
 
 
         // get userIds in order to add a user
