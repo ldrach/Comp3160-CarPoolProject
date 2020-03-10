@@ -4,25 +4,26 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 public class CreateAccountActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     Button createAccountBtn, cancelBtn;
     private ProgressDialog mProgressDialog;
-    private EditText mEdtEmail, mEdtPassword, mEdtPassword2;
+    private EditText mEdtEmail, mEdtPassword, mEdtPassword2, mEdtFName, mEdtLName;
 
 
     @Override
@@ -30,11 +31,17 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        mEdtFName = findViewById(R.id.create_edt_fname);
+        mEdtLName = findViewById(R.id.create_edt_lname);
         mEdtEmail = findViewById(R.id.create_edt_email);
         mEdtPassword = findViewById(R.id.crt_password);
         mEdtPassword2 = findViewById(R.id.crt_password2);
         createAccountBtn = findViewById(R.id.crt_create_account_button);
         cancelBtn = findViewById(R.id.create_cancel_button);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -43,7 +50,13 @@ public class CreateAccountActivity extends AppCompatActivity {
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUser(mEdtEmail.getText().toString(), mEdtPassword.getText().toString(), mEdtPassword2.getText().toString());
+                String fname = mEdtFName.getText().toString();
+                String lname = mEdtLName.getText().toString();
+                String email = mEdtEmail.getText().toString();
+                String password = mEdtPassword.getText().toString();
+                String password2 = mEdtPassword2.getText().toString();
+
+                createUser(fname, lname, email, password, password2);
             }
         });
 
@@ -54,12 +67,27 @@ public class CreateAccountActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
-    private void createUser(String email, String password, String password2){
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
-        //Email and Password Validity checks
-        if(TextUtils.isEmpty(email)){
+    private void createUser(final String fname, final String lname, String email, String password, String password2){
+
+        //Validity checks
+        if(TextUtils.isEmpty(fname)) {
+            mEdtFName.setError("Please Enter a First Name");
+            return;
+        }
+        if(TextUtils.isEmpty(lname)){
+            mEdtLName.setError("Please Enter a Last Name");
+            return;
+        }
+        if(TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             mEdtEmail.setError("Please Enter a Valid Email");
             return;
         }
@@ -89,7 +117,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
 
                             //create a new user in the database
-                            User newUser = new User(task.getResult().getUser().getUid().toString(),"No-FirstName","No-LastName");
+                            User newUser = new User(task.getResult().getUser().getUid().toString(),fname,lname);
                             FireStoreDatbase fsdb = new FireStoreDatbase();
                             fsdb.writeUser(newUser);
 

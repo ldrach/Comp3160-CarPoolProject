@@ -2,6 +2,9 @@ package com.example.carpoolapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -13,10 +16,14 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     //for database
 
-    Button myButton;
+
     //curent user, curent carpool to display
     public User appUser;
     String carPoolID;
@@ -37,12 +44,14 @@ public class MainActivity extends AppCompatActivity {
     };
     //----
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myButton = findViewById(R.id.button4);
+
+
 
         //get user object from previous activity, gets carpoolID, gets users in carpool
         //---
@@ -104,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // dataBase.createCarpool(appUser);
-        // dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
+         dataBase.createCarpool(appUser);
+         //dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
 
         //appUser.getCarpoolList(db);
 
@@ -120,10 +129,34 @@ public class MainActivity extends AppCompatActivity {
         int stopint = 1;
         //FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        //Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
-        //intent.putExtra("User",appUser);
-        //MainActivity.this.startActivity(intent);
+        Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
+        intent.putExtra("User",appUser);
+        MainActivity.this.startActivity(intent);
     }
+    /*Sets up Toolbar*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuItem = item.getItemId();
+        switch(menuItem) {
+            case R.id.action_settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.action_logs:
+                // Uncomment once Log Activity is complete
+                // Intent intent = new Intent(SettingsActivity.this, LogActivity.class);
+                // startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
-
-

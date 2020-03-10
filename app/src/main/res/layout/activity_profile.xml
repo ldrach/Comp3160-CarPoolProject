@@ -2,7 +2,6 @@
 <ScrollView
     style="@style/CustomRelativeLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:scrollbarStyle="outsideOverlay">
 
     <RelativeLayout
@@ -34,14 +33,6 @@
             android:orientation="vertical"
             android:layout_marginTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Update Status"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"/>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -49,26 +40,20 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@android:color/darker_gray"/>
 
-            <RadioGroup
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checkedButton="@+id/first"
-                android:orientation="vertical">
-                <RadioButton
-                    android:id="@+id/first"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Active"/>
-                <RadioButton
-                    android:id="@+id/second"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Away"/>
-            </RadioGroup>
+                android:text="Blank Field"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
+
+
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/update_email_fields"
+            android:id="@+id/notification_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/status_field"
@@ -85,31 +70,17 @@
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update Email"
+                android:text="Blank Field"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"/>
-
-            <EditText
-                android:id="@+id/field_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="textEmailAddress"/>
-
-            <Button
-                android:id="@+id/update_email_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Update Email"
-                android:theme="@style/ThemeOverlay.MyDarkButton"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/update_password_fields"
+            android:id="@+id/share_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/update_email_fields"
+            android:layout_below="@id/notification_field"
             android:orientation="vertical">
 
             <View
@@ -123,79 +94,10 @@
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update Password"
+                android:text="Blank Field"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"/>
 
-            <EditText
-                android:id="@+id/field_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"/>
-
-            <EditText
-                android:id="@+id/field_password2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Confirm Password"
-                android:inputType="textPassword"/>
-
-            <Button
-                android:id="@+id/update_password_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Update Password"
-                android:theme="@style/ThemeOverlay.MyDarkButton"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/delete_fields"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/update_password_fields"
-            android:orientation="vertical">
-
-            <View
-                android:id="@+id/line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="@android:color/darker_gray"/>
-
-            <Button
-                android:id="@+id/delete_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/design_default_color_error"
-                android:text="Delete Account"
-                android:textColor="@android:color/background_light" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/sign_out_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/delete_fields"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="@android:color/darker_gray"/>
-
-            <Button
-                android:id="@+id/sign_out"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/design_default_color_primary_variant"
-                android:text="Sign Out"
-                android:textColor="@android:color/background_light" />
         </LinearLayout>
 
     </RelativeLayout>
