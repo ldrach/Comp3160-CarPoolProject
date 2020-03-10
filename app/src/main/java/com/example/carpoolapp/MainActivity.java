@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     //for database
 
-
+   // Button myButton;
     //curent user, curent carpool to display
     public User appUser;
     String carPoolID;
@@ -82,20 +82,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         //this tests the carpool select activity
-        myButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Intent intent = new Intent(MainActivity.this, CarpoolSelectActivity.class);
-                intent.putExtra("User", (Serializable) appUser);
-                MainActivity.this.startActivity(intent);
-
-                // currentContext.startActivity(activityChangeIntent);
-
-
-               // Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intent);
-            }
-        });
+//        myButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                // Perform action on click
+//                Intent intent = new Intent(MainActivity.this, CarpoolSelectActivity.class);
+//                intent.putExtra("User", (Serializable) appUser);
+//                MainActivity.this.startActivity(intent);
+//
+//                // currentContext.startActivity(activityChangeIntent);
+//
+//
+//               // Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void sort() {
