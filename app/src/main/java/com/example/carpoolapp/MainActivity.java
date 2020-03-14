@@ -1,24 +1,18 @@
 package com.example.carpoolapp;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     //for database
@@ -32,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     //this sets up the values for the list view (for testing)
     ListView list;
+    String[] weekDaysArray;
     String[] maintitle = {
             "Title 1", "Title 2",
     };
@@ -45,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     //----
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
             imgid = populateListAdapterItems.populateIcon(carpoolUsersList.size() - 1);
             maintitle = populateListAdapterItems.populateMainTitle(carpoolUsersList);
             driveCount = populateListAdapterItems.populateSubTitle(carpoolUsersList);
+            weekDaysArray = new String[14];
+            for (int i = 0; i < weekDaysArray.length; i++) {
+                weekDaysArray[i]="mon";
+            }
 
             int stopint = 1;
         } else {
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //----this code sets up an adapter for the list view
-        mainActivityListAdapter adapter = new mainActivityListAdapter(this, maintitle, driveCount, imgid);
+        mainActivityListAdapter adapter = new mainActivityListAdapter(this, maintitle, driveCount, imgid, weekDaysArray);
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
         //----
