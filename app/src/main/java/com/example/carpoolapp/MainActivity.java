@@ -1,8 +1,13 @@
 package com.example.carpoolapp;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -46,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
         //get user object from previous activity, gets carpoolID, gets users in carpool
         //---
         Intent intent = getIntent();
@@ -80,6 +82,21 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(adapter);
         //----
 
+        //this code is for scheduling the job that updates driveCount
+        SharedPreferences preferences = PreferenceManager.
+                getDefaultSharedPreferences(this);
+
+       // if(!preferences.getBoolean("firstRunComplete", false)) {
+            //schedule the job only once.
+            schedualJob();
+
+            //update shared preference
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("firstRunComplete", true);
+            editor.commit();
+      //  }
+        //------
+
 
         //this tests the carpool select activity
 //        myButton.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +115,17 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void sort() {
+    private void schedualJob() {
+        JobScheduler jobScheduler = (JobScheduler)getApplicationContext()
+                .getSystemService(JOB_SCHEDULER_SERVICE);
 
+        ComponentName componentName = new ComponentName(this,
+                Alarm.class);
+
+        JobInfo jobInfo = new JobInfo.Builder(1, componentName)
+                .setPeriodic(1*1000* 60*16).build();
+                //.setPersisted(true).build();
+        jobScheduler.schedule(jobInfo);
     }
 
     //this class is used for testing
