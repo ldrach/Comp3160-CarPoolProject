@@ -20,9 +20,10 @@ public class Alarm extends JobService {
 //    }
 
     @Override
-    public boolean onStartJob(JobParameters jobParameters) {
+    public boolean onStartJob(JobParameters jobParameters ) {
+        String userID = jobParameters.getExtras().getString("userID");
         UpdateDriveCount updateDriveCount = new UpdateDriveCount();
-        updateDriveCount.updateDriveCount(this);
+        updateDriveCount.updateDriveCount(this, userID);
 
 
         return false;

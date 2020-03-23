@@ -1,7 +1,13 @@
 package com.example.carpoolapp;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,6 +21,7 @@ import java.util.ArrayList;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CarpoolSelectActivity extends AppCompatActivity {
+    private static final String TAG = "CarpoolSelectActivity";
     Button carPoolButton1;
     Button carPoolButton2;
     Button carPoolButton3;
@@ -60,6 +67,11 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         carPoolList=(ListView)findViewById(R.id.carPoolSelectListView);
         carPoolList.setAdapter(adapter);
         //----
+
+        //this code is for scheduling the job that updates driveCount
+        schedualJob();
+
+        //------
 
 
         //populate buttons (test)
@@ -142,6 +154,57 @@ public class CarpoolSelectActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void schedualJob() {
+
+
+        JobScheduler jobScheduler = (JobScheduler)getApplicationContext()
+                .getSystemService(JOB_SCHEDULER_SERVICE);
+
+        jobScheduler.cancelAll();
+
+        if(checkForJob(1))
+            return;
+
+        ComponentName componentName = new ComponentName(this,
+                Alarm.class);
+
+        PersistableBundle bundle = new PersistableBundle();
+        bundle.putString("userID", appUser.id);
+
+        JobInfo jobInfo = new JobInfo.Builder(1, componentName)
+                .setPeriodic(1*1000* 60*60*3)
+                .setExtras(bundle)
+        .setPersisted(true).build();
+        jobScheduler.schedule(jobInfo);
+    }
+    private boolean checkForJob(int jobid)
+    {
+
+        JobScheduler scheduler = (JobScheduler) getApplicationContext().getSystemService( Context.JOB_SCHEDULER_SERVICE ) ;
+
+        boolean hasBeenScheduled = false ;
+
+        for ( JobInfo jobInfo : scheduler.getAllPendingJobs() ) {
+            if ( jobInfo.getId() == jobid ) {
+                hasBeenScheduled = true ;
+                break ;
+            }
+        }
+        return hasBeenScheduled ;
+
+    }
+    private void cancelAllJobs()
+    {
+        JobScheduler scheduler = (JobScheduler)
+                this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
+            // if (jobInfo.getId() == jobID) {
+            scheduler.cancel(jobInfo.getId());
+            Log.i(TAG,"Cancelled Job with ID:" + jobInfo.getId());
+            //}
+        }
     }
 
 

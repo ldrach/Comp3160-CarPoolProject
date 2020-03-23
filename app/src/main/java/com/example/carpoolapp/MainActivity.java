@@ -3,11 +3,11 @@ package com.example.carpoolapp;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivityTAG" ;
     //for database
 
    // Button myButton;
@@ -82,20 +83,7 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(adapter);
         //----
 
-        //this code is for scheduling the job that updates driveCount
-        SharedPreferences preferences = PreferenceManager.
-                getDefaultSharedPreferences(this);
 
-       // if(!preferences.getBoolean("firstRunComplete", false)) {
-            //schedule the job only once.
-            schedualJob();
-
-            //update shared preference
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("firstRunComplete", true);
-            editor.commit();
-      //  }
-        //------
 
 
         //this tests the carpool select activity
@@ -115,18 +103,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void schedualJob() {
-        JobScheduler jobScheduler = (JobScheduler)getApplicationContext()
-                .getSystemService(JOB_SCHEDULER_SERVICE);
 
-        ComponentName componentName = new ComponentName(this,
-                Alarm.class);
-
-        JobInfo jobInfo = new JobInfo.Builder(1, componentName)
-                .setPeriodic(1*1000* 60*16).build();
-                //.setPersisted(true).build();
-        jobScheduler.schedule(jobInfo);
-    }
 
     //this class is used for testing
     private void runTestCode() {
