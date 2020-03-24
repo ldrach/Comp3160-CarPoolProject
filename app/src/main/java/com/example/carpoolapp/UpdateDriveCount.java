@@ -10,6 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,9 @@ import static android.content.ContentValues.TAG;
 
 public class UpdateDriveCount {
 
-public ArrayList<ArrayList<Object>> totalUsers =new ArrayList<>();
+public ArrayList<ArrayList<User>> totalUsers =new ArrayList<>();
+public User curentUser;
+
     public void onCreate() {
 
     }
@@ -38,9 +42,24 @@ public ArrayList<ArrayList<Object>> totalUsers =new ArrayList<>();
 
         getusers(userId, new UserItemCallBack() {
                     @Override
-                    public void OnCallback(ArrayList<Object> itemList) {
-                        int stopint = 0;
+                    public void OnCallback(ArrayList<User> itemList) {
+
                         totalUsers.add(itemList);
+
+                        if(totalUsers.size() == curentUser.carPools.size())//finished geting users
+                        {
+                            int stopint = 0;
+                            for (ArrayList<User> list:totalUsers) {
+                                sortBasedOnDriveCount(list);
+
+                                if( curentUser.id.equals(list.get(0).id ))//if curentuser has the lowest drive count
+                                {
+                                    IncromentDriveCount();
+                                }
+                            }
+
+
+                        }
                     }
 
             @Override
@@ -48,28 +67,22 @@ public ArrayList<ArrayList<Object>> totalUsers =new ArrayList<>();
                 int stopint = 0;
             }
         });
+    }
 
 
+    private void IncromentDriveCount() {
 
-//                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("first", "Alan");
-//        db.collection("AlarmTest").document("test")
-//                .set(user)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d("Alarm:s", "DocumentSnapshot successfully written!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w("Alarm:s", "Error writing document", e);
-//                    }
-//                });
+    }
 
+    private void sortBasedOnDriveCount(ArrayList<User> list) {
+        Collections.sort(list, new Comparator <User>() {
+            @Override
+            public int compare(User user, User t1) {
+                if(user.driveCount == t1.driveCount) return user.firstName.compareTo(t1.firstName);
 
+                return Integer.compare(user.driveCount, t1.driveCount);
+            }
+        });
     }
     private void getusers(String userId, UserItemCallBack callBack)
     {
@@ -79,6 +92,7 @@ public ArrayList<ArrayList<Object>> totalUsers =new ArrayList<>();
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User myuser = documentSnapshot.toObject(User.class); //get users carpools
+                curentUser = myuser;
 
                 for (String carpoolID : myuser.carPools) {
                     db.collection("CarPools").document(carpoolID)
@@ -88,21 +102,24 @@ public ArrayList<ArrayList<Object>> totalUsers =new ArrayList<>();
                             Map userIDMap = documentSnapshot.getData(); // get users in carpool
                             List keys = new ArrayList(userIDMap.keySet());
 
-
+                            ArrayList<User> itemArrayList = new ArrayList<>();
                             for (int i = 1; i < userIDMap.size(); i++) {
                                 db.collection("CarPools").document((String) userIDMap.get(keys.get(0)))
                                         .collection((String) userIDMap.get(keys.get(i))).document((String) userIDMap.get(keys.get(i)))
                                         .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        User myuser = documentSnapshot.toObject(User.class); // get user info
+                                        User user = documentSnapshot.toObject(User.class); // get user info
                                        // userIDMap.get("0");
 
-                                        ArrayList<Object> itemArrayList = new ArrayList<>();
-                                        itemArrayList.add(myuser);
-                                        itemArrayList.add( userIDMap.get("0"));
+                                        user.carPools.add((String) userIDMap.get("0"));
+                                        itemArrayList.add(user);
 
-                                        callBack.OnCallback(itemArrayList);
+                                        if(itemArrayList.size() == userIDMap.size()-1)
+                                        {
+                                            callBack.OnCallback(itemArrayList);
+                                        }
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -132,12 +149,30 @@ public ArrayList<ArrayList<Object>> totalUsers =new ArrayList<>();
     }
     private interface UserItemCallBack
     {
-        void OnCallback(  ArrayList<Object> itemList );
+        void OnCallback(  ArrayList<User> itemList );
         void finished();
 
     }
 
 }
+
+//                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        Map<String, Object> user = new HashMap<>();
+//        user.put("first", "Alan");
+//        db.collection("AlarmTest").document("test")
+//                .set(user)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d("Alarm:s", "DocumentSnapshot successfully written!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w("Alarm:s", "Error writing document", e);
+//                    }
+//                });
 
 
 
