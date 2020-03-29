@@ -1,64 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/carPoolButton"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:text="Button"
+        android:focusable = "false"
+        android:focusableInTouchMode = "false"/>
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#2196F3"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
+        android:layout_width="280dp"
+        android:layout_height="67dp"
         android:text="TextView"
-        android:textSize="25sp" />
+        android:focusable = "false"
+        android:focusableInTouchMode = "false"/>
 
-    <TextView
-        android:id="@+id/user1TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="@dimen/_10dp"
-        android:layout_marginBottom="@dimen/_10dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/user2TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/user1TextView"
-        android:layout_margin="@dimen/_10dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/user3TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/user2TextView"
-        android:layout_margin="@dimen/_10dp"
-        android:text="TextView"
-        />
-
-    <TextView
-        android:id="@+id/user4TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/user3TextView"
-        android:layout_margin="@dimen/_10dp"
-        android:text="TextView" />
-
-    <Button
-        android:id="@+id/addUserButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="18dp"
-        android:text="Button"
-        android:focusable="false"
-        android:focusableInTouchMode="false"/>
-
-</RelativeLayout>
+</LinearLayout>

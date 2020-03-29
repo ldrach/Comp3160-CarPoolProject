@@ -1,7 +1,6 @@
 package com.example.carpoolapp;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,76 +9,45 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
-public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
+public class CarPoolSelectListAdapter  extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] buttonTextArray;
-    private final ArrayList<ArrayList<String>> usersArray;
 
-    FireStoreDatbase fsd = new FireStoreDatbase();
 
-    public CarPoolSelectListAdapter(Activity context, String[] buttonTextArray, ArrayList<ArrayList<String>> usersArray) {
-        super(context, R.layout.car_pool_select_list_item, buttonTextArray);
 
-        this.context = context;
+    public CarPoolSelectListAdapter(Activity context, String[] buttonTextArray) {
+        super(context,R.layout.car_pool_select_list_item, buttonTextArray);
+
+        this.context=context;
         this.buttonTextArray = buttonTextArray;
-        this.usersArray = usersArray;
 
     }
 
     public View getView(int position, View view, ViewGroup parent) {
-        LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.car_pool_select_list_item, null, true);
+        LayoutInflater inflater=context.getLayoutInflater();
+        View rowView=inflater.inflate(R.layout.car_pool_select_list_item, null,true);
 
-
-        //button for testing
-        final Button addUserButton = (Button) rowView.findViewById(R.id.addUserButton);
-
-        //textViews
+        final Button button = (Button) rowView.findViewById(R.id.carPoolButton);
         TextView tv = (TextView) rowView.findViewById(R.id.textView2);
-        tv.setText("Carpool " + (position + 1));
 
-        TextView user1Textview = (TextView) rowView.findViewById(R.id.user1TextView);
-        TextView user2Textview = (TextView) rowView.findViewById(R.id.user2TextView);
-        TextView user3Textview = (TextView) rowView.findViewById(R.id.user3TextView);
-        TextView user4Textview = (TextView) rowView.findViewById(R.id.user4TextView);
+        button.setText(buttonTextArray[position]);
 
-        //load textviews
-        try {
-            user1Textview.setText(usersArray.get(position).get(0));
-            user2Textview.setText(usersArray.get(position).get(1));
-            user3Textview.setText(usersArray.get(position).get(2));
-            user4Textview.setText(usersArray.get(position).get(3));
-        } catch (Exception e) {
-
-        }
-
-
-        //final index for button
-        final int accesablePosition = position;
-
-
-        //colors
-        if (position % 2 == 0) {
-            tv.setBackgroundColor(Color.parseColor("#F0A22D"));
-        } else {
-            tv.setBackgroundColor(Color.parseColor("#2196F3"));
-        }
-
-        addUserButton.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "AddUser", Toast.LENGTH_LONG).show();
-                User testUser = new User();
-                fsd.addUserToCarpool(testUser, buttonTextArray[accesablePosition]);
+                Toast.makeText(getContext() , "This is my Toast message!"+ button.getText(),Toast.LENGTH_LONG).show();
                 int stop = 1;
             }
         });
-        return rowView;
-    }
 
-    ;
+
+
+        return rowView;
+
+
+
+
+    };
 
 }

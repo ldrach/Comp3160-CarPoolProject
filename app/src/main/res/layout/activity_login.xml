@@ -12,17 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:scaleType="center"
-        android:src="@drawable/Logo"
-        tools:srcCompat="@drawable/Logo"
-        tools:visibility="visible" />
+        android:src="@drawable/logo" />
 
     <LinearLayout
         android:id="@+id/email_password_fields"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="#00FFFFFF"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -35,7 +31,6 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/edit_text_material"
                 android:hint="@string/emailHintLoginActivity"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress" />
@@ -76,7 +71,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:text="@string/sign_inLoginActivity"
-            android:theme="@style/ThemeOverlay.MyDarkButton" />
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/login_create_account_button"
@@ -88,7 +83,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:text="@string/create_account"
-            android:theme="@style/ThemeOverlay.MyDarkButton" />
+            android:textColor="@color/colorAccent" />
 
     </LinearLayout>
 
@@ -114,7 +109,7 @@
         android:id="@+id/signout_zone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logo"
+        android:layout_below="@id/profile"
         android:orientation="horizontal"
         android:visibility="gone">
 
