@@ -53,18 +53,23 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checkedButton="@+id/first"
+                android:checkedButton="@+id/activeStatus"
                 android:orientation="vertical">
+
                 <RadioButton
-                    android:id="@+id/first"
+                    android:id="@+id/activeStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Active"/>
+                    android:buttonTint="#B1ACAC"
+                    android:text="Active"
+                    android:textColorLink="@android:color/black" />
+
                 <RadioButton
-                    android:id="@+id/second"
+                    android:id="@+id/awayStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Away"/>
+                    android:buttonTint="#B1ACAC"
+                    android:text="Away" />
             </RadioGroup>
         </LinearLayout>
 
@@ -97,7 +102,9 @@
                 android:layout_centerHorizontal="true"
                 android:checked="true"
                 android:showText="false"
-                android:text="Push Notifications" />
+                android:text="Push Notifications"
+                android:thumbTint="#707070"
+                android:trackTint="#070000" />
 
         </LinearLayout>
 
@@ -259,7 +266,7 @@
                 android:id="@+id/sign_out"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/design_default_color_primary_variant"
+                android:background="@color/colorPrimary"
                 android:text="Sign Out"
                 android:textColor="@android:color/background_light" />
         </LinearLayout>
