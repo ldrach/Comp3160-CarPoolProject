@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -265,54 +262,66 @@ public class LoginActivity extends AppCompatActivity {
 //        User use = new User(user.getUid(),"Shane","s");
 //        fsd.createCarpool(use);
 
-        //create a User object from the FirebaseUser
-           appUser = new User(user.getUid(), "firstName", "LastName");
-        final ArrayList<ArrayList<Object>> totalUserList = new ArrayList<>();
-
-        getUsersCarpoolList(appUser.id, new FirestoreCallback() {
+        getCurentUser(user.getUid(), new getCurentUserCallback() {
             @Override
-            public void OnCallback(ArrayList<User> userList) { //userList is a list of the logged in user (list always has length of one)
-                Log.d(TAG, "complete");
+            public void onCallBack(User user) {
+                //create a User object from the FirebaseUser
+                appUser = new User(user.id, user.firstName, user.lastName);
 
 
-                final int carpoolListLength = userList.get(0).carPools.size() - 1;
-               //if no carpools
-                if(carpoolListLength ==-1)
-                {
-                    Intent intent = new Intent(LoginActivity.this, CarpoolSelectActivity.class);
-                    intent.putExtra("Carpools", (Serializable) totalUserList);
-                    intent.putExtra("user", (Serializable) appUser);
-                    LoginActivity.this.startActivity(intent);
-                }
-                for (int i = 0; i <= carpoolListLength; i++) {
-                    getUsersInCarpool(carpoolListLength, userList.get(0).carPools.get(i), new FirestoreCallback() {
-                        @Override
-                        public void OnCallback(ArrayList<User> userList) {
 
+                final ArrayList<ArrayList<Object>> totalUserList = new ArrayList<>();
+
+                getUsersCarpoolList(appUser.id, new FirestoreCallback() {
+                    @Override
+                    public void OnCallback(ArrayList<User> userList) { //userList is a list of the logged in user (list always has length of one)
+                        Log.d(TAG, "complete");
+
+
+                        final int carpoolListLength = userList.get(0).carPools.size() - 1;
+                        //if no carpools
+                        if(carpoolListLength ==-1)
+                        {
+                            Intent intent = new Intent(LoginActivity.this, CarpoolSelectActivity.class);
+                            intent.putExtra("Carpools", (Serializable) totalUserList);
+                            intent.putExtra("user", (Serializable) appUser);
+                            LoginActivity.this.startActivity(intent);
                         }
+                        for (int i = 0; i <= carpoolListLength; i++) {
+                            getUsersInCarpool(carpoolListLength, userList.get(0).carPools.get(i), new FirestoreCallback() {
+                                @Override
+                                public void OnCallback(ArrayList<User> userList) {
 
-                        @Override
-                        public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<Object>> totalCarpoolList) {
+                                }
 
-                            totalUserList.add(totalCarpoolList.get(0));
-                            //all the carpools are in and we can send it back to the listener
-                            if (totalUserList.size() == carpoolListLength + 1) {
-                                Intent intent = new Intent(LoginActivity.this, CarpoolSelectActivity.class);
-                                intent.putExtra("Carpools", (Serializable) totalUserList);
-                                intent.putExtra("user", (Serializable) appUser);
-                                LoginActivity.this.startActivity(intent);
-                            }
+                                @Override
+                                public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<Object>> totalCarpoolList) {
 
+                                    totalUserList.add(totalCarpoolList.get(0));
+                                    //all the carpools are in and we can send it back to the listener
+                                    if (totalUserList.size() == carpoolListLength + 1) {
+                                        Intent intent = new Intent(LoginActivity.this, CarpoolSelectActivity.class);
+                                        intent.putExtra("Carpools", (Serializable) totalUserList);
+                                        intent.putExtra("user", (Serializable) appUser);
+                                        LoginActivity.this.startActivity(intent);
+                                    }
+
+                                }
+                            });
                         }
-                    });
-                }
-            }
+                    }
 
-            @Override
-            public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<Object>> totalCarpoolList) {
+                    @Override
+                    public void OnCallbackTotalCarpoolList(ArrayList<ArrayList<Object>> totalCarpoolList) {
 
+                    }
+                });
             }
         });
+
+
+
+
 
 
     }
@@ -416,6 +425,30 @@ public class LoginActivity extends AppCompatActivity {
         void OnCallbackTotalCarpoolList(ArrayList<ArrayList<Object>> totalCarpoolList);
 
 
+    }
+
+    private void getCurentUser(String id, getCurentUserCallback cb)
+    {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(id).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User myuser = documentSnapshot.toObject(User.class);
+                        cb.onCallBack(myuser);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+    }
+    private interface getCurentUserCallback
+    {
+        void onCallBack(User user);
     }
 
 }
