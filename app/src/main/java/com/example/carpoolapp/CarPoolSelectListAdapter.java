@@ -38,7 +38,7 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
 
         //button for testing
         final Button addUserButton = (Button) rowView.findViewById(R.id.addUserButton);
-addUserButton.setVisibility(View.INVISIBLE);
+        //addUserButton.setVisibility(View.INVISIBLE);
         //textViews
         TextView tv = (TextView) rowView.findViewById(R.id.textView2);
         //tv.setText("Carpool " + (position + 1));

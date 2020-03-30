@@ -82,23 +82,11 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
 
 
             dt = calender.getTime();
-
-
-            //used to alternate drivers with the same drive count
-            if(copyUserList.get(0).drivecount == copyUserList.get(1).drivecount)
-            {
-                mainActivityUserentry newUser = new mainActivityUserentry(copyUserList.get(1));
-                newUser.dayOfWeek= calender.getTime().toString().split("(?<=(([a-z|A-Z]{3} ){2}\\d{2})) ")[0];//"Sat Mar 14 15:31:20 PDT 2020"
-                totalList.add(newUser );
-                copyUserList.get(1).drivecount++;
-            }
-            else
-            {
                 mainActivityUserentry newUser = new mainActivityUserentry(copyUserList.get(0));
                 newUser.dayOfWeek= calender.getTime().toString().split("(?<=(([a-z|A-Z]{3} ){2}\\d{2})) ")[0];//Sat Mar 14 15:31:20 PDT 2020
                 totalList.add(newUser );
                 copyUserList.get(0).drivecount++;
-            }
+
 
             sortBasedOnDriveCount(copyUserList);
             calender.add(Calendar.DATE, 1);
@@ -112,6 +100,7 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
         Collections.sort(list, new Comparator<mainActivityUserentry>() {
             @Override
             public int compare(mainActivityUserentry mainActivityUserentry, mainActivityUserentry t1) {
+                if (mainActivityUserentry.drivecount == t1.drivecount) return mainActivityUserentry.maintitle.compareTo(t1.maintitle);
                 return Integer.compare(mainActivityUserentry.drivecount, t1.drivecount);
             }
         });

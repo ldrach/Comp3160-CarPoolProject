@@ -161,7 +161,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         JobScheduler jobScheduler = (JobScheduler)getApplicationContext()
                 .getSystemService(JOB_SCHEDULER_SERVICE);
 
-        jobScheduler.cancelAll();
+        //jobScheduler.cancelAll();
 
         if(checkForJob(1))
             return;
