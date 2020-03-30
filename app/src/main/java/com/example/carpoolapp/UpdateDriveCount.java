@@ -39,8 +39,8 @@ public class UpdateDriveCount {
         c1.set(Calendar.HOUR, 8);
         Date todayEightOclock = c1.getTime();
         long ms = todayEightOclock.getTime() - todayTime.getTime();
-        // if (ms > 0)
-        //  return;
+        if (ms > 0)
+            return;
 
         getusers(userId, new UserItemCallBack() {
             @Override

@@ -76,6 +76,7 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
         calender.setTime(dt);
 
         //TODO this will break if two users have the same name
+        //fix only one user issue
         for (int i = 0; i < weekDaysArray.length; i++) {
 
 
