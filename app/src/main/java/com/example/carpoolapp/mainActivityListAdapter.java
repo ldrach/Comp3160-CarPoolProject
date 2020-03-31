@@ -1,12 +1,12 @@
 package com.example.carpoolapp;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,9 +14,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 public class mainActivityListAdapter extends ArrayAdapter<String> {
 
@@ -24,6 +26,8 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
 
     private ArrayList<mainActivityUserentry> UserList = new ArrayList<>();
     private ArrayList<mainActivityUserentry> totalList = new ArrayList<>();
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public mainActivityListAdapter(Activity context, String[] maintitle, String[] driveCount, Integer[] imgid, String[] weekDaysArray) {
@@ -54,12 +58,13 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.list_item, null, true);
 
         TextView titleText = (TextView) rowView.findViewById(R.id.title);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+        TextView IconTextView = (TextView) rowView.findViewById(R.id.IconTextView);
         TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
         TextView dateTextView = (TextView) rowView.findViewById(R.id.dateTextView);
 
         titleText.setText(totalList.get(position).maintitle);
-        imageView.setImageResource(totalList.get(position).imgid);
+        IconTextView.setText(Character.toString(totalList.get(position).maintitle.charAt(0)).toUpperCase() );
+        IconTextView.setBackgroundColor(getUserColor(totalList.get(position)));
         subtitleText.setText(String.valueOf(totalList.get(position).drivecount));
         dateTextView.setText(totalList.get(position).dayOfWeek);
 
@@ -132,6 +137,26 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
         protected Object clone() throws CloneNotSupportedException {
             return this.clone();
         }
+    }
+
+    public int getUserColor( mainActivityUserentry user)
+    {
+        int iconColor = ContextCompat.getColor(context,R.color.iconColorBase);
+        int totalInt = 0;
+        for (int i = 0; i < user.maintitle.length(); i++) {
+                totalInt+= user.maintitle.charAt(i);
+        }
+
+        Random generator = new Random(totalInt);
+        float num = (float)generator.nextDouble() * 360;
+        num = (float)generator.nextDouble() * 360;
+
+        float[] hsl = new float[3];
+        Color.colorToHSV(iconColor,hsl);
+        hsl[0]=num;
+
+
+        return Color.HSVToColor( hsl);
     }
 }
 

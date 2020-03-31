@@ -303,6 +303,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Intent intent = new Intent(LoginActivity.this, CarpoolSelectActivity.class);
                                         intent.putExtra("Carpools", (Serializable) totalUserList);
                                         intent.putExtra("user", (Serializable) appUser);
+                                        finish();
                                         LoginActivity.this.startActivity(intent);
                                     }
 
@@ -318,12 +319,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-
-
-
-
-
-
     }
 
     private void getUsersInCarpool(final int carpoolListLength, String carpoolID, final FirestoreCallback fireCallBack) {
