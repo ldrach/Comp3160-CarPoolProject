@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +48,9 @@ public class FireStoreDatbase {
     {
         //creates a document
         String uniqueID = UUID.randomUUID().toString();
-        db.collection("CarPools").document(uniqueID).collection(user.id).document(user.id).set(user);
+
+
+        addUserToCarpool(user,uniqueID);
 
         //this is used to put a users id in the document within the CarPools document
         userIditem.put("userID",user.id);
@@ -60,21 +61,39 @@ public class FireStoreDatbase {
         carpoolIDMap.put("0",uniqueID);
         db.collection("CarPools").document(uniqueID).set(carpoolIDMap);
 
+        // add userID to subdocument
+
         //update the users list of carpools
         user.updateCarpoolList(uniqueID,db);
 
 
 
     }
-    public void addUserToCarpool(User user, String carpoolID,Map carpoolUserIds)
+    public void addUserToCarpool(User user, final String carpoolID)
     {
-        db.collection("CarPools").document(carpoolID)
-                .collection(user.id).document(user.id).set(user);
+        //add new user collection
+        db.collection("CarPools").document(carpoolID).collection(user.id).document(user.id).set(user);
 
-        //this is used to put a users id in the document within the CarPools document
-        userIditem.put("userID",user.id);
-        //this has to be changed
-        db.collection("CarPools").document(carpoolID).set(userIditem, SetOptions.merge());
+
+        //get subdocuments hashMap
+        final User accesableUser = user;
+        db.collection("CarPools").document(carpoolID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        userIditem = documentSnapshot.getData();
+                        userIditem.put(String.valueOf(userIditem.size()),accesableUser.id);
+
+                         db.collection("CarPools").document(carpoolID).set(userIditem);
+                    }
+                    });
+
+        //TODO add the carpool to the new users list of carpools
+//        //this is used to put a users id in the document within the CarPools document
+//        userIditem.put("userID",user.id);
+//        //this has to be changed
+//        db.collection("CarPools").document(carpoolID).set(userIditem, SetOptions.merge());
 
     }
 
@@ -95,7 +114,6 @@ public class FireStoreDatbase {
                        userIDs = new ArrayList<String>(userIDMap.values());
 
                        totalIDList.add(userIDs);
-                       int stopint =1;
 
                         //get the actual user objects
                         //---
@@ -112,6 +130,16 @@ public class FireStoreDatbase {
                                                 User myuser = documentSnapshot.toObject(User.class);
 
                                                 userList.add(myuser);
+
+                                                //reverse list
+                                                // Arraylist for storing reversed elements
+                                                for (int i = 0; i < userList.size() / 2; i++) {
+                                                    User temp = userList.get(i);
+                                                    userList.set(i, userList.get(userList.size() - i - 1));
+                                                    userList.set(userList.size() - i - 1, temp);
+                                                }
+
+
 
                                                 int stopint =1;
                                                 //used in carpool select to get all users from all of the appUsers carpools eg. Sam belongs to 3 carpools with 4 people in each.

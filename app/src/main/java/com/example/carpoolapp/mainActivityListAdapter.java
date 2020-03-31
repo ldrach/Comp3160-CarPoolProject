@@ -22,11 +22,7 @@ import androidx.core.content.ContextCompat;
 
 public class mainActivityListAdapter extends ArrayAdapter<String> {
 
-
     private final Activity context;
-    private final String[] maintitle;
-    private final String[] subtitle;
-    private final Integer[] imgid;
 
     private ArrayList<mainActivityUserentry> UserList = new ArrayList<>();
     private ArrayList<mainActivityUserentry> totalList = new ArrayList<>();
@@ -57,9 +53,9 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
         this.context = context;
     }
 
-    public View getView(int position,View view,ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.list_item, null,true);
+    public View getView(int position, View view, ViewGroup parent) {
+        LayoutInflater inflater = context.getLayoutInflater();
+        View rowView = inflater.inflate(R.layout.list_item, null, true);
 
         TextView titleText = (TextView) rowView.findViewById(R.id.title);
         TextView IconTextView = (TextView) rowView.findViewById(R.id.IconTextView);

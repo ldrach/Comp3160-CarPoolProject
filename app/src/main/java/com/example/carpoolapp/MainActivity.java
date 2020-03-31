@@ -23,26 +23,27 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivityTAG" ;
     //for database
 
-
+   // Button myButton;
     //curent user, curent carpool to display
     public User appUser;
     String carPoolID;
-    ArrayList<User> carpoolUsersIDList = new ArrayList<User>();
+    ArrayList<User> carpoolUsersList = new ArrayList<User>();
 
 
-    //this sets up the values for the list view
+    //this sets up the values for the list view (for testing)
     ListView list;
     String[] weekDaysArray;
     String[] maintitle = {
             "Title 1", "Title 2",
     };
 
-    String[] subtitle ={
-            "Sub Title 1","Sub Title 2",
+    String[] driveCount = {
+            "Sub Title 1", "Sub Title 2",
     };
-    Integer[] imgid={
-            R.drawable.icon_1,R.drawable.icon_1,R.drawable.icon_1,R.drawable.icon_1,R.drawable.icon_1,
+    Integer[] imgid = {
+            R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1,
     };
+    //----
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             appUser = (User) getIntent().getSerializableExtra("User");
             carPoolID = getIntent().getStringExtra("carPoolID");
             Bundle bundle = intent.getExtras();
-            carpoolUsersIDList= (ArrayList<User>)bundle.getSerializable("UserIDList");
+            carpoolUsersList = (ArrayList<User>) bundle.getSerializable("UserIDList");
 
             //populate listAdapter with user info
             imgid = populateListAdapterItems.populateIcon(carpoolUsersList.size() - 1);
@@ -105,11 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     //this class is used for testing
-    private void runTestCode()
-    {
+    private void runTestCode() {
 
-        appUser = new User("0sz0p9YCrTh4gV6hv0vvukzNwYf1","Shane","s");
-        User Sara = new User("393938282","Sara","s");
+//        appUser = new User("0sz0p9YCrTh4gV6hv0vvukzNwYf1","Shane","s");
+//        User Sara = new User("393938282","Sara","s");
         User newUser;
 
         FireStoreDatbase dataBase = new FireStoreDatbase();
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
          dataBase.createCarpool(appUser);
          //dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
 
-        appUser.getCarpoolList(db);
+        //appUser.getCarpoolList(db);
 
 
         // get userIds in order to add a user
@@ -129,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
         // newUser =
         //dataBase.getUserProfile("123456789");
-        int stopint =1;
-        db = FirebaseFirestore.getInstance();
+        int stopint = 1;
+        //FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
         intent.putExtra("User",appUser);
@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

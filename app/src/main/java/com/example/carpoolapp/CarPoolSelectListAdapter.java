@@ -1,6 +1,7 @@
 package com.example.carpoolapp;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CarPoolSelectListAdapter  extends ArrayAdapter<String> {
+import java.util.ArrayList;
 
 import androidx.core.content.ContextCompat;
 
@@ -17,20 +18,22 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] buttonTextArray;
+    private final ArrayList<ArrayList<String>> usersArray;
 
+    FireStoreDatbase fsd = new FireStoreDatbase();
 
+    public CarPoolSelectListAdapter(Activity context, String[] buttonTextArray, ArrayList<ArrayList<String>> usersArray) {
+        super(context, R.layout.car_pool_select_list_item, buttonTextArray);
 
-    public CarPoolSelectListAdapter(Activity context, String[] buttonTextArray) {
-        super(context,R.layout.car_pool_select_list_item, buttonTextArray);
-
-        this.context=context;
+        this.context = context;
         this.buttonTextArray = buttonTextArray;
+        this.usersArray = usersArray;
 
     }
 
     public View getView(int position, View view, ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.car_pool_select_list_item, null,true);
+        LayoutInflater inflater = context.getLayoutInflater();
+        View rowView = inflater.inflate(R.layout.car_pool_select_list_item, null, true);
 
 
         //button for testing
@@ -88,13 +91,12 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
         addUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext() , "This is my Toast message!"+ button.getText(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "AddUser", Toast.LENGTH_LONG).show();
+                User testUser = new User();
+                fsd.addUserToCarpool(testUser, buttonTextArray[accesablePosition]);
                 int stop = 1;
             }
         });
-
-
-
         return rowView;
     }
     public int changeColor(int color)
