@@ -17,24 +17,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,8 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEdtEmail, mEdtPassword;
     private ProgressDialog mProgressDialog;
 
-    //needed for launching carpool select
-    private static User appUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +99,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // for testing sign out logged in user
-        // FirebaseAuth.getInstance().signOut();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -180,13 +164,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Login Function for Regular Email/Password Login
-    private void loginUser(String email, String password) {
+    private void loginUser(String email, String password){
 
-        if (TextUtils.isEmpty(email)) {
+        if(TextUtils.isEmpty(email)){
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
             return;
         }
-        if (TextUtils.isEmpty(password)) {
+        if(TextUtils.isEmpty(password)){
             Toast.makeText(getApplicationContext(), "Please enter password...", Toast.LENGTH_LONG).show();
             return;
         }
@@ -223,11 +207,10 @@ public class LoginActivity extends AppCompatActivity {
 
         if(user != null){
             hideProgressDialog();
-           // startActivity(new Intent(this, MainActivity.class));
-
+            startActivity(new Intent(this, MainActivity.class));
             //Starts main activity if there is a current user
             //launches carpool select if there is a user
-            launchCarpoolSelect(user);
+            //launchCarpoolSelect(user);
 
         }
 
@@ -249,12 +232,16 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeUI() {
+    private void initializeUI(){
         mEdtEmail = findViewById(R.id.emailEditText);
         mEdtPassword = findViewById(R.id.passwordEditText);
         createAccountBtn = findViewById(R.id.login_create_account_button);
         signInBtn = findViewById(R.id.email_sign_in_button);
     }
+   /* private void launchCarpoolSelect(FirebaseUser user)
+    {
+        //get database instance
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private void launchCarpoolSelect(FirebaseUser user) {
 //        //Clear users carpools and add one (for testing)
@@ -268,6 +255,7 @@ public class LoginActivity extends AppCompatActivity {
                 //create a User object from the FirebaseUser
                 appUser = new User(user.id, user.firstName, user.lastName);
 
+        appUser.getCarpoolList(db);
 
 
                 final ArrayList<ArrayList<Object>> totalUserList = new ArrayList<>();
