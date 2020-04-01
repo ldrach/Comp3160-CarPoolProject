@@ -1,5 +1,6 @@
 package com.example.carpoolapp;
 
+import android.app.ProgressDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -122,6 +124,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
                         "Click ListItem Number " + position, Toast.LENGTH_LONG)
                         .show();
 
+                appUser.carPools.add((String) ((HashMap) carpoolsList.get(position).get(0)).get("carpoolID"));
                 //send extras
                 Intent intent = new Intent(CarpoolSelectActivity.this,MainActivity.class);
                 intent.putExtra("User",appUser);
@@ -141,15 +144,15 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         addCarpoolFAButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"New Carpool Created " , Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Creating New Carpool..." , Toast.LENGTH_LONG).show();
                 //String userID  =(String)((HashMap) (carpoolsList.get(0).get(0))).get("userID");
                 //appUser = new User(userID, "noname","noname");
                 fsd.createCarpool(appUser);
 
-                //restart activity
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+                showProgressDialog();
+                Refresh r = new Refresh();
+                r.launchCarpoolSelect(appUser.id, appUser, CarpoolSelectActivity.this);
+
 
             }
         });
@@ -205,6 +208,17 @@ public class CarpoolSelectActivity extends AppCompatActivity {
             Log.i(TAG,"Cancelled Job with ID:" + jobInfo.getId());
             //}
         }
+    }
+
+    //Creates Progress Dialog
+    public void showProgressDialog() {
+        ProgressDialog mProgressDialog = null;
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
     }
 
 

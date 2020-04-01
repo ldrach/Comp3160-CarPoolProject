@@ -21,6 +21,8 @@ public class User implements Serializable {
     public String lastName;
     public List<String> carPools = new ArrayList<>();
     public int driveCount;
+    public ArrayList<String> daysNotWorked = new ArrayList<String>();
+    public boolean away = false;
 
 
     /**

@@ -1,13 +1,8 @@
 package com.example.carpoolapp;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -149,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         switch(menuItem) {
             case R.id.action_settings:
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                intent.putExtra("User",appUser);
                 startActivity(intent);
                 break;
 

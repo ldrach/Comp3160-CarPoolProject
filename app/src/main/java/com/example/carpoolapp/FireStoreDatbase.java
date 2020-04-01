@@ -97,9 +97,20 @@ public class FireStoreDatbase {
 
     }
 
-    public  void createUser(User user)
+    public  void writeCarpoolUser(User user)
     {
+        db.collection("CarPools").document(user.carPools.get(0)).collection(user.id).document(user.id)
+            .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
 
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 //gets a map of users in one of CarPools documents
     public void getCarpoolUserList(String carpoolID)
