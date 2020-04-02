@@ -26,7 +26,7 @@
         app:layout_constraintGuide_begin="55dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/instructionTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
