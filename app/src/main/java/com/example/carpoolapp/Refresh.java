@@ -70,6 +70,7 @@ String TAG = "RefreshClass";
                                         intent.putExtra("user", (Serializable) appUser[0]);
                                         //finish();
                                         loginActivity.startActivity(intent);
+                                        loginActivity.finish();
                                     }
 
                                 }

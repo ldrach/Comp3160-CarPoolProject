@@ -7,8 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 
 import androidx.annotation.RequiresApi;
@@ -49,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         //get user object from previous activity, gets carpoolID, gets users in carpool
         //---
+
+
         Intent intent = getIntent();
         if (intent.hasExtra("User")) {
             appUser = (User) getIntent().getSerializableExtra("User");
@@ -60,10 +60,18 @@ public class MainActivity extends AppCompatActivity {
             imgid = populateListAdapterItems.populateIcon(carpoolUsersList.size() - 1);
             maintitle = populateListAdapterItems.populateMainTitle(carpoolUsersList);
             driveCount = populateListAdapterItems.populateSubTitle(carpoolUsersList);
+
             weekDaysArray = new String[14];
             for (int i = 0; i < weekDaysArray.length; i++) {
                 weekDaysArray[i]="mon";
             }
+
+            //----this code sets up an adapter for the list view
+            mainActivityListAdapter adapter = new mainActivityListAdapter(this, maintitle, driveCount, imgid, weekDaysArray);
+            list = (ListView) findViewById(R.id.list);
+            list.setAdapter(adapter);
+            //----
+
 
             int stopint = 1;
         } else {
@@ -72,11 +80,7 @@ public class MainActivity extends AppCompatActivity {
         //---
 
 
-        //----this code sets up an adapter for the list view
-        mainActivityListAdapter adapter = new mainActivityListAdapter(this, maintitle, driveCount, imgid, weekDaysArray);
-        list = (ListView) findViewById(R.id.list);
-        list.setAdapter(adapter);
-        //----
+
 
 
 
@@ -103,33 +107,33 @@ public class MainActivity extends AppCompatActivity {
     //this class is used for testing
     private void runTestCode() {
 
-//        appUser = new User("0sz0p9YCrTh4gV6hv0vvukzNwYf1","Shane","s");
-//        User Sara = new User("393938282","Sara","s");
-        User newUser;
-
-        FireStoreDatbase dataBase = new FireStoreDatbase();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-         dataBase.createCarpool(appUser);
-         //dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
-
-        //appUser.getCarpoolList(db);
-
-
-        // get userIds in order to add a user
-
-        //dataBase.addUserToCarpool(Sara,"fff0aca5-3987-4157-a1c9-b0cb27ac4ad4",carpoolUsersIDList);
-
-
-        // newUser =
-        //dataBase.getUserProfile("123456789");
-        int stopint = 1;
-        //FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
-        intent.putExtra("User",appUser);
-        MainActivity.this.startActivity(intent);
+////        appUser = new User("0sz0p9YCrTh4gV6hv0vvukzNwYf1","Shane","s");
+////        User Sara = new User("393938282","Sara","s");
+//        User newUser;
+//
+//        FireStoreDatbase dataBase = new FireStoreDatbase();
+//
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//
+//         dataBase.createCarpool(appUser);
+//         //dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
+//
+//        //appUser.getCarpoolList(db);
+//
+//
+//        // get userIds in order to add a user
+//
+//        //dataBase.addUserToCarpool(Sara,"fff0aca5-3987-4157-a1c9-b0cb27ac4ad4",carpoolUsersIDList);
+//
+//
+//        // newUser =
+//        //dataBase.getUserProfile("123456789");
+//        int stopint = 1;
+//        //FirebaseFirestore db = FirebaseFirestore.getInstance();
+//
+//        Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
+//        intent.putExtra("User",appUser);
+//        MainActivity.this.startActivity(intent);
     }
     /*Sets up Toolbar*/
     @Override

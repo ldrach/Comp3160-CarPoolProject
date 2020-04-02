@@ -38,8 +38,10 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     //array for displaying names in carpoolselects carpools
     ArrayList<ArrayList<String>> usersArray;
     //----
+
     FloatingActionButton addCarpoolFAButton;
     FireStoreDatbase fsd = new FireStoreDatbase();
+   // TextView instructionTextView = (TextView) findViewById(R.id.instructionTextView);
 
 
 
