@@ -5,9 +5,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     //curent user, curent carpool to display
     public User appUser;
     String carPoolID;
-    ArrayList<User> carpoolUsersList = new ArrayList<User>();
+    ArrayList<Object> carpoolUsersList = new ArrayList<Object>();
+    mainActivityListAdapter adapter;
 
 
     //this sets up the values for the list view (for testing)
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Integer[] imgid = {
             R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1,
     };
+    String[] UserId;
     //----
 
 
@@ -54,12 +59,13 @@ public class MainActivity extends AppCompatActivity {
             appUser = (User) getIntent().getSerializableExtra("User");
             carPoolID = getIntent().getStringExtra("carPoolID");
             Bundle bundle = intent.getExtras();
-            carpoolUsersList = (ArrayList<User>) bundle.getSerializable("UserIDList");
+            carpoolUsersList = (ArrayList<Object>) bundle.getSerializable("UserIDList");
 
             //populate listAdapter with user info
             imgid = populateListAdapterItems.populateIcon(carpoolUsersList.size() - 1);
             maintitle = populateListAdapterItems.populateMainTitle(carpoolUsersList);
             driveCount = populateListAdapterItems.populateSubTitle(carpoolUsersList);
+            UserId =populateListAdapterItems.populateUserID(carpoolUsersList);
 
             weekDaysArray = new String[14];
             for (int i = 0; i < weekDaysArray.length; i++) {
@@ -67,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //----this code sets up an adapter for the list view
-            mainActivityListAdapter adapter = new mainActivityListAdapter(this, maintitle, driveCount, imgid, weekDaysArray);
+             adapter = new mainActivityListAdapter(this, maintitle, driveCount, imgid, weekDaysArray, UserId);
+
             list = (ListView) findViewById(R.id.list);
             list.setAdapter(adapter);
             //----
@@ -79,6 +86,25 @@ public class MainActivity extends AppCompatActivity {
         }
         //---
 
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+               String userId = adapter.totalList.get(i).userID;
+               String carPoolId = (String) ((HashMap) carpoolUsersList.get(0)).get("carpoolID");
+                FireStoreDatbase fsd = new FireStoreDatbase();
+                fsd.deleteCarPoolFromUserCarPoolList(carPoolId,userId);
+                finish();
+                int stopInt = 0;
+                return false;
+            }
+        });
 
 
 
