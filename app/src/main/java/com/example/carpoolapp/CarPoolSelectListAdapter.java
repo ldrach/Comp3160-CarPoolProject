@@ -1,6 +1,8 @@
 package com.example.carpoolapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
@@ -19,15 +22,20 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
     private final Activity context;
     private final String[] buttonTextArray;
     private final ArrayList<ArrayList<String>> usersArray;
+    private final User appUser;
+    private final AppCompatActivity activity;
 
     FireStoreDatbase fsd = new FireStoreDatbase();
 
-    public CarPoolSelectListAdapter(Activity context, String[] buttonTextArray, ArrayList<ArrayList<String>> usersArray) {
+    public CarPoolSelectListAdapter(Activity context, String[] buttonTextArray, ArrayList<ArrayList<String>> usersArray, User appUser, AppCompatActivity activity) {
         super(context, R.layout.car_pool_select_list_item, buttonTextArray);
 
         this.context = context;
         this.buttonTextArray = buttonTextArray;
         this.usersArray = usersArray;
+        this.appUser = appUser;
+        this.activity = activity;
+
 
     }
 
@@ -36,8 +44,9 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.car_pool_select_list_item, null, true);
 
 
-        //button for testing
+        //buttons
         final Button addUserButton = (Button) rowView.findViewById(R.id.addUserButton);
+        final Button delUserButton = (Button) rowView.findViewById(R.id.delUserButton);
         //addUserButton.setVisibility(View.INVISIBLE);
         //textViews
         TextView tv = (TextView) rowView.findViewById(R.id.textView2);
@@ -97,6 +106,40 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
                 int stop = 1;
             }
         });
+        delUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Do you want to delete this carpool?")
+                        .setMessage("This action can't be undone")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if(usersArray.get(position).size() !=1)
+                                {
+                                    new AlertDialog.Builder(getContext())
+                                            .setTitle("You must be the only one in the car pool to delete it ")
+                                            .setMessage("Go into the carpool and remove the users by Holding on there names.")
+                                            .show();
+                                    return;
+                                }
+                                //delete carpool
+                                FireStoreDatbase fsd = new FireStoreDatbase();
+                                fsd.deleteCarPoolFromUserCarPoolList(buttonTextArray[position],appUser.id);
+                                fsd.deleteCarpool(buttonTextArray[position]);
+
+                                fsd.showProgressDialog(activity);
+                                Refresh r = new Refresh();
+                                r.launchCarpoolSelect(appUser.id, appUser,activity);
+
+                            }
+
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
+
         return rowView;
     }
     public int changeColor(int color)

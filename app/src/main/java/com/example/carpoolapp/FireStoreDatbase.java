@@ -1,10 +1,14 @@
 package com.example.carpoolapp;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class FireStoreDatbase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -66,9 +71,50 @@ public class FireStoreDatbase {
         //update the users list of carpools
         user.updateCarpoolList(uniqueID,db);
 
-
+    }
+    public void deleteCarPoolFromUserCarPoolList(String carpoolId, String userId)
+    {
+        db.collection("users").document(userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        User user = task.getResult().toObject(User.class);
+                        //remove and reupload
+                        user.carPools.remove(carpoolId);
+                        db.collection("users").document(userId).set(user);
+                    }
+                });
 
     }
+    public void deleteUserFromCarpool(String carpoolID,String userId )
+    {
+        db.collection("CarPools").document(carpoolID)
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Map<String, Object> map = documentSnapshot.getData();
+                        map.get(userId);
+                        for (Map.Entry item : map.entrySet()) {
+                            if (item.getValue().toString().compareTo(userId) == 0) {
+                              //  map.remove(item.getKey());
+                                Map<String,Object> updates = new HashMap<>();
+                                updates.put(item.getKey().toString(), FieldValue.delete());
+                                db.collection("CarPools").document(carpoolID).update(updates);
+                                break;
+                            }
+                        }
+
+                    }
+                });
+
+    }
+    public void deleteCarpool(String carpoolId)
+    {
+        db.collection("CarPools").document(carpoolId)
+                .delete();
+    }
+
     public void addUserToCarpool(User user, final String carpoolID)
     {
         //add new user collection
@@ -172,5 +218,15 @@ public class FireStoreDatbase {
                     }
                 });
 
+    }
+    //Creates Progress Dialog
+    public void showProgressDialog(AppCompatActivity context) {
+        ProgressDialog mProgressDialog = null;
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(context);
+           // mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
     }
 }

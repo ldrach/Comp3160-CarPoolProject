@@ -25,16 +25,18 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
     private final Activity context;
 
     private ArrayList<mainActivityUserentry> UserList = new ArrayList<>();
-    private ArrayList<mainActivityUserentry> totalList = new ArrayList<>();
+    public ArrayList<mainActivityUserentry> totalList = new ArrayList<>();
 
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public mainActivityListAdapter(Activity context, String[] maintitle, String[] driveCount, Integer[] imgid, String[] weekDaysArray) {
+    public mainActivityListAdapter(Activity context, String[] maintitle, String[] driveCount, Integer[] imgid, String[] weekDaysArray, String[] carpoolUsersList) {
         super(context, R.layout.list_item, weekDaysArray);
+
+
         //used for sorting users by drivecount. add to object
         for (int i = 0; i < maintitle.length; i++) {
-            UserList.add(new mainActivityUserentry(maintitle[i], driveCount[i], imgid[i]));
+            UserList.add(new mainActivityUserentry(maintitle[i], driveCount[i], imgid[i], carpoolUsersList[i]));
 
         }
         //sort object
@@ -113,16 +115,18 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
     //---
 
     //class to orginise user entrys
-    private class mainActivityUserentry {
-        String maintitle;
-        int drivecount;
+    public class mainActivityUserentry {
+       public String maintitle;
+       int drivecount;
         int imgid;
+        String userID;
         String dayOfWeek;
 
-        mainActivityUserentry(String maintitle, String drivecount, int imgid) {
+        mainActivityUserentry(String maintitle, String drivecount, int imgid , String userID) {
             this.maintitle = maintitle;
             this.drivecount = Integer.parseInt(drivecount);
             this.imgid = imgid;
+            this.userID = userID;
         }
 
         public mainActivityUserentry(mainActivityUserentry x) {
@@ -130,6 +134,7 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
             this.maintitle = x.maintitle;
             this.drivecount = x.drivecount;
             this.imgid = x.imgid;
+            this.userID = x.userID;
         }
 
         @NonNull

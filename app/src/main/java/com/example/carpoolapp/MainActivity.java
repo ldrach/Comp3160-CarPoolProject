@@ -1,26 +1,32 @@
 package com.example.carpoolapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivityTAG" ;
+    private static final String TAG = "MainActivityTAG";
     //for database
 
-   // Button myButton;
+    // Button myButton;
     //curent user, curent carpool to display
     public User appUser;
     String carPoolID;
-    ArrayList<User> carpoolUsersList = new ArrayList<User>();
+    ArrayList<Object> carpoolUsersList = new ArrayList<Object>();
+    mainActivityListAdapter adapter;
 
 
     //this sets up the values for the list view (for testing)
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     Integer[] imgid = {
             R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1, R.drawable.icon_1,
     };
+    String[] UserId;
     //----
 
 
@@ -54,35 +61,67 @@ public class MainActivity extends AppCompatActivity {
             appUser = (User) getIntent().getSerializableExtra("User");
             carPoolID = getIntent().getStringExtra("carPoolID");
             Bundle bundle = intent.getExtras();
-            carpoolUsersList = (ArrayList<User>) bundle.getSerializable("UserIDList");
+            carpoolUsersList = (ArrayList<Object>) bundle.getSerializable("UserIDList");
 
             //populate listAdapter with user info
             imgid = populateListAdapterItems.populateIcon(carpoolUsersList.size() - 1);
             maintitle = populateListAdapterItems.populateMainTitle(carpoolUsersList);
             driveCount = populateListAdapterItems.populateSubTitle(carpoolUsersList);
+            UserId = populateListAdapterItems.populateUserID(carpoolUsersList);
 
             weekDaysArray = new String[14];
             for (int i = 0; i < weekDaysArray.length; i++) {
-                weekDaysArray[i]="mon";
+                weekDaysArray[i] = "mon";
             }
 
             //----this code sets up an adapter for the list view
-            mainActivityListAdapter adapter = new mainActivityListAdapter(this, maintitle, driveCount, imgid, weekDaysArray);
+            adapter = new mainActivityListAdapter(this, maintitle, driveCount, imgid, weekDaysArray, UserId);
+
             list = (ListView) findViewById(R.id.list);
             list.setAdapter(adapter);
             //----
 
+
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                }
+            });
+            list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Do you want to Remove " + adapter.totalList.get(i).maintitle + "?")
+                            .setMessage("This action can't be undone")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String userId = adapter.totalList.get(i).userID;
+                                    String carPoolId = (String) ((HashMap) carpoolUsersList.get(0)).get("carpoolID");
+                                    FireStoreDatbase fsd = new FireStoreDatbase();
+                                    fsd.deleteCarPoolFromUserCarPoolList(carPoolId, userId);
+                                    fsd.deleteUserFromCarpool(carPoolId, userId);
+                                    finish();
+
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+
+
+                    return false;
+                }
+            });
 
             int stopint = 1;
         } else {
             runTestCode();
         }
         //---
-
-
-
-
-
 
 
         //this tests the carpool select activity
@@ -101,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
-
 
 
     //this class is used for testing
@@ -135,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
 //        intent.putExtra("User",appUser);
 //        MainActivity.this.startActivity(intent);
     }
+
     /*Sets up Toolbar*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,10 +184,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuItem = item.getItemId();
-        switch(menuItem) {
+        switch (menuItem) {
             case R.id.action_settings:
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                intent.putExtra("User",appUser);
+                intent.putExtra("User", appUser);
                 startActivity(intent);
                 break;
 

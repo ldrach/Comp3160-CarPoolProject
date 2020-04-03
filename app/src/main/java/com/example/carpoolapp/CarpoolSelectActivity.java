@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,7 +27,10 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     private static final String TAG = "CarpoolSelectActivity";
     Button carPoolButton1;
     Button carPoolButton2;
-    Button carPoolButton3;
+    TextView instructionTextView;
+    CarpoolSelectActivity context = CarpoolSelectActivity.this;
+    //Button ;
+
 
     User appUser;
     ArrayList<ArrayList<Object>> carpoolsList = new ArrayList<>();
@@ -55,19 +59,18 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         carpoolsList = (ArrayList<ArrayList<Object>>) getIntent().getSerializableExtra("Carpools");
         appUser = (User) getIntent().getSerializableExtra("user");
 
-        //get carpool userIDs for the query
+        //update the info label
+        instructionTextView = (TextView)findViewById(R.id.instructionTextView);
+        if(carpoolsList.size() == 0)
+            instructionTextView.setText("Add a Carpool with the Plus button below.");
+
         final FireStoreDatbase dataBase = new FireStoreDatbase();
-//        for(String carpoolID : appUser.carPools)// will need to change later for reminder times
-//        {
-//            dataBase.getCarpoolUserList(carpoolID);
-//        }
-        //---
 
         //----this code sets up an adapter for the list view
         buttonTextArray =PopulateCarPoolSelectListAdapterItems.populateCarpools(carpoolsList);
         usersArray = PopulateCarPoolSelectListAdapterItems.populateUsers(carpoolsList);
 
-        CarPoolSelectListAdapter adapter=new CarPoolSelectListAdapter(this, buttonTextArray,usersArray);
+        CarPoolSelectListAdapter adapter=new CarPoolSelectListAdapter(this, buttonTextArray,usersArray, appUser, CarpoolSelectActivity.this);
         carPoolList=(ListView)findViewById(R.id.carPoolSelectListView);
         carPoolList.setAdapter(adapter);
         //----
@@ -142,6 +145,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
                 CarpoolSelectActivity.this.startActivity(intent);
             }
         });
+
 
         addCarpoolFAButton.setOnClickListener(new View.OnClickListener() {
             @Override
