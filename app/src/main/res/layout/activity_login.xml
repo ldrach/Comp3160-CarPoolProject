@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#4BBCB1"
     tools:context=".LoginActivity">
 
-    <TextView
+    <ImageView
         android:id="@+id/profile"
-        style="@style/CustomStatusTextView"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="#673AB7"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        style="@style/CustomLogoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/logo" />
 
     <LinearLayout
         android:id="@+id/email_password_fields"
@@ -32,9 +31,10 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#19FFFFFF"
                 android:hint="@string/emailHintLoginActivity"
                 android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -48,10 +48,10 @@
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#19FFFFFF"
                 android:hint="@string/passwordHintLoginActivity"
                 android:inputType="textPassword"
-                android:maxLines="1"
-                tools:text="123456" />
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
@@ -71,8 +71,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/sign_inLoginActivity"
-            android:theme="@style/ThemeOverlay.MyDarkButton" />
+            app:rippleColor="#FFFFFF" />
 
         <Button
             android:id="@+id/login_create_account_button"
@@ -82,6 +83,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:background="#FFFFFF"
             android:text="@string/create_account"
             android:theme="@style/ThemeOverlay.MyDarkButton" />
 
@@ -121,7 +123,7 @@
             android:layout_weight="1"
             android:text="@string/verify"
             android:theme="@style/ThemeOverlay.MyDarkButton"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/sign_out_button"
@@ -130,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/sign_out"
-            android:theme="@style/ThemeOverlay.MyDarkButton"/>
+            android:theme="@style/ThemeOverlay.MyDarkButton" />
 
     </LinearLayout>
 
