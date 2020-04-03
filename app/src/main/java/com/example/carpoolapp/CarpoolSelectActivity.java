@@ -26,9 +26,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     private static final String TAG = "CarpoolSelectActivity";
     Button carPoolButton1;
     Button carPoolButton2;
-    CarpoolSelectActivity context = CarpoolSelectActivity.this;
-    //Button ;
-
+    Button carPoolButton3;
 
     User appUser;
     ArrayList<ArrayList<Object>> carpoolsList = new ArrayList<>();
@@ -69,7 +67,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         buttonTextArray =PopulateCarPoolSelectListAdapterItems.populateCarpools(carpoolsList);
         usersArray = PopulateCarPoolSelectListAdapterItems.populateUsers(carpoolsList);
 
-        CarPoolSelectListAdapter adapter=new CarPoolSelectListAdapter(this, buttonTextArray,usersArray, appUser, CarpoolSelectActivity.this);
+        CarPoolSelectListAdapter adapter=new CarPoolSelectListAdapter(this, buttonTextArray,usersArray);
         carPoolList=(ListView)findViewById(R.id.carPoolSelectListView);
         carPoolList.setAdapter(adapter);
         //----
@@ -144,7 +142,6 @@ public class CarpoolSelectActivity extends AppCompatActivity {
                 CarpoolSelectActivity.this.startActivity(intent);
             }
         });
-
 
         addCarpoolFAButton.setOnClickListener(new View.OnClickListener() {
             @Override
