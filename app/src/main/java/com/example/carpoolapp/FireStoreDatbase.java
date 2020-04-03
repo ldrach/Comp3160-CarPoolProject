@@ -1,9 +1,12 @@
 package com.example.carpoolapp;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -13,6 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class FireStoreDatbase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -66,9 +70,28 @@ public class FireStoreDatbase {
         //update the users list of carpools
         user.updateCarpoolList(uniqueID,db);
 
-
+    }
+    public void deleteCarPoolFromUserCarPoolList(String carpoolId, String userId)
+    {
+        db.collection("users").document(userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        User user = task.getResult().toObject(User.class);
+                        //remove and reupload
+                        user.carPools.remove(carpoolId);
+                        db.collection("users").document(userId).set(user);
+                    }
+                });
 
     }
+    public void deleteCarpool(String carpoolId)
+    {
+        db.collection("CarPools").document(carpoolId)
+                .delete();
+    }
+
     public void addUserToCarpool(User user, final String carpoolID)
     {
         //add new user collection
@@ -172,5 +195,15 @@ public class FireStoreDatbase {
                     }
                 });
 
+    }
+    //Creates Progress Dialog
+    public void showProgressDialog(AppCompatActivity context) {
+        ProgressDialog mProgressDialog = null;
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(context);
+           // mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
     }
 }
