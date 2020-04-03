@@ -105,16 +105,8 @@ public class FireStoreDatbase {
                             }
                         }
 
-
-
                     }
                 });
-
-
-
-
-//        db.collection("CarPools").document(carpoolID)
-//                .put(userId, FieldValue.delete())
 
     }
     public void deleteCarpool(String carpoolId)

@@ -188,9 +188,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            //signing in triggers updateUI so we dont need this. (i think)
+                            
+//                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                            startActivity(intent);
+//                            finish();
                         }
                         else{
                             Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG).show();
@@ -218,6 +220,7 @@ public class LoginActivity extends AppCompatActivity {
             showProgressDialog();
             Refresh r = new Refresh();
             r.launchCarpoolSelect(user.getUid(), appUser, LoginActivity.this);
+
 
         }
 
