@@ -1,5 +1,7 @@
 package com.example.carpoolapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,13 +97,29 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Do you want to Remove "+adapter.totalList.get(i).maintitle +"?")
+                        .setMessage("This action can't be undone")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String userId = adapter.totalList.get(i).userID;
+                                String carPoolId = (String) ((HashMap) carpoolUsersList.get(0)).get("carpoolID");
+                                FireStoreDatbase fsd = new FireStoreDatbase();
+                                fsd.deleteCarPoolFromUserCarPoolList(carPoolId,userId);
+                                fsd.deleteUserFromCarpool(carPoolId,userId);
+                                finish();
 
-               String userId = adapter.totalList.get(i).userID;
-               String carPoolId = (String) ((HashMap) carpoolUsersList.get(0)).get("carpoolID");
-                FireStoreDatbase fsd = new FireStoreDatbase();
-                fsd.deleteCarPoolFromUserCarPoolList(carPoolId,userId);
-                finish();
-                int stopInt = 0;
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+
+
+
                 return false;
             }
         });
