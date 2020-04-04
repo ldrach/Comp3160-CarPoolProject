@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
             carPoolID = getIntent().getStringExtra("carPoolID");
             Bundle bundle = intent.getExtras();
             carpoolUsersList = (ArrayList<Object>) bundle.getSerializable("UserIDList");
+            //Action bar
+            getSupportActionBar().setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" +
+                    "Your Carpool ID is: "+((HashMap)carpoolUsersList.get(0)).get("carpoolID").toString().substring(0,6)
+                    + "</font>"));
 
             //populate listAdapter with user info
             imgid = populateListAdapterItems.populateIcon(carpoolUsersList.size() - 1);
@@ -96,13 +101,15 @@ public class MainActivity extends AppCompatActivity {
                             .setMessage("This action can't be undone")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                                public void onClick(DialogInterface dialogInterface, int dialogI) {
                                     String userId = adapter.totalList.get(i).userID;
                                     String carPoolId = (String) ((HashMap) carpoolUsersList.get(0)).get("carpoolID");
                                     FireStoreDatbase fsd = new FireStoreDatbase();
                                     fsd.deleteCarPoolFromUserCarPoolList(carPoolId, userId);
                                     fsd.deleteUserFromCarpool(carPoolId, userId);
-                                    finish();
+
+                                    Refresh r = new Refresh();
+                                    r.launchCarpoolSelect(appUser.id, appUser, MainActivity.this);
 
                                 }
                             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -142,36 +149,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //this class is used for testing
+    //this method is used for testing
     private void runTestCode() {
 
-////        appUser = new User("0sz0p9YCrTh4gV6hv0vvukzNwYf1","Shane","s");
-////        User Sara = new User("393938282","Sara","s");
-//        User newUser;
-//
-//        FireStoreDatbase dataBase = new FireStoreDatbase();
-//
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//
-//         dataBase.createCarpool(appUser);
-//         //dataBase.addUserToCarpool(appUser,"872f2015-8e28-4e77-9604-d65323ff527f");
-//
-//        //appUser.getCarpoolList(db);
-//
-//
-//        // get userIds in order to add a user
-//
-//        //dataBase.addUserToCarpool(Sara,"fff0aca5-3987-4157-a1c9-b0cb27ac4ad4",carpoolUsersIDList);
-//
-//
-//        // newUser =
-//        //dataBase.getUserProfile("123456789");
-//        int stopint = 1;
-//        //FirebaseFirestore db = FirebaseFirestore.getInstance();
-//
-//        Intent intent = new Intent(MainActivity.this,CarpoolSelectActivity.class);
-//        intent.putExtra("User",appUser);
-//        MainActivity.this.startActivity(intent);
+
     }
 
     /*Sets up Toolbar*/
