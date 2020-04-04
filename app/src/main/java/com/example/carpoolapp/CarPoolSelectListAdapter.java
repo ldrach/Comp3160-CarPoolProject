@@ -102,7 +102,7 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
             public void onClick(View view) {
                 Toast.makeText(getContext(), "AddUser", Toast.LENGTH_LONG).show();
                 User testUser = new User();
-                fsd.addUserToCarpool(testUser, buttonTextArray[accesablePosition]);
+                fsd.addUserToCarpool(testUser, buttonTextArray[accesablePosition],null);
                 int stop = 1;
             }
         });
@@ -147,8 +147,6 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
         float[] hsl = new float[3];
         Color.colorToHSV(color,hsl);
         hsl[1]*=2;
-
-        // Set alpha based on your logic, here I'm making it 25% of it's initial value.
 
 
        return Color.HSVToColor( hsl);

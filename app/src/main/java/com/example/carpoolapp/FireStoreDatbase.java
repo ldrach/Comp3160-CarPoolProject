@@ -2,6 +2,7 @@ package com.example.carpoolapp;
 
 import android.app.ProgressDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,9 +54,9 @@ public class FireStoreDatbase {
     {
         //creates a document
         String uniqueID = UUID.randomUUID().toString();
+        uniqueID = uniqueID.substring(0,6);
 
-
-        addUserToCarpool(user,uniqueID);
+        addUserToCarpool(user,uniqueID, null);
 
         //this is used to put a users id in the document within the CarPools document
         userIditem.put("userID",user.id);
@@ -87,6 +88,24 @@ public class FireStoreDatbase {
                 });
 
     }
+    public void writeCarPoolUserToCarPoolList(String carpoolId, String userId)
+    {
+        db.collection("users").document(userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        User user = task.getResult().toObject(User.class);
+
+                        if(user.carPools.contains(carpoolId)!= true)
+                        user.carPools.add(carpoolId);
+
+
+                        db.collection("users").document(userId).set(user);
+                    }
+                });
+
+    }
     public void deleteUserFromCarpool(String carpoolID,String userId )
     {
         db.collection("CarPools").document(carpoolID)
@@ -108,6 +127,8 @@ public class FireStoreDatbase {
                     }
                 });
 
+        db.collection("CarPools").document(carpoolID).collection(carpoolID).document().delete();
+
     }
     public void deleteCarpool(String carpoolId)
     {
@@ -115,7 +136,7 @@ public class FireStoreDatbase {
                 .delete();
     }
 
-    public void addUserToCarpool(User user, final String carpoolID)
+    public void addUserToCarpool(User user, final String carpoolID, AppCompatActivity context)
     {
         //add new user collection
         db.collection("CarPools").document(carpoolID).collection(user.id).document(user.id).set(user);
@@ -129,17 +150,75 @@ public class FireStoreDatbase {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         userIditem = documentSnapshot.getData();
-                        userIditem.put(String.valueOf(userIditem.size()),accesableUser.id);
+                        try
+                        {
+                            userIditem.put(String.valueOf(userIditem.size()),accesableUser.id);
 
-                         db.collection("CarPools").document(carpoolID).set(userIditem);
+                            db.collection("CarPools").document(carpoolID).set(userIditem);
+                        }
+                        catch (Exception e)
+                        {
+                            if(context!= null)
+                            Toast.makeText(context, "Error Adding User, check your input.", Toast.LENGTH_LONG).show();
+                        }
+
                     }
                     });
 
-        //TODO add the carpool to the new users list of carpools
-//        //this is used to put a users id in the document within the CarPools document
-//        userIditem.put("userID",user.id);
-//        //this has to be changed
-//        db.collection("CarPools").document(carpoolID).set(userIditem, SetOptions.merge());
+
+    }
+    public void localAddUserToCarpool(User user, final String carpoolID, AppCompatActivity context)
+    {
+
+        //get subdocuments hashMap
+        final User accesableUser = user;
+        db.collection("CarPools").document(carpoolID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        userIditem = documentSnapshot.getData();
+                        try
+                        {
+                            userIditem.put(String.valueOf(userIditem.size()),accesableUser.id);
+
+                            //set userId in "Carpool" document
+                            db.collection("CarPools").document(carpoolID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    Map<String, Object> map = documentSnapshot.getData();
+                                    //map.get(userId);
+                                    boolean duplicate = false;
+                                    for (Map.Entry item : map.entrySet()) {
+                                        if (item.getValue().toString().compareTo(user.id) == 0) {
+                                            duplicate = true;
+                                        }
+                                    }
+                                    if(!duplicate)
+                                    db.collection("CarPools").document(carpoolID).set(userIditem);
+
+                                }
+                            });
+                            db.collection("CarPools").document(carpoolID).collection(user.id).document(user.id).set(user);
+
+
+                            writeCarPoolUserToCarPoolList(carpoolID, user.id);
+                        }
+                        catch (Exception e)
+                        {
+                            if(context!= null)
+                                Toast.makeText(context, "Error Adding User, check your input.", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Refresh r = new Refresh();
+                r.launchCarpoolSelect(user.id, user,context);
+            }
+        });
+
 
     }
 

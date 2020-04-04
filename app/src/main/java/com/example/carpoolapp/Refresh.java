@@ -68,6 +68,7 @@ String TAG = "RefreshClass";
                                         Intent intent = new Intent(loginActivity, CarpoolSelectActivity.class);
                                         intent.putExtra("Carpools", (Serializable) totalUserList);
                                         intent.putExtra("user", (Serializable) appUser[0]);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         //finish();
                                         loginActivity.startActivity(intent);
                                         loginActivity.finish();
