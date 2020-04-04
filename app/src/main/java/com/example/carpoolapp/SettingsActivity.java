@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,9 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -32,7 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private TextView mTextViewProfile;
-    private Button updateEmailBtn, updatePasswordBtn, deleteBtn, signOutBtn;
+    private Button updateEmailBtn, updatePasswordBtn, deleteBtn, signOutBtn, shareBtn;
     private ProgressDialog mProgressDialog;
 
 
@@ -55,6 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
         updatePasswordBtn = findViewById(R.id.update_password_button);
         deleteBtn = findViewById(R.id.delete_button);
         signOutBtn = findViewById(R.id.sign_out);
+        shareBtn = findViewById(R.id.share_button);
 
         //get user
         Intent intent = getIntent();
@@ -133,12 +139,45 @@ public class SettingsActivity extends AppCompatActivity {
                 signOut();
             }
         });
+
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+            @Override
+            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                Log.i("SettingActivity", "Nice one");
+
+                //Get deep Link from result (may be null if no link is found).
+                Uri deepLink = null;
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.getLink();
+                }
+
+                // Handle the deep link. For example, open the linked
+                // content, or apply promotional credit to the user's
+                // account.
+
+                //Handle the deep link by extracting the share page we care about.
+                /*if (deepLink != null) {
+                    Log.i("SettingActivity", "DynamicLinks is :\n" + deepLink.toString());
+
+                    String currentPage = deepLink.getQueryParameter("curPage");
+                    int curPage = Integer.parseInt(currentPage);
+                     = (curPage);
+                }*/
+            }
+        }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "getDynamicLink:onFailure", e);
+            }
+        });
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+
     }
 
     @Override
