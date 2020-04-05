@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "567295854523-vt1rtj2eib8pmjmkrmd68i80uajurvfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carpoolapp",
+            "certificate_hash": "1a1a7695fb2ec92ff32beb46127f7ffd78007b8b"
+          }
+        },
+        {
+          "client_id": "567295854523-blruu0656ubuhfd2dga26elggjcg8d8j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carpoolapp",
+            "certificate_hash": "9bbd70b5ad260ceef090bb6b9386b67deb8d364a"
+          }
+        },
+        {
           "client_id": "567295854523-n1imh3usrrc84hol6qkdmr9jnebv0pu8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -131,11 +131,10 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 //Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-
                 //authenticating with firebase
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-
+                Log.w(TAG, ":failure", task.getException());
             }
         }
     }
@@ -209,6 +208,8 @@ public class LoginActivity extends AppCompatActivity {
 
         //starting the activity for result
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
+
     }
 
     //Checks if there is a current user
