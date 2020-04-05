@@ -10,13 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -119,10 +119,10 @@ public class CreateAccountActivity extends AppCompatActivity {
                             //create a new user in the database
                             User newUser = new User(task.getResult().getUser().getUid().toString(),fname,lname);
                             FireStoreDatbase fsdb = new FireStoreDatbase();
-                            fsdb.writeUser(newUser);
+                            fsdb.writeUser(newUser, true,false,CreateAccountActivity.this);
 
-                            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+//                            startActivity(intent);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();

@@ -31,25 +31,64 @@ public class FireStoreDatbase {
 
     ArrayList<ArrayList> totalUserList = new ArrayList<ArrayList>();
 
-    public void writeUser(User user) {
+    public void writeUser(User user, boolean startCarpoolSelect, boolean overwrite , AppCompatActivity context) {
 
-        db.collection("users").document(user.id)
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("s", "DocumentSnapshot successfully written!");
-            }
-        })
+        final User accesableUser = user;
+
+        db.collection("users").document(user.id).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        //check if document has data
+                        Map<String, Object> map = documentSnapshot.getData();
+                        if(map == null || overwrite == true)
+                        {
+                            db.collection("users").document(user.id)
+                                    .set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            //start carpoolSelect
+                                            if(startCarpoolSelect) {
+                                                showProgressDialog(context);
+                                                Refresh r = new Refresh();
+                                                r.launchCarpoolSelect(accesableUser.id, null,context );
+                                                Log.d("s", "DocumentSnapshot successfully written!");
+                                            }
+
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("s", "Error writing document", e);
+                                        }
+                                    });
+
+                        }
+                        else
+                        {
+                            //user exists, start carpoolSelect
+                            //start carpoolSelect
+                            if(startCarpoolSelect) {
+                                showProgressDialog(context);
+                                Refresh r = new Refresh();
+                                r.launchCarpoolSelect(accesableUser.id, null,context );
+                                Log.d("s", "DocumentSnapshot successfully written!");
+                            }
+                        }
+                    }
+                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("s", "Error writing document", e);
+                        Log.w("s", "Error writing document");
                     }
                 });
+//
+
 
     }
-
     public void createCarpool(User user)
     {
         //creates a document

@@ -204,18 +204,6 @@ public class CarpoolSelectActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-
-
-
-
-
-
-
-
-
-
-
-
             }
         });
 
