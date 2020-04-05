@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //needed for launching carpool select
     private static User appUser;
+    private boolean lock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lock = true;
                 Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
                 startActivity(intent);
             }
@@ -105,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // for testing sign out logged in user
-        // FirebaseAuth.getInstance().signOut();
+         //FirebaseAuth.getInstance().signOut();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -131,11 +133,10 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 //Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-
                 //authenticating with firebase
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-
+                Log.w(TAG, ":failure", task.getException());
             }
         }
     }
@@ -145,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         showProgressDialog();
+        lock = true;
 
         //getting the auth credential
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -155,15 +157,25 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                            startActivity(intent);
+
+                            //create a new user in the database
+
+                            User newUser = new User(task.getResult().getUser().getUid().toString(),
+                                    task.getResult().getAdditionalUserInfo().getProfile().values().toArray()[0].toString(),
+                                    task.getResult().getAdditionalUserInfo().getProfile().values().toArray()[2].toString());
+                            FireStoreDatbase fsdb = new FireStoreDatbase();
+                            fsdb.writeUser(newUser, true,false,LoginActivity.this);
+
+                           // finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                            lock = false;
                         }
                         hideProgressDialog();
                     }
@@ -209,12 +221,14 @@ public class LoginActivity extends AppCompatActivity {
 
         //starting the activity for result
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
+
     }
 
     //Checks if there is a current user
     private void updateUI(FirebaseUser user) {
 
-        if(user != null){
+        if(user != null && lock == false){
             //hideProgressDialog();
 
             showProgressDialog();
