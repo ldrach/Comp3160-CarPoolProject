@@ -175,7 +175,10 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("User", appUser);
                 startActivity(intent);
                 break;
-
+            case R.id.action_carpoolSelect:
+                Refresh r = new Refresh();
+                r.launchCarpoolSelect(appUser.id, appUser, MainActivity.this);
+                break;
             case R.id.action_logs:
                 // Uncomment once Log Activity is complete
                 // Intent intent = new Intent(SettingsActivity.this, LogActivity.class);
