@@ -169,6 +169,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             // User's profile
+            mTextViewProfile.setText("");
             mTextViewProfile.append("Name: " + user.getDisplayName());
             mTextViewProfile.append("\n");
             mTextViewProfile.append("Email: " + user.getEmail());

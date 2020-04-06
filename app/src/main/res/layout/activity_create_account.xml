@@ -29,6 +29,7 @@
 
             <EditText
                 android:id="@+id/create_edt_fname"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#64FFFFFF"
@@ -46,6 +47,7 @@
 
             <EditText
                 android:id="@+id/create_edt_lname"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#64FFFFFF"
@@ -63,6 +65,7 @@
 
             <EditText
                 android:id="@+id/create_edt_email"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#64FFFFFF"
@@ -81,6 +84,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/crt_password"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#64FFFFFF"
@@ -102,6 +106,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/crt_password2"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#64FFFFFF"
