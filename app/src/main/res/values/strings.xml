@@ -29,5 +29,6 @@
     <string name="action_logs">Logs</string>
     <string name="action_home">Home</string>
     <string name="logo">logo</string>
+    <string name="action_carpoolSelect">Select Carpool</string>
 
 </resources>

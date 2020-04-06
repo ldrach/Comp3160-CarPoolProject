@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
+    <item
+        android:id="@+id/action_carpoolSelect"
+        android:orderInCategory="100"
+        android:title="@string/action_carpoolSelect"
+        android:visible="true"
+        app:showAsAction="never" />
+
     <!--set to visible once LogActivity Complete-->
     <item
         android:id="@+id/action_logs"
