@@ -2,8 +2,11 @@ package com.example.carpoolapp;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -47,6 +50,18 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.package.ACTION_LOGOUT");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, intentFilter);
 
         mEditTextEmail = findViewById(R.id.field_email);
         mEditTextPassword = findViewById(R.id.field_password);
@@ -244,10 +259,9 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 mAuth.signOut();
                 updateUI(null);
-                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                Intent broadcastIntent = new Intent();
+                broadcastIntent.setAction("com.package.ACTION_LOGOUT");
+                sendBroadcast(broadcastIntent);
             }
         });
         alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

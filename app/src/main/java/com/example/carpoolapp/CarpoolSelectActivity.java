@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.InputType;
@@ -57,6 +59,18 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_carpool_select);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.package.ACTION_LOGOUT");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                intent = new Intent(CarpoolSelectActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, intentFilter);
 
 
         //get carpools object from previous activity
