@@ -1,8 +1,10 @@
 package com.example.carpoolapp;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mEditTextEmail = findViewById(R.id.field_email);
         mEditTextPassword = findViewById(R.id.field_password);
@@ -114,7 +117,6 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteUser(user);
-
                     }
                 });
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -157,7 +159,7 @@ public class SettingsActivity extends AppCompatActivity {
             mTextViewProfile.append("DisplayName: " + user.getDisplayName());
             mTextViewProfile.append("\n");
             mTextViewProfile.append("Email: " + user.getEmail());
-                                                                                //Issue #46
+            //Issue #46
             /*mTextViewProfile.append("\n");
             mTextViewProfile.append("CarPool Code: " + user.getCarPoolCode());*/
 
@@ -204,7 +206,6 @@ public class SettingsActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(SettingsActivity.this, "Password Updated",
                                 Toast.LENGTH_SHORT).show();
-
                     } else {
                         Toast.makeText(SettingsActivity.this, "Something Went Wrong!",
                                 Toast.LENGTH_SHORT).show();
@@ -268,7 +269,7 @@ public class SettingsActivity extends AppCompatActivity {
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edt.setError("Invalid.");
             return false;
-        }  else {
+        } else {
             edt.setError(null);
             return true;
         }
@@ -282,25 +283,21 @@ public class SettingsActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(password)) {
             mEditTextPassword.setError("Please Enter a Valid Password");
             return false;
-        }
-        else if (TextUtils.isEmpty(password2)) {
+        } else if (TextUtils.isEmpty(password2)) {
             mEditTextPassword2.setError("Please Enter a Valid Password");
             return false;
-        }
-        else if (password.length()<8){
+        } else if (password.length() < 8) {
             mEditTextPassword.setError("Password Must Be Longer Than 8 Characters");
             return false;
-        }
-        else if (!(password).equals(password2)){
+        } else if (!(password).equals(password2)) {
             mEditTextPassword.setError("Passwords Do Not Match!");
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
 
-    private void initializeUI(){
+    private void initializeUI() {
         mEditTextEmail = findViewById(R.id.field_email);
         mEditTextPassword = findViewById(R.id.field_password);
         mEditTextPassword2 = findViewById(R.id.field_password2);
@@ -328,7 +325,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-/*Sets up Toolbar*/
+    /*Sets up Toolbar*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings, menu);
@@ -344,16 +341,16 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuItem = item.getItemId();
-        switch(menuItem) {
+        switch (menuItem) {
             case R.id.action_home:
                 Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.action_logs:
-               // Uncomment once Log Activity is complete
-               // Intent intent = new Intent(SettingsActivity.this, LogActivity.class);
-               // startActivity(intent);
+                // Uncomment once Log Activity is complete
+                // Intent intent = new Intent(SettingsActivity.this, LogActivity.class);
+                // startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

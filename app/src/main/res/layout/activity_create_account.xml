@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CustomRelativeLayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/profile"
@@ -10,9 +10,9 @@
         android:gravity="center"
         android:text="@string/create_account"
         android:textAlignment="center"
-        android:textColor="#673AB7"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="bold|italic" />
 
     <LinearLayout
         android:id="@+id/email_password_fields"
@@ -31,6 +31,7 @@
                 android:id="@+id/create_edt_fname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#64FFFFFF"
                 android:hint="First Name"
                 android:inputType="textEmailAddress"
                 android:maxLines="1" />
@@ -47,6 +48,7 @@
                 android:id="@+id/create_edt_lname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#64FFFFFF"
                 android:hint="Last Name"
                 android:inputType="textEmailAddress"
                 android:maxLines="1" />
@@ -63,6 +65,7 @@
                 android:id="@+id/create_edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#64FFFFFF"
                 android:hint="@string/create_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1" />
@@ -80,6 +83,7 @@
                 android:id="@+id/crt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#64FFFFFF"
                 android:hint="@string/create_a_password_hint"
                 android:inputType="textPassword"
                 android:maxLines="1" />
@@ -100,6 +104,7 @@
                 android:id="@+id/crt_password2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#64FFFFFF"
                 android:hint="@string/re_enter_password"
                 android:inputType="textPassword"
                 android:maxLines="1" />
@@ -122,6 +127,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="@string/cancel"
             android:textSize="14sp"
             android:theme="@style/ThemeOverlay.MyDarkButton" />
@@ -133,6 +139,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="@string/create_account"
             android:textSize="14sp"
             android:theme="@style/ThemeOverlay.MyDarkButton" />

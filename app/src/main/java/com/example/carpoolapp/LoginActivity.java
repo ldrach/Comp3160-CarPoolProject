@@ -1,7 +1,9 @@
 package com.example.carpoolapp;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private static User appUser;
     private boolean lock = false;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
         mEdtPassword = findViewById(R.id.passwordEditText);
         signInBtn = findViewById(R.id.email_sign_in_button);
         createAccountBtn = findViewById(R.id.login_create_account_button);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         initializeUI();
 

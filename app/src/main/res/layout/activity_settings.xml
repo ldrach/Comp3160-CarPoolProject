@@ -55,16 +55,20 @@
                 android:layout_height="wrap_content"
                 android:checkedButton="@+id/first"
                 android:orientation="vertical">
+
                 <RadioButton
                     android:id="@+id/first"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Active"/>
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="Active" />
+
                 <RadioButton
                     android:id="@+id/second"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Away"/>
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="Away" />
             </RadioGroup>
         </LinearLayout>
 
@@ -97,7 +101,9 @@
                 android:layout_centerHorizontal="true"
                 android:checked="true"
                 android:showText="false"
-                android:text="Push Notifications" />
+                android:text="Push Notifications"
+                android:thumbTint="@color/colorPrimary"
+                android:trackTint="#000000" />
 
         </LinearLayout>
 
@@ -128,6 +134,7 @@
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="Share"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
 
@@ -157,17 +164,20 @@
 
             <EditText
                 android:id="@+id/field_email"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
             <Button
                 android:id="@+id/update_email_button"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="Update Email"
-                android:theme="@style/ThemeOverlay.MyDarkButton"/>
+                android:theme="@style/ThemeOverlay.MyDarkButton" />
 
         </LinearLayout>
 
@@ -195,24 +205,28 @@
 
             <EditText
                 android:id="@+id/field_password"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
 
             <EditText
                 android:id="@+id/field_password2"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/update_password_button"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="Update Password"
-                android:theme="@style/ThemeOverlay.MyDarkButton"/>
+                android:theme="@style/ThemeOverlay.MyDarkButton" />
 
         </LinearLayout>
 
@@ -233,6 +247,7 @@
 
             <Button
                 android:id="@+id/delete_button"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/design_default_color_error"
@@ -257,9 +272,11 @@
 
             <Button
                 android:id="@+id/sign_out"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/design_default_color_primary_variant"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="Sign Out"
                 android:textColor="@android:color/background_light" />
         </LinearLayout>

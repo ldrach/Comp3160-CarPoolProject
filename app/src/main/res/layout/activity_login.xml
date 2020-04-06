@@ -24,34 +24,41 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="@dimen/_10dp">
 
             <EditText
                 android:id="@+id/emailEditText"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#19FFFFFF"
+                android:layout_height="match_parent"
+                android:background="#64FFFFFF"
+                android:backgroundTint="#FFFFFF"
                 android:hint="@string/emailHintLoginActivity"
                 android:imeOptions="actionNext"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                tools:visibility="visible" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="@dimen/_10dp"
             app:passwordToggleEnabled="true">
 
             <EditText
                 android:id="@+id/passwordEditText"
+                style="@style/CustomStatusTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#19FFFFFF"
+                android:layout_height="match_parent"
+                android:background="#64FFFFFF"
+                android:backgroundTint="#FFFFFF"
                 android:hint="@string/passwordHintLoginActivity"
                 android:inputType="textPassword"
-                android:maxLines="1" />
+                android:singleLine="true"
+                tools:visibility="visible" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
@@ -65,27 +72,39 @@
 
         <Button
             android:id="@+id/email_sign_in_button"
-            style="@style/Widget.AppCompat.Button.Colored"
+            style="@style/AppTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:drawableTint="#FFFFFF"
+            android:foregroundTint="#FFFFFF"
             android:text="@string/sign_inLoginActivity"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            app:iconTint="#FFFFFF"
             app:rippleColor="#FFFFFF" />
 
         <Button
             android:id="@+id/login_create_account_button"
-            style="@style/Widget.AppCompat.Button.Colored"
+            style="@style/AppTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="#FFFFFF"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:drawableTint="#FFFFFF"
+            android:foregroundTint="#FFFFFF"
+            android:maxLines="1"
             android:text="@string/create_account"
-            android:theme="@style/ThemeOverlay.MyDarkButton" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            app:iconTint="#FFFFFF" />
 
     </LinearLayout>
 
@@ -103,6 +122,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:foregroundTint="#FFFFFF"
             android:textAlignment="center" />
 
     </LinearLayout>

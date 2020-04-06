@@ -2,7 +2,9 @@ package com.example.carpoolapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -47,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
     //----
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //get user object from previous activity, gets carpoolID, gets users in carpool
         //---
 
