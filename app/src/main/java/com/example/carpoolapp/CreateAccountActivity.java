@@ -1,7 +1,9 @@
 package com.example.carpoolapp;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -26,6 +28,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText mEdtEmail, mEdtPassword, mEdtPassword2, mEdtFName, mEdtLName;
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         createAccountBtn = findViewById(R.id.crt_create_account_button);
         cancelBtn = findViewById(R.id.create_cancel_button);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mAuth = FirebaseAuth.getInstance();
 

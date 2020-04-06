@@ -1,11 +1,17 @@
 package com.example.carpoolapp;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,14 +53,26 @@ public class MainActivity extends AppCompatActivity {
     //----
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //get user object from previous activity, gets carpoolID, gets users in carpool
-        //---
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.package.ACTION_LOGOUT");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, intentFilter);
 
 
         Intent intent = getIntent();
@@ -171,7 +189,10 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("User", appUser);
                 startActivity(intent);
                 break;
-
+            case R.id.action_carpoolSelect:
+                Refresh r = new Refresh();
+                r.launchCarpoolSelect(appUser.id, appUser, MainActivity.this);
+                break;
             case R.id.action_logs:
                 // Uncomment once Log Activity is complete
                 // Intent intent = new Intent(SettingsActivity.this, LogActivity.class);
