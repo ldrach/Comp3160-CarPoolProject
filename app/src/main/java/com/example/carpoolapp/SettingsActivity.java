@@ -236,9 +236,9 @@ public class SettingsActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     updateUI(null);
-                    Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction("com.package.ACTION_LOGOUT");
+                    sendBroadcast(broadcastIntent);
                     Toast.makeText(SettingsActivity.this, "Account Deleted",
                             Toast.LENGTH_SHORT).show();
                 } else {
