@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
@@ -140,6 +141,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onShareClicked();
+            }
+        });
+
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
             @Override
             public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
@@ -156,13 +164,16 @@ public class SettingsActivity extends AppCompatActivity {
                 // account.
 
                 //Handle the deep link by extracting the share page we care about.
-                /*if (deepLink != null) {
+
+                /*
+                if (deepLink != null) {
                     Log.i("SettingActivity", "DynamicLinks is :\n" + deepLink.toString());
 
                     String currentPage = deepLink.getQueryParameter("curPage");
                     int curPage = Integer.parseInt(currentPage);
-                     = (curPage);
-                }*/
+                    shareBtn = (curPage);
+                }
+                */
             }
         }).addOnFailureListener(this, new OnFailureListener() {
             @Override
@@ -366,6 +377,47 @@ public class SettingsActivity extends AppCompatActivity {
             mProgressDialog.dismiss();
         }
     }
+
+    /*Set share button clickable*/
+    public static class DynamicLinksUtil {
+
+        /*
+        public static InviteContent generateInviteContent() {
+            return new InviteContent(
+                    "Hey check out my great app!",
+                    "It's like the best app ever.",
+                    generateContentLink());
+        }
+        */
+
+        public static Uri generateContentLink() {
+            Uri baseUrl = Uri.parse("https://carpoolfirestore.page.link");
+            String domain = "https://carpoolfirestore.page.link";
+
+            DynamicLink link = FirebaseDynamicLinks.getInstance()
+                    .createDynamicLink()
+                    .setLink(baseUrl)
+                    .setDomainUriPrefix(domain)
+                    .setIosParameters(new DynamicLink.IosParameters.Builder("com.your.bundleid").build())
+                    .setAndroidParameters(new DynamicLink.AndroidParameters.Builder("com.your.packageName").build())
+                    .buildDynamicLink();
+
+            return link.getUri();
+        }
+
+    }
+
+
+    private void onShareClicked() {
+        Uri link = DynamicLinksUtil.generateContentLink();
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, link.toString());
+
+        startActivity(Intent.createChooser(intent, "Share Link"));
+    }
+
 
 /*Sets up Toolbar*/
     @Override
