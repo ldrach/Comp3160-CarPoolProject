@@ -47,7 +47,7 @@ public class CarPoolSelectListAdapter extends ArrayAdapter<String> {
         //buttons
         final Button addUserButton = (Button) rowView.findViewById(R.id.addUserButton);
         final Button delUserButton = (Button) rowView.findViewById(R.id.delUserButton);
-        //addUserButton.setVisibility(View.INVISIBLE);
+        addUserButton.setVisibility(View.INVISIBLE);
         //textViews
         TextView tv = (TextView) rowView.findViewById(R.id.textView2);
         //tv.setText("Carpool " + (position + 1));
