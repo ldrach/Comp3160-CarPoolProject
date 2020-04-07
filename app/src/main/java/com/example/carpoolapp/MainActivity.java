@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             driveCount = populateListAdapterItems.populateSubTitle(carpoolUsersList);
             UserId = populateListAdapterItems.populateUserID(carpoolUsersList);
 
-            weekDaysArray = new String[14];
+            weekDaysArray = new String[7];
             for (int i = 0; i < weekDaysArray.length; i++) {
                 weekDaysArray[i] = "mon";
             }

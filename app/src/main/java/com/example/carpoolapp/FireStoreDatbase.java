@@ -121,8 +121,16 @@ public class FireStoreDatbase {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         User user = task.getResult().toObject(User.class);
                         //remove and reupload
-                        user.carPools.remove(carpoolId);
-                        db.collection("users").document(userId).set(user);
+                        try
+                        {
+                            user.carPools.remove(carpoolId);
+                            db.collection("users").document(userId).set(user);
+                        }
+                        catch(Exception e)
+                        {
+                            Log.d("FireStroreDatabase", e.getMessage());
+                        }
+
                     }
                 });
 

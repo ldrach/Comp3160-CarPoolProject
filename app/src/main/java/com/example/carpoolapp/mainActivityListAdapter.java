@@ -82,8 +82,6 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
         Calendar calender = Calendar.getInstance();
         calender.setTime(dt);
 
-        //TODO this will break if two users have the same name
-        //fix only one user issue
         for (int i = 0; i < weekDaysArray.length; i++) {
 
 
@@ -91,12 +89,20 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
             dt = calender.getTime();
                 mainActivityUserentry newUser = new mainActivityUserentry(copyUserList.get(0));
                 newUser.dayOfWeek= calender.getTime().toString().split("(?<=(([a-z|A-Z]{3} ){2}\\d{2})) ")[0];//Sat Mar 14 15:31:20 PDT 2020
-                totalList.add(newUser );
-                copyUserList.get(0).drivecount++;
+              if(!calender.getTime().toString().split(" ")[0].equals("Sat")  && !calender.getTime().toString().split(" ")[0].equals("Sun"))
+              {
+                  totalList.add(newUser );
+                  copyUserList.get(0).drivecount++;
 
+                  sortBasedOnDriveCount(copyUserList);
+                  calender.add(Calendar.DATE, 1);
+              }
+              else
+              {
+                  totalList.add(new mainActivityUserentry( "-",  "-1", 1 ,  "userID") );
+                  calender.add(Calendar.DATE, 1);
+              }
 
-            sortBasedOnDriveCount(copyUserList);
-            calender.add(Calendar.DATE, 1);
 
         }
 
