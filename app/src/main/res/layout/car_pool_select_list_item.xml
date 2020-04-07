@@ -99,14 +99,13 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView2"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="4dp"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:text="Delete"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:theme="@style/Platform.MaterialComponents"
-        app:layout_constraintBottom_toTopOf="@+id/addUserButton"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
