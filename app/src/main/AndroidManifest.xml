@@ -15,22 +15,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight">
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".SettingsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="carpoolfirestore.page.link" android:scheme="https"/>
-                <data android:host="carpoolfirestore.page.link" android:scheme="http"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".CreateAccountActivity" />
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".CreateAccountActivity"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="www.facebook.com" android:scheme="https" android:pathPrefix="/CarpoolScheduler"/>
+                <data android:host="www,facebook.com" android:scheme="http" android:pathPrefix="/CarpoolScheduler"/>
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".CarpoolSelectActivity"

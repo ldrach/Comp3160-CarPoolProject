@@ -148,40 +148,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-            @Override
-            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                Log.i("SettingActivity", "Nice one");
-
-                //Get deep Link from result (may be null if no link is found).
-                Uri deepLink = null;
-                if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.getLink();
-                }
-
-                // Handle the deep link. For example, open the linked
-                // content, or apply promotional credit to the user's
-                // account.
-
-                //Handle the deep link by extracting the share page we care about.
-
-                /*
-                if (deepLink != null) {
-                    Log.i("SettingActivity", "DynamicLinks is :\n" + deepLink.toString());
-
-                    String currentPage = deepLink.getQueryParameter("curPage");
-                    int curPage = Integer.parseInt(currentPage);
-                    shareBtn = (curPage);
-                }
-                */
-            }
-        }).addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "getDynamicLink:onFailure", e);
-            }
-        });
-
     }
 
     @Override
@@ -391,8 +357,8 @@ public class SettingsActivity extends AppCompatActivity {
         */
 
         public static Uri generateContentLink() {
-            Uri baseUrl = Uri.parse("https://carpoolfirestore.page.link");
-            String domain = "https://carpoolfirestore.page.link";
+            Uri baseUrl = Uri.parse("https://www.facebook.com/CarpoolScheduler");
+            String domain = "https://www.facebook.com/CarpoolScheduler";
 
             DynamicLink link = FirebaseDynamicLinks.getInstance()
                     .createDynamicLink()
