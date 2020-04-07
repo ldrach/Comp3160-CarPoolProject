@@ -3,6 +3,7 @@ package com.example.carpoolapp;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,12 +20,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -104,6 +109,41 @@ public class LoginActivity extends AppCompatActivity {
                 lock = true;
                 Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        //Bring new user to carpool app located to Login activity first.
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+            @Override
+            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                Log.i("LoginActivity", "Nice one");
+
+                //Get deep Link from result (may be null if no link is found).
+                Uri deepLink = null;
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.getLink();
+                }
+
+                // Handle the deep link. For example, open the linked
+                // content, or apply promotional credit to the user's
+                // account.
+
+                //Handle the deep link by extracting the share page we care about.
+
+                /*
+                if (deepLink != null) {
+                    Log.i("SettingActivity", "DynamicLinks is :\n" + deepLink.toString());
+
+                    String currentPage = deepLink.getQueryParameter("curPage");
+                    int curPage = Integer.parseInt(currentPage);
+                    shareBtn = (curPage);
+                }
+                */
+            }
+        }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("LoginActivity", "getDynamicLink:onFailure", e);
             }
         });
     }
