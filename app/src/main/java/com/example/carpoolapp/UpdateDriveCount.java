@@ -7,9 +7,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -26,7 +30,8 @@ public class UpdateDriveCount {
 
     public ArrayList<ArrayList<User>> totalUsers = new ArrayList<>();
     public User curentUser;
-
+    Calendar c1 = Calendar.getInstance();
+    Date todayTime = c1.getTime();
     public void onCreate() {
 
     }
@@ -34,13 +39,13 @@ public class UpdateDriveCount {
     public void updateDriveCount(Context cxt, String userId) {
 
         // get ms until 8:00 ish
-        Calendar c1 = Calendar.getInstance();
-        Date todayTime = c1.getTime();
+
+        todayTime = c1.getTime();
         c1.set(Calendar.HOUR, 8);
         Date todayEightOclock = c1.getTime();
         long ms = todayEightOclock.getTime() - todayTime.getTime();
-        if (ms > 0)
-            return;
+          if (ms > 0)
+              return;
 
         getusers(userId, new UserItemCallBack() {
             @Override
@@ -73,19 +78,56 @@ public class UpdateDriveCount {
     private void IncromentDriveCount(User user) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("CarPools").document(user.carPools.get(0)).collection(user.id).document(user.id)
-                .update("driveCount", user.driveCount + 1)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+        //get drive count
+        db.collection("CarPools").document(user.carPools.get(0)).collection(user.id).document(user.id).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Map userIDMap = documentSnapshot.getData(); // get user
+                        Timestamp lastDriven = (Timestamp)userIDMap.get("lastDriven");// get last time driven
+                        long count= (long)userIDMap.get("driveCount");
+
+                        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        Date lastDrivenDate = lastDriven.toDate();
+
+                        try {
+                            todayTime = formatter.parse(formatter.format(c1.getTime()));
+                            lastDrivenDate = formatter.parse(formatter.format(lastDriven.toDate()));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(todayTime.equals(lastDrivenDate))
+                        {
+                            return;
+                        }
+                        userIDMap.put("driveCount", count+1);
+                        userIDMap.put("lastDriven", todayTime);
+
+                        db.collection("CarPools").document(user.carPools.get(0)).collection(user.id).document(user.id)
+                                .set(userIDMap)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
 
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
-            }
-        });
+                    }
+                });
+
+
     }
 
     private void sortBasedOnDriveCount(ArrayList<User> list) {

@@ -149,21 +149,10 @@ public class MainActivity extends AppCompatActivity {
         //---
 
 
-        //this tests the carpool select activity
-//        myButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                // Perform action on click
-//                Intent intent = new Intent(MainActivity.this, CarpoolSelectActivity.class);
-//                intent.putExtra("User", (Serializable) appUser);
-//                MainActivity.this.startActivity(intent);
+        //this tests the drive count
+//        UpdateDriveCount updateDriveCount = new UpdateDriveCount();
+//        updateDriveCount.updateDriveCount(this, appUser.id);
 //
-//                // currentContext.startActivity(activityChangeIntent);
-//
-//
-//               // Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
 

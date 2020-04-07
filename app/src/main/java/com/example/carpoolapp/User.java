@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class User implements Serializable {
     public String lastName;
     public List<String> carPools = new ArrayList<>();
     public int driveCount;
+    public Date lastDriven = new Date(10000000);
     public ArrayList<String> daysNotWorked = new ArrayList<String>();
     public boolean away = false;
 

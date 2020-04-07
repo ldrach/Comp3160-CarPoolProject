@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -31,6 +32,16 @@ String TAG = "RefreshClass";
             @Override
             public void onCallBack(User user) {
                 //create a User object from the FirebaseUser
+                if(user == null)//if no user exists in firebase for that id
+                {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(loginActivity, LoginActivity.class);
+                    loginActivity.startActivity(intent);
+                    loginActivity.finish();
+                    return;
+                }
+
+
                 appUser[0] = new User(user.id, user.firstName, user.lastName);
 
 

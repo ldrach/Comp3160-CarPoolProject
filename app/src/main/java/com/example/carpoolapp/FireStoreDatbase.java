@@ -178,6 +178,8 @@ public class FireStoreDatbase {
     public void addUserToCarpool(User user, final String carpoolID, AppCompatActivity context)
     {
         //add new user collection
+        user.carPools.clear();
+        user.carPools.add(carpoolID);
         db.collection("CarPools").document(carpoolID).collection(user.id).document(user.id).set(user);
 
 
@@ -238,6 +240,8 @@ public class FireStoreDatbase {
 
                                 }
                             });
+                            user.carPools.clear();
+                            user.carPools.add(carpoolID);
                             db.collection("CarPools").document(carpoolID).collection(user.id).document(user.id).set(user);
 
 

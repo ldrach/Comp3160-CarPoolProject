@@ -36,6 +36,10 @@
             android:name=".Alarm"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="true"/>
+        <service
+            android:name=".UpdateDriveCount"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
 
 
     </application>

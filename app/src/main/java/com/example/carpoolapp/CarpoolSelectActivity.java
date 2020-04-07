@@ -240,7 +240,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         bundle.putString("userID", appUser.id);
 
         JobInfo jobInfo = new JobInfo.Builder(1, componentName)
-                .setPeriodic(1*1000* 60*60*3)
+                .setPeriodic(1*1000* 60*60*3)//1000 *60*17
                 .setExtras(bundle)
         .setPersisted(true).build();
         jobScheduler.schedule(jobInfo);

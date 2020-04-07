@@ -21,6 +21,10 @@ public class Alarm extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters jobParameters ) {
+        // get ms until 8:00 ish
+
+
+
         String userID = jobParameters.getExtras().getString("userID");
         UpdateDriveCount updateDriveCount = new UpdateDriveCount();
         updateDriveCount.updateDriveCount(this, userID);
