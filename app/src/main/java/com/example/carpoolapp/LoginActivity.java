@@ -49,12 +49,27 @@ public class LoginActivity extends AppCompatActivity {
     //needed for launching carpool select
     private static User appUser;
     private boolean lock = false;
+    private String inviteCarpoolId = "";
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(intent!=null)
+        {
+            handleDeepLink(intent);
+        }
+    }
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Intent intent = getIntent();
+        if(intent!=null)
+        {
+            handleDeepLink(intent);
+        }
 
         mEdtEmail = findViewById(R.id.emailEditText);
         mEdtPassword = findViewById(R.id.passwordEditText);
@@ -112,42 +127,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //Bring new user to carpool app located to Login activity first.
-        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-            @Override
-            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                Log.i("LoginActivity", "Nice one");
 
-                //Get deep Link from result (may be null if no link is found).
-                Uri deepLink = null;
-                if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.getLink();
-                }
-
-                // Handle the deep link. For example, open the linked
-                // content, or apply promotional credit to the user's
-                // account.
-
-                //Handle the deep link by extracting the share page we care about.
-
-                /*
-                if (deepLink != null) {
-                    Log.i("SettingActivity", "DynamicLinks is :\n" + deepLink.toString());
-
-                    String currentPage = deepLink.getQueryParameter("curPage");
-                    int curPage = Integer.parseInt(currentPage);
-                    shareBtn = (curPage);
-                }
-                */
-            }
-        }).addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w("LoginActivity", "getDynamicLink:onFailure", e);
-            }
-        });
     }
+public void handleDeepLink(Intent intent)
+{
+    //Bring new user to carpool app located to Login activity first.
+    FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+        @Override
+        public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+            Log.i("LoginActivity", "Nice one");
 
+            //Get deep Link from result (may be null if no link is found).
+            Uri deepLink = null;
+            if (pendingDynamicLinkData != null) {
+                deepLink = pendingDynamicLinkData.getLink();
+                inviteCarpoolId = pendingDynamicLinkData.getLink().getQueryParameter("carpoolID");
+            }
+        }
+    }).addOnFailureListener(this, new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            Log.w("LoginActivity", "getDynamicLink:onFailure", e);
+        }
+    });
+}
     @Override
     public void onStart() {
         super.onStart();
@@ -278,7 +281,7 @@ public class LoginActivity extends AppCompatActivity {
 
             showProgressDialog();
             Refresh r = new Refresh();
-            r.launchCarpoolSelect(user.getUid(), appUser, LoginActivity.this);
+            r.launchCarpoolSelect(user.getUid(), appUser,inviteCarpoolId, LoginActivity.this);
 
 
         }

@@ -22,14 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -46,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Button updateEmailBtn, updatePasswordBtn, deleteBtn, signOutBtn, shareBtn;
     private ProgressDialog mProgressDialog;
 
+    User appUser;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -83,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //get user
         Intent intent = getIntent();
-        User appUser;
+
         if (intent.hasExtra("User")) {
             appUser = (User) getIntent().getSerializableExtra("User");
         }
@@ -355,7 +353,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /*Set share button clickable*/
-    public static class DynamicLinksUtil {
+    public class DynamicLinksUtil {
+
 
         /*
         public static InviteContent generateInviteContent() {
@@ -366,30 +365,38 @@ public class SettingsActivity extends AppCompatActivity {
         }
         */
 
-        public static Uri generateContentLink() {
-            Uri baseUrl = Uri.parse("https://www.facebook.com/CarpoolScheduler");
-            String domain = "https://www.facebook.com/CarpoolScheduler";
 
-            DynamicLink link = FirebaseDynamicLinks.getInstance()
-                    .createDynamicLink()
-                    .setLink(baseUrl)
-                    .setDomainUriPrefix(domain)
-                    .setIosParameters(new DynamicLink.IosParameters.Builder("com.your.bundleid").build())
-                    .setAndroidParameters(new DynamicLink.AndroidParameters.Builder("com.your.packageName").build())
-                    .buildDynamicLink();
-
-            return link.getUri();
-        }
 
     }
+    public  Uri generateContentLink() {
+        Uri baseUrl = Uri.parse("https://www.facebook.com/CarpoolScheduler/?carpoolID="+appUser.carPools.get(0));
+        //Uri baseUrl = Uri.parse("https://carpoolfirestore.page.link/jTpt");
+        //String domain = "https://www.facebook.com/CarpoolScheduler";
+        String domain = "https://carpoolfirestore.page.link/?testdata=1";
 
+        DynamicLink link = FirebaseDynamicLinks.getInstance()
+                .createDynamicLink()
+                .setLink(baseUrl)
+                .setDomainUriPrefix(domain)
+                .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.carpoolapp")
+                        .build())
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder("com.example.carpoolapp").build())
+
+                .buildDynamicLink();
+
+
+
+
+        return link.getUri();
+    }
 
     private void onShareClicked() {
-        Uri link = DynamicLinksUtil.generateContentLink();
+        Uri link = generateContentLink();
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, link.toString());
+        intent.putExtra(Intent.EXTRA_TEXT,"Click the link below to join the Carpool\n\n" + link.toString());
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Carpool invite from "+appUser.firstName + " " + appUser.lastName);
 
         startActivity(Intent.createChooser(intent, "Share Link"));
     }

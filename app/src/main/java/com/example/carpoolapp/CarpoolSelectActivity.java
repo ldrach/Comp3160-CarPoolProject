@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.InputType;
@@ -23,16 +22,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CarpoolSelectActivity extends AppCompatActivity {
@@ -41,7 +35,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
     Button carPoolButton2;
     TextView instructionTextView;
     CarpoolSelectActivity context = CarpoolSelectActivity.this;
-    //Button ;
+    private String inviteCarpoolID = "";
 
 
     User appUser;
@@ -103,6 +97,13 @@ public class CarpoolSelectActivity extends AppCompatActivity {
         schedualJob();
 
         //------
+        //gets invite code
+        Intent intent = getIntent();
+        if (intent.hasExtra("inviteCarpoolID")) {
+            inviteCarpoolID = (String) getIntent().getSerializableExtra("inviteCarpoolID");
+            if(!inviteCarpoolID.equals(""))
+                joinCarpool(inviteCarpoolID);
+        }
 
 
         //populate buttons (test)
@@ -185,7 +186,7 @@ public class CarpoolSelectActivity extends AppCompatActivity {
 
                                 showProgressDialog();
                                 Refresh r = new Refresh();
-                                r.launchCarpoolSelect(appUser.id, appUser, CarpoolSelectActivity.this);
+                                r.launchCarpoolSelect(appUser.id, appUser, "",CarpoolSelectActivity.this);
 
                             }
                         })
@@ -228,6 +229,10 @@ public class CarpoolSelectActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void joinCarpool(String carpoolID)
+    {
+        fsd.localAddUserToCarpool(appUser,carpoolID, CarpoolSelectActivity.this);
     }
     private void schedualJob() {
 

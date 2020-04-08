@@ -49,4 +49,5 @@ dependencies {
     //for Dynamic Links
     implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.google.firebase:firebase-invites:17.0.0'
 }
