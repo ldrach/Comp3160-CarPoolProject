@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -37,9 +40,10 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private TextView mTextViewProfile;
-    private Button updateEmailBtn, updatePasswordBtn, deleteBtn, signOutBtn;
+    private Button updateEmailBtn, updatePasswordBtn, deleteBtn, signOutBtn, shareBtn;
     private ProgressDialog mProgressDialog;
 
+    User appUser;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -73,10 +77,11 @@ public class SettingsActivity extends AppCompatActivity {
         updatePasswordBtn = findViewById(R.id.update_password_button);
         deleteBtn = findViewById(R.id.delete_button);
         signOutBtn = findViewById(R.id.sign_out);
+        shareBtn = findViewById(R.id.share_button);
 
         //get user
         Intent intent = getIntent();
-        User appUser;
+
         if (intent.hasExtra("User")) {
             appUser = (User) getIntent().getSerializableExtra("User");
         }
@@ -150,12 +155,21 @@ public class SettingsActivity extends AppCompatActivity {
                 signOut();
             }
         });
+
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onShareClicked();
+            }
+        });
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+
     }
 
     @Override
@@ -338,6 +352,57 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    /*Set share button clickable*/
+    public class DynamicLinksUtil {
+
+
+        /*
+        public static InviteContent generateInviteContent() {
+            return new InviteContent(
+                    "Hey check out my great app!",
+                    "It's like the best app ever.",
+                    generateContentLink());
+        }
+        */
+
+
+
+    }
+    public  Uri generateContentLink() {
+        Uri baseUrl = Uri.parse("https://www.facebook.com/CarpoolScheduler/?carpoolID="+appUser.carPools.get(0));
+        //Uri baseUrl = Uri.parse("https://carpoolfirestore.page.link/jTpt");
+        //String domain = "https://www.facebook.com/CarpoolScheduler";
+        String domain = "https://carpoolfirestore.page.link/?testdata=1";
+
+        DynamicLink link = FirebaseDynamicLinks.getInstance()
+                .createDynamicLink()
+                .setLink(baseUrl)
+                .setDomainUriPrefix(domain)
+                .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.carpoolapp")
+                        .build())
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder("com.example.carpoolapp").build())
+
+                .buildDynamicLink();
+
+
+
+
+        return link.getUri();
+    }
+
+    private void onShareClicked() {
+        Uri link = generateContentLink();
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT,"Click the link below to join the Carpool\n\n" + link.toString());
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Carpool invite from "+appUser.firstName + " " + appUser.lastName);
+
+        startActivity(Intent.createChooser(intent, "Share Link"));
+    }
+
+
+/*Sets up Toolbar*/
     /*Sets up Toolbar*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

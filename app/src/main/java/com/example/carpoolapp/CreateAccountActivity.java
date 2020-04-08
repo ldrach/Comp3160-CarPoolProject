@@ -51,6 +51,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         initializeUI();
 
+
+
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

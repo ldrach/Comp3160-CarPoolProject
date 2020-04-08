@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                                     fsd.deleteUserFromCarpool(carPoolId, userId);
 
                                     Refresh r = new Refresh();
-                                    r.launchCarpoolSelect(appUser.id, appUser, MainActivity.this);
+                                    r.launchCarpoolSelect(appUser.id, appUser,"", MainActivity.this);
 
                                 }
                             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_carpoolSelect:
                 Refresh r = new Refresh();
-                r.launchCarpoolSelect(appUser.id, appUser, MainActivity.this);
+                r.launchCarpoolSelect(appUser.id, appUser,"", MainActivity.this);
                 break;
             case R.id.action_logs:
                 // Uncomment once Log Activity is complete

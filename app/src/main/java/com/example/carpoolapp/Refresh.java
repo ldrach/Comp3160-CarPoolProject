@@ -22,12 +22,13 @@ public class Refresh {
 String TAG = "RefreshClass";
 
     //used to launch carpool select
-    void launchCarpoolSelect(String userid, User appUsertemp, AppCompatActivity loginActivity) {
+    void launchCarpoolSelect(String userid, User appUsertemp,String inviteID, AppCompatActivity loginActivity) {
 //        //Clear users carpools and add one (for testing)
 //        FireStoreDatbase fsd =new FireStoreDatbase();
 //        User use = new User(user.getUid(),"Shane","s");
 //        fsd.createCarpool(use);
         final User[] appUser = new User[]{appUsertemp};
+        final String inviteCarpoolID = inviteID;
         getCurentUser(userid, new getCurentUserCallback() {
             @Override
             public void onCallBack(User user) {
@@ -61,6 +62,7 @@ String TAG = "RefreshClass";
                             Intent intent = new Intent(loginActivity, CarpoolSelectActivity.class);
                             intent.putExtra("Carpools", (Serializable) totalUserList);
                             intent.putExtra("user", (Serializable) appUser[0]);
+                            intent.putExtra("inviteCarpoolID",inviteCarpoolID);
                             loginActivity.startActivity(intent);
                         }
                         for (int i = 0; i <= carpoolListLength; i++) {
@@ -79,6 +81,7 @@ String TAG = "RefreshClass";
                                         Intent intent = new Intent(loginActivity, CarpoolSelectActivity.class);
                                         intent.putExtra("Carpools", (Serializable) totalUserList);
                                         intent.putExtra("user", (Serializable) appUser[0]);
+                                        intent.putExtra("inviteCarpoolID",inviteCarpoolID);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         //finish();
                                         loginActivity.startActivity(intent);
