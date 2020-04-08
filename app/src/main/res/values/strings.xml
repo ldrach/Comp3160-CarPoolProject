@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CarPoolApp</string>
+    <string name="app_name">CarPool Scheduler</string>
     <string name="title_activity_carpool_select">CarpoolSelectActivity</string>
     <string name="web_client_id">780588250443-bdmib70cu4b94sfnsm83a6so578547e1.apps.googleusercontent.com</string>
     <string name="emailLoginActivity">Email:</string>
