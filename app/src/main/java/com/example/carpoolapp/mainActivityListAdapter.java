@@ -99,8 +99,17 @@ public class mainActivityListAdapter extends ArrayAdapter<String> {
               }
               else
               {
-                  totalList.add(new mainActivityUserentry( "-",  "-1", 1 ,  "userID") );
-                  calender.add(Calendar.DATE, 1);
+                  if(calender.getTime().toString().split(" ")[0].equals("Sat"))
+                  {
+                      totalList.add(new mainActivityUserentry( " Saturday",  "0", 1 ,  "userID") );
+                      calender.add(Calendar.DATE, 1);
+                  }
+                  else
+                  {
+                      totalList.add(new mainActivityUserentry( " Sunday",  "0", 1 ,  "userID") );
+                      calender.add(Calendar.DATE, 1);
+                  }
+
               }
 
 
