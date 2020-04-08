@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 lock = true;
                 Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+                intent.putExtra("inviteCarpoolID",inviteCarpoolId);
                 startActivity(intent);
             }
         });
@@ -215,7 +216,7 @@ public void handleDeepLink(Intent intent)
                                     task.getResult().getAdditionalUserInfo().getProfile().values().toArray()[0].toString(),
                                     task.getResult().getAdditionalUserInfo().getProfile().values().toArray()[2].toString());
                             FireStoreDatbase fsdb = new FireStoreDatbase();
-                            fsdb.writeUser(newUser, true,false,LoginActivity.this);
+                            fsdb.writeUser(newUser, true,false,inviteCarpoolId,LoginActivity.this);
 
                            // finish();
                         } else {
