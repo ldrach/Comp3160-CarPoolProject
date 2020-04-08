@@ -31,7 +31,7 @@ public class FireStoreDatbase {
 
     ArrayList<ArrayList> totalUserList = new ArrayList<ArrayList>();
 
-    public void writeUser(User user, boolean startCarpoolSelect, boolean overwrite , AppCompatActivity context) {
+    public void writeUser(User user, boolean startCarpoolSelect, boolean overwrite ,String inviteCarpoolID, AppCompatActivity context) {
 
         final User accesableUser = user;
 
@@ -52,7 +52,7 @@ public class FireStoreDatbase {
                                             if(startCarpoolSelect) {
                                                 showProgressDialog(context);
                                                 Refresh r = new Refresh();
-                                                r.launchCarpoolSelect(accesableUser.id, null,"",context );
+                                                r.launchCarpoolSelect(accesableUser.id, null,inviteCarpoolID,context );
                                                 Log.d("s", "DocumentSnapshot successfully written!");
                                             }
 

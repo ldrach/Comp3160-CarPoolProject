@@ -26,7 +26,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     Button createAccountBtn, cancelBtn;
     private ProgressDialog mProgressDialog;
     private EditText mEdtEmail, mEdtPassword, mEdtPassword2, mEdtFName, mEdtLName;
-
+    private String inviteCarpoolID = "";
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -51,7 +51,10 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         initializeUI();
 
-
+        Intent intent = getIntent();
+        if (intent.hasExtra("inviteCarpoolID")) {
+            inviteCarpoolID = (String) getIntent().getSerializableExtra("inviteCarpoolID");
+        }
 
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +73,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                intent.putExtra(inviteCarpoolID,inviteCarpoolID);
                 startActivity(intent);
             }
         });
@@ -125,7 +129,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                             //create a new user in the database
                             User newUser = new User(task.getResult().getUser().getUid().toString(),fname,lname);
                             FireStoreDatbase fsdb = new FireStoreDatbase();
-                            fsdb.writeUser(newUser, true,false,CreateAccountActivity.this);
+                            fsdb.writeUser(newUser, true,false, inviteCarpoolID,CreateAccountActivity.this);
 
 //                            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
 //                            startActivity(intent);
