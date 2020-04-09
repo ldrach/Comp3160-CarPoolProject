@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.carpoolapp">
+    package="com.carpoolScheduler.carpoolapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -12,10 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".CreateAccountActivity"></activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.carpoolScheduler.carpoolapp.ProfileActivity" />
+        <activity android:name="com.carpoolScheduler.carpoolapp.SettingsActivity"></activity>
+        <activity android:name="com.carpoolScheduler.carpoolapp.CreateAccountActivity"></activity>
+        <activity android:name="com.carpoolScheduler.carpoolapp.LoginActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
@@ -33,10 +33,10 @@
 
         </activity>
         <activity
-            android:name=".CarpoolSelectActivity"
+            android:name="com.carpoolScheduler.carpoolapp.CarpoolSelectActivity"
             android:label="@string/title_activity_carpool_select"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.carpoolScheduler.carpoolapp.MainActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
@@ -50,11 +50,11 @@
         </activity>
 
         <service
-            android:name=".Alarm"
+            android:name="com.carpoolScheduler.carpoolapp.Alarm"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="true"/>
         <service
-            android:name=".UpdateDriveCount"
+            android:name="com.carpoolScheduler.carpoolapp.UpdateDriveCount"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="true"/>
 

@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:567295854523:android:b2dc40b46de86899c4669e",
+        "android_client_info": {
+          "package_name": "com.carpoolScheduler.carpoolapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567295854523-of7unhhdogal9oj7qiige2os932gramn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carpoolScheduler.carpoolapp",
+            "certificate_hash": "1a1a7695fb2ec92ff32beb46127f7ffd78007b8b"
+          }
+        },
+        {
+          "client_id": "567295854523-9og1ua9sti89opi28a0opev7349dv46d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC31Yd4y4-YYIb1HhShU_1o_Ak6JPr6M0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567295854523-9og1ua9sti89opi28a0opev7349dv46d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:567295854523:android:181b8aa715b09c28c4669e",
         "android_client_info": {
           "package_name": "com.example.carpoolapp"
